@@ -5,6 +5,4 @@ package com.nari.software_tool.service;
  * @version 1.0 2020/3/14
  */
 public interface FileService {
-
-
 }

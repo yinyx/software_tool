@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SoftPathInfoMapper">
+    <resultMap id="PathResultMap" type="com.nari.software_tool.entity.SoftPathInfo">
+        <result property="pathId" column="path_id" jdbcType="INTEGER"/>
+        <result property="softId" column="soft_id" jdbcType="INTEGER"/>
+        <result property="routePath" column="route_path" jdbcType="VARCHAR"/>
+        <result property="typePath" column="type_path" jdbcType="VARCHAR"/>
+        <result property="namePath" column="name_path" jdbcType="VARCHAR"/>
+        <result property="branchPath" column="branch_path" jdbcType="VARCHAR"/>
+        <result property="editionPath" column="edition_path" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+</mapper>

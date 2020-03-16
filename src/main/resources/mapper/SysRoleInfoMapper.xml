@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SysRoleInfoMapper">
+    <resultMap id="SysRoleResultMap" type="com.nari.software_tool.entity.SysRoleInfo">
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="roleDescription" column="role_description" jdbcType="VARCHAR"/>
+        <result property="auth" column="auth" jdbcType="VARCHAR"/>
+        <result property="authDescription" column="auth_description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="querySysRoleInfo" resultMap="SysRoleResultMap">
+        SELECT
+               role_id,
+               role_description,
+               auth,
+               auth_description
+        FROM
+             sys_role
+    </select>
+    
+    <insert id="insertSysRoleInfo" parameterType="com.nari.software_tool.entity.SysRoleInfo">
+        insert into sys_role(
+                role_id
+                ,role_description
+                ,auth
+                ,auth_description
+                )VALUES(
+                       #{roleId ,jdbcType=INTEGER} ,
+                       #{roleDescription ,jdbcType=VARCHAR} ,
+                       #{auth ,jdbcType=VARCHAR} ,
+                       #{authDescription ,jdbcType=VARCHAR}
+                       )
+    </insert>
+    
+    <update id="updateSysRoleInfo" parameterType="com.nari.software_tool.entity.SysRoleInfo">
+        update sys_role set
+          role_id = #{roleId,jdbcType=INTEGER},
+          role_description = #{roleDescription ,jdbcType=VARCHAR} ,
+          auth =  #{auth ,jdbcType=VARCHAR} ,
+          auth_description = #{authDescription ,jdbcType=VARCHAR}
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteSysRoleInfo" parameterType="java.lang.Integer">
+          delete from sys_role
+          where role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

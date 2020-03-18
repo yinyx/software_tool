@@ -95,6 +95,11 @@
             <artifactId>spring-context-support</artifactId>
             <version>5.2.2.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.6</version>
+        </dependency>
     </dependencies>
 
     <build>

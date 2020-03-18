@@ -1,0 +1,223 @@
+@CHARSET "UTF-8";
+/*reset*/
+* {
+	padding: 0;
+	margin: 0;
+}
+/*Universal Style Start*/
+.edit-button {
+	cursor: pointer;
+}
+.div-inline{ 
+	display:inline;
+	} 
+.bkg-color{
+	background-color: #333333;
+}
+/*Universal Style End*/
+
+/*Common Style Start*/
+body{
+	max-width: 2000px;
+    margin: auto !important;
+    background-color:#f1f4f7;
+}
+.page-header.navbar {
+	max-width: 2000px;
+    margin: auto !important;
+}
+
+/*Common Style End*/
+
+/*DataTables Start*/
+div.dataTables_wrapper {
+	margin: 0 auto;
+}
+.table-width-hundred{
+	width:100% !important;
+}
+/*DataTables End*/
+
+/*表单认证错误样式*/
+.error {
+	box-shadow: 0 0 10px #ff4136 !important;
+}
+/*模态框 */
+.margiBottom .col-sm-12 {
+	margin-bottom: 15px;
+}
+
+.dataTables_wrapper .table {
+	background-color: rgba(239, 239, 239, 1);
+}
+/**/
+.margiBottom .control-label {
+	margin-top: 6px;
+}
+
+#addOrUpdateMenu .form-group {
+	margin: 0;
+	border-bottom: 0px;
+	padding: 5px 0;
+}
+
+.tdCenter {
+	text-align: center;
+	vertical-align: middle;
+}
+
+/*进度条*/
+.progress-z {
+	height: 25px;
+	background: #262626;
+	padding: 1px;
+	overflow: visible;
+	border-radius: 20px;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #7992a8;
+	margin-top: 20px;
+}
+
+.progress-z .progress-bar {
+	border-radius: 20px;
+	position: relative;
+	animation: animate-positive 2s;
+}
+
+.progress-bar.active {
+	animation: reverse progress-bar-stripes 0.40s linear infinite,
+		animate-positive 2s;
+}
+
+@
+-webkit-keyframes animate-positive { 0% {
+	width: 0;
+}
+
+}
+@
+keyframes animate-positive { 0% {
+	width: 0;
+}
+
+}
+.modal-bar {
+	height: 40px;
+	line-height: 40px;
+	margin-top: 20px;
+	padding-left: 20px;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.modal-box {
+	display: flex;
+}
+
+.btn-group-xs>.btn,.btn-xxs {
+	padding: 5px 5px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 3px;
+}
+/*上传证据 开始*/
+img {
+	border: none;
+}
+
+ol,ul,li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.content-edu {
+	width: 100%;
+	height: 225px;
+	margin: 20px auto;
+	border: 1px solid #e7ecf1;
+	padding: 15px 0px 15px 25px;
+	display: none;
+}
+
+.con-edu {
+	width: 190px;
+	height: 150px;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 15px;
+	position: relative;
+	cursor: pointer;
+}
+
+.con-edu img {
+	width: 190px;
+	height: 150px;
+}
+
+.txt-edu {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+.txt-edu .remove-pic {
+	width: 60px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 20px;
+	background-color: red;
+	margin-left: 130px;
+	opacity: 0;
+}
+
+.txt-edu .pic-title {
+	font-size: 16px;
+}
+/*上传证据-结束*/
+
+/* 简单表格样式-开始 */
+.table-edu th {
+	text-align: center;
+}
+
+.table-edu td {
+	text-align: center;
+}
+.tabInput{
+	display:none;
+}
+
+
+.scroll th {
+	white-space: pre;
+}
+/* 简单表格样式-结束 */
+
+/* 选择图标 开始 */
+.item-box {
+	cursor: pointer;
+}
+
+.simplelineicons-demo .item-box .item {
+	border: 1px white solid;
+}
+
+.simplelineicons-demo .item-box .item:hover {
+	border: 1px wheat solid;
+}
+
+.item-selected {
+	border: 1px black solid !important;
+	color: white !important;
+	background-color: black !important;
+}
+/* 选择图标  结束 */

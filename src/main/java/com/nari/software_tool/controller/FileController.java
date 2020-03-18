@@ -3,6 +3,7 @@ package com.nari.software_tool.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author yinyx
@@ -12,9 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class FileController {
 
-    @GetMapping(value="/index")
+    @GetMapping(value="/login")
     public String toLogin(){
+        return "login";
+    }
+
+    @GetMapping(value="/index")
+    public String toIndex(){
         return "index";
+    }
+
+    @GetMapping(value="/Info_UserInfo")
+    public String toUserInfo(){
+        return "Info_UserInfo";
     }
 
 }

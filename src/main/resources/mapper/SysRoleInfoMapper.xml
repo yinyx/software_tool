@@ -9,7 +9,7 @@
         <result property="authDescription" column="auth_description" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="querySysRoleInfo" resultMap="SysRoleResultMap">
+    <select id="querySysRoleInfoList" resultMap="SysRoleResultMap">
         SELECT
                role_id,
                role_description,

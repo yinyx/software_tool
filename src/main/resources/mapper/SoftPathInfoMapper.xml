@@ -12,6 +12,118 @@
         <result property="editionPath" column="edition_path" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="querySoftPathList" resultMap="PathResultMap">
+        SELECT
+               path_id,
+               soft_id,
+               route_path,
+               type_path,
+               name_path,
+               branch_path,
+               edition_path
+        FROM server_software_path
+    </select>
 
+    <select id="querySoftPathById" parameterType="java.lang.Integer">
+        SELECT
+               path_id,
+               soft_id,
+               route_path,
+               type_path,
+               name_path,
+               branch_path,
+               edition_path
+        FROM server_software_path
+        WHERE soft_id = #{softId,jdbcType=INTEGER}
+    </select>
 
+    <insert id="insertSoftPathInfo" parameterType="com.nari.software_tool.entity.SoftPathInfo">
+        INSERT INTO server_software_path
+                (
+                        soft_id,
+                        route_path,
+                        type_path,
+                        name_path,
+                        branch_path,
+                        edition_path
+                )
+        VALUES(
+            <trim suffix=",">
+                <if test="softId !=null">
+                    #{softId,jdbcType=INTEGER},
+                </if>
+                    #{routePath,jdbcType=VARCHAR},
+                    #{typePath,jdbcType=VARCHAR},
+                    #{namePath,jdbcType=VARCHAR},
+                    #{branchPath,jdbcType=VARCHAR},
+                    #{editionPath,jdbcType=VARCHAR}
+            </trim>
+        )
+    </insert>
+
+    <update id="updateSoftPathInfo" parameterType="com.nari.software_tool.entity.SoftPathInfo">
+        UPDATE  server_software_path SET
+          <trim suffix=",">
+              <if test="softId != null">
+                  soft_id = #{softId,jdbcType=INTEGER},
+              </if>
+              <if test="routePath != null">
+                  route_path = #{routePath,jdbcType=VARCHAR},
+              </if>
+              <if test="typePath != null">
+                  type_path = #{typePath,jdbcType=VARCHAR},
+              </if>
+              <if test="namePath != null">
+                  name_path = #{namePath,jdbcType=VARCHAR},
+              </if>
+              <if test="branchPath != null">
+                  branch_path = #{branchPath,jdbcType=VARCHAR},
+              </if>
+              <if test="editionPath != null">
+                  edition_path = #{editionPath,jdbcType=VARCHAR},
+              </if>
+          </trim>
+        WHERE path_id =#{pathId,jdbcType=INTEGER}
+    </update>
+
+    <insert id="batchInsertSoftPath" parameterType="java.util.List">
+        INSERT INTO server_software_path
+        (
+            soft_id,
+            route_path,
+            type_path,
+            name_path,
+            branch_path,
+            edition_path
+        )
+        VALUES
+        <foreach collection="list" index="index" item="softPath" open="(" separator="," close=")">
+            <trim suffixOverrides=",">
+                <if test="softPath.softId !=null">
+                    #{softPath.softId,jdbcType=INTEGER},
+                </if>
+                #{softPath.routePath,jdbcType=VARCHAR},
+                #{softPath.typePath,jdbcType=VARCHAR},
+                #{softPath.namePath,jdbcType=VARCHAR},
+                #{softPath.branchPath,jdbcType=VARCHAR},
+                #{softPath.editionPath,jdbcType=VARCHAR},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="batchUpdateSoftPath" parameterType="java.util.List">
+        UPDATE server_software_path SET
+        <foreach collection="list" index="index" item="softPath" separator=",">
+            <trim suffixOverrides=",">
+                <if test="softPath.softId !=null">
+                   soft_id =  #{softPath.softId,jdbcType=INTEGER},
+                </if>
+                  route_path = #{softPath.routePath,jdbcType=VARCHAR},
+                  type_path = #{softPath.typePath,jdbcType=VARCHAR},
+                  name_path = #{softPath.namePath,jdbcType=VARCHAR},
+                  branch_path = #{softPath.branchPath,jdbcType=VARCHAR},
+                  edition_path = #{softPath.editionPath,jdbcType=VARCHAR},
+            </trim>
+        </foreach>
+    </update>
 </mapper>

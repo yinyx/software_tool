@@ -4,7 +4,7 @@
 <mapper namespace="com.nari.software_tool.dao.SoftwareInfoMapper">
     <resultMap id="SoftwareResultMap" type="com.nari.software_tool.entity.SoftwareInfo">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="softId" column="soft_id" jdbcType="INTEGER"/>
+        <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="nameEn" column="name_en" jdbcType="VARCHAR"/>
         <result property="kind" column="kind" jdbcType="VARCHAR"/>
@@ -35,7 +35,7 @@
         VALUE(
             <trim suffixOverrides=",">
               <if test="softId !=null">
-                  #{softId,jdbcType=INTEGER},
+                  #{softId,jdbcType=VARCHAR},
               </if>
               <if test="name != null">
                   #{name,jdbcType=VARCHAR},
@@ -77,7 +77,7 @@
         update server_software set
         <trim  suffixOverrides=",">
             <if test="softId !=null">
-                soft_id = #{softId,jdbcType=INTEGER},
+                soft_id = #{softId,jdbcType=VARCHAR},
             </if>
             <if test="name !=null">
                 name = #{name,jdbcType=VARCHAR},
@@ -202,7 +202,7 @@
                 <foreach collection="list" index="index" item="software" open="(" separator="," close=")">
                     <trim suffixOverrides=",">
                         <if test="software.softId !=null">
-                            #{software.softId,jdbcType=INTEGER},
+                            #{software.softId,jdbcType=VARCHAR},
                         </if>
                         <if test="software.name != null">
                             #{software.name,jdbcType=VARCHAR},
@@ -246,7 +246,7 @@
     <foreach collection="list" index="index" item="software" separator="," >
         <trim  suffixOverrides=",">
             <if test="software.softId !=null">
-                soft_id = #{software.softId,jdbcType=INTEGER},
+                soft_id = #{software.softId,jdbcType=VARCHAR},
             </if>
             <if test="software.name !=null">
                 name = #{software.name,jdbcType=VARCHAR},

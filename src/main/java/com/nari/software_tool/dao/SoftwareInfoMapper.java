@@ -26,7 +26,7 @@ public interface SoftwareInfoMapper {
      * @param softId
      * @return
      */
-    SoftwareInfo querySoftwareById(@Param("softId") int softId);
+    SoftwareInfo querySoftwareById(@Param("softId") String softId);
 
     /**
      * 模糊查询（中文、英文名）

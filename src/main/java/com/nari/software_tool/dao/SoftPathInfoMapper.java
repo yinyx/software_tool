@@ -26,7 +26,7 @@ public interface SoftPathInfoMapper {
      * @param softId
      * @return
      */
-    SoftPathInfo querySoftPathById(@Param("softId") int softId);
+    SoftPathInfo querySoftPathById(@Param("softId") String softId);
 
     /**
      * 根据Id 更新

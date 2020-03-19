@@ -12,7 +12,7 @@ public class SoftPathInfo {
     //目录编号
     private int pathId;
     //软件ID
-    private int softId;
+    private String softId;
     //根目录
     private String routePath;
     //类别目录
@@ -32,11 +32,11 @@ public class SoftPathInfo {
         this.pathId = pathId;
     }
 
-    public int getSoftId() {
+    public String getSoftId() {
         return softId;
     }
 
-    public void setSoftId(int softId) {
+    public void setSoftId(String softId) {
         this.softId = softId;
     }
 

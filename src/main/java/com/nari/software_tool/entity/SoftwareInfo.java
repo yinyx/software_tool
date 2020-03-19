@@ -11,7 +11,7 @@ public class SoftwareInfo {
     //编号
     private int id;
     //软件ID
-    private int softId;
+    private String softId;
     //名称
     private String name;
     //英文名称
@@ -43,11 +43,11 @@ public class SoftwareInfo {
         this.id = id;
     }
 
-    public int getSoftId() {
+    public String getSoftId() {
         return softId;
     }
 
-    public void setSoftId(int softId) {
+    public void setSoftId(String softId) {
         this.softId = softId;
     }
 

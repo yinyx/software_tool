@@ -15,7 +15,7 @@ public class SysTraceInfo {
     //操作者Id
     private int userId;
     //操作对象
-    private int softId;
+    private String softId;
     //操作内容
     private String operation;
     //操作时间
@@ -39,11 +39,11 @@ public class SysTraceInfo {
         this.userId = userId;
     }
 
-    public int getSoftId() {
+    public String getSoftId() {
         return softId;
     }
 
-    public void setSoftId(int softId) {
+    public void setSoftId(String softId) {
         this.softId = softId;
     }
 

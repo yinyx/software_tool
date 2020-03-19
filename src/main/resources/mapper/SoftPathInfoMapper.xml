@@ -4,7 +4,7 @@
 <mapper namespace="com.nari.software_tool.dao.SoftPathInfoMapper">
     <resultMap id="PathResultMap" type="com.nari.software_tool.entity.SoftPathInfo">
         <result property="pathId" column="path_id" jdbcType="INTEGER"/>
-        <result property="softId" column="soft_id" jdbcType="INTEGER"/>
+        <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
         <result property="routePath" column="route_path" jdbcType="VARCHAR"/>
         <result property="typePath" column="type_path" jdbcType="VARCHAR"/>
         <result property="namePath" column="name_path" jdbcType="VARCHAR"/>
@@ -34,7 +34,7 @@
                branch_path,
                edition_path
         FROM server_software_path
-        WHERE soft_id = #{softId,jdbcType=INTEGER}
+        WHERE soft_id = #{softId,jdbcType=VARCHAR}
     </select>
 
     <insert id="insertSoftPathInfo" parameterType="com.nari.software_tool.entity.SoftPathInfo">
@@ -50,7 +50,7 @@
         VALUES(
             <trim suffix=",">
                 <if test="softId !=null">
-                    #{softId,jdbcType=INTEGER},
+                    #{softId,jdbcType=VARCHAR},
                 </if>
                     #{routePath,jdbcType=VARCHAR},
                     #{typePath,jdbcType=VARCHAR},
@@ -65,7 +65,7 @@
         UPDATE  server_software_path SET
           <trim suffix=",">
               <if test="softId != null">
-                  soft_id = #{softId,jdbcType=INTEGER},
+                  soft_id = #{softId,jdbcType=VARCHAR},
               </if>
               <if test="routePath != null">
                   route_path = #{routePath,jdbcType=VARCHAR},
@@ -100,7 +100,7 @@
         <foreach collection="list" index="index" item="softPath" open="(" separator="," close=")">
             <trim suffixOverrides=",">
                 <if test="softPath.softId !=null">
-                    #{softPath.softId,jdbcType=INTEGER},
+                    #{softPath.softId,jdbcType=VARCHAR},
                 </if>
                 #{softPath.routePath,jdbcType=VARCHAR},
                 #{softPath.typePath,jdbcType=VARCHAR},
@@ -116,7 +116,7 @@
         <foreach collection="list" index="index" item="softPath" separator=",">
             <trim suffixOverrides=",">
                 <if test="softPath.softId !=null">
-                   soft_id =  #{softPath.softId,jdbcType=INTEGER},
+                   soft_id =  #{softPath.softId,jdbcType=VARCHAR},
                 </if>
                   route_path = #{softPath.routePath,jdbcType=VARCHAR},
                   type_path = #{softPath.typePath,jdbcType=VARCHAR},

@@ -28,4 +28,19 @@ public class FileController {
         return "Info_UserInfo";
     }
 
+    @GetMapping(value="/Info_SoftwareInfo")
+    public String toSoftwareInfo(){
+        return "Info_SoftwareInfo";
+    }
+
+    @GetMapping(value="/Info_TypeInfo")
+    public String toTypeInfo(){
+        return "Info_TypeInfo";
+    }
+
+    @GetMapping(value="/Info_TestInfo")
+    public String toTestInfo(){
+        return "Info_TestInfo";
+    }
+
 }

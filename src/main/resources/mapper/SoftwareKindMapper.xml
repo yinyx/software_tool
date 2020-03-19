@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SoftwareKindMapper">
+	<!-- 获取全部软件种类列表 -->
+	<select id="queryAllKinds" resultType="java.util.Map">
+		SELECT * FROM server_software_kind
+	</select>
+
+    <!-- 获取软件种类列表 -->
+	<select id="queryKindList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM server_software_kind limit #{start},#{length}
+	</select>
+
+	<!-- 获取软件种类总数 -->
+	<select id="queryKindsCount" resultType="java.lang.Integer">
+ 		SELECT
+			COUNT(1)
+		FROM
+			server_software_kind
+	</select>
+
+	<!-- 根据软件种类Id获取软件种类信息  -->
+	<select id="getKindById" resultType="java.util.Map">
+	   	SELECT
+			*
+		FROM
+			server_software_kind
+		WHERE
+            id =  #{kindId}
+	</select>
+
+	<!-- 新增软件种类 -->
+	<insert id="addKind" parameterType="java.util.Map">
+		INSERT server_software_kind (
+	      id,
+	      kind_name
+      	) VALUES (
+      		#{kindId},
+			#{kindName}
+  		)
+	</insert>
+
+	<!-- 更新软件种类信息 -->
+	<update id="updateKind" parameterType="java.util.Map">
+	   UPDATE server_software_kind
+	   	   SET
+			kind_name=#{kindName}
+		   WHERE
+		   	id = #{kindId}
+	</update>
+
+	<!-- 删除软件种类 -->
+	<delete id="deleteKind" parameterType="java.util.Map">
+        DELETE FROM server_software_kind WHERE id = #{kindId}
+    </delete>
+	
+	<!-- 判断软件种类名是否重复 -->
+	<select id="queryKindNameIsRepeat" parameterType="java.lang.String" resultType="java.lang.Integer">
+	   SELECT
+			COUNT(1)
+		FROM
+			server_software_kind T
+		WHERE
+			T.kind_name = #{kindName}
+	</select>
+</mapper>

@@ -25,12 +25,14 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
     @Autowired
     private SoftwareKindMapper softwareKindMapper;
 
+    @Override
     public List<Map<String,Object>> queryAllKinds()
     {
         List<Map<String, Object>> allKinds = softwareKindMapper.queryAllKinds();
         return allKinds;
     }
 
+    @Override
     public DataTableModel queryKindsList(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
@@ -54,10 +56,12 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
         return dataTableModel;
     }
 
+    @Override
     public Map<String, Object> getKindById(String kindId) {
         return softwareKindMapper.getKindById(kindId);
     }
 
+    @Override
     public void saveKind(Map<String, Object> paramMap) {
         String kindId = (String) paramMap.get("kindId");
         if (StringUtils.isEmpty(kindId)) {
@@ -68,12 +72,14 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
         }
     }
 
+    @Override
     public boolean deleteKind(String kindId) {
         softwareKindMapper.deleteKind(kindId);
         return true;
     }
 	
-	public boolean queryKindNameIsRepeat(String KindName) {
+	@Override
+    public boolean queryKindNameIsRepeat(String KindName) {
         Integer count = softwareKindMapper.queryKindNameIsRepeat(KindName);
         if (count == 0) {
             return true;

@@ -134,6 +134,7 @@
           exe
         FROM
           server_software
+        limit #{start},#{length}
     </select>
 
 

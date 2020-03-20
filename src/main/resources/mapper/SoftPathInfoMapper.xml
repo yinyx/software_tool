@@ -22,6 +22,7 @@
                branch_path,
                edition_path
         FROM server_software_path
+        limit #{start},#{length}
     </select>
 
     <select id="querySoftPathById" parameterType="java.lang.Integer">

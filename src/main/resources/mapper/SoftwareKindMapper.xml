@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nari.software_tool.dao.SoftwareKindMapper">
+
+
+
 	<!-- 获取全部软件种类列表 -->
 	<select id="queryAllKinds" resultType="java.util.Map">
 		SELECT * FROM server_software_kind
@@ -21,7 +24,7 @@
 	</select>
 
 	<!-- 根据软件种类Id获取软件种类信息  -->
-	<select id="getKindById" resultType="java.util.Map">
+	<select id="getKindById" resultType="java.util.HashMap">
 	   	SELECT
 			*
 		FROM

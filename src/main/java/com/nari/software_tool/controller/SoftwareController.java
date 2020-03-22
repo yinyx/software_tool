@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.Map;
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class SoftwareController {
         JSONObject jsonObject = new JSONObject();
         //存储图标；
         File iconDir = new File(iconPath);
+
         String iconDirAbsolutePath = iconDir.getAbsolutePath();
         if(!iconDir.exists()){
             iconDir.mkdir();
@@ -63,9 +65,37 @@ public class SoftwareController {
 
         String kindId = softwareInfo.getKind();
         Map<String,Object> map = softwareKindService.getKindById(kindId);
-        System.out.println(map+softwareInfo.toString());
+        String softPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master";
+
+        String root = rootPath;
+        File rootDir = new File(root);
+
+        String typePath = rootPath+"/"+map.get("name_en");
+        File typeDir = new File(typePath);
+
+        String namePath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn();
+        File nameDir = new File(namePath);
+
+        String branchPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master";
+        File branchDir = new File(branchPath);
+      if(!rootDir.exists()) {
+          rootDir.mkdir();
+          System.out.println("根目录已创建");
+          if (!typeDir.exists()) {
+              typeDir.mkdir();
+              System.out.println("一级目录已创建");
+              if (!nameDir.exists()) {
+                  nameDir.mkdir();
+                  System.out.println("二级目录已创建");
+                  if (!branchDir.exists()) {
+                      branchDir.mkdir();
+                      System.out.println("三级级目录已创建");
+                  }
+              }
+          }
+      }
         //存储文件；
-        File softDir = new File(rootPath+map.get("kind_name")+"\\"+ softwareInfo.getNameEn()+"\\"+"master");
+        File softDir = new File(softPath);
         String softDirAbsolutePath = softDir.getAbsolutePath();
         if(!softDir.exists()){
             softDir.mkdir();

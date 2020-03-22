@@ -48,7 +48,7 @@ function showKind(){
                     var html = "";
                     console.log(data.dataList[i].id);
                     html += '<label class="control-label">';
-                    html += '<input type="radio" name="type" id="type" value= "'+data.dataList[i].id+'" >' +data.dataList[i].kind_name;
+                    html += '<input type="radio" name="type" id="type" value= "'+data.dataList[i].id+'" checked="checked">' +data.dataList[i].kind_name;
                     html += '</label>';
                     $("#type_radio").append(html);
                 }

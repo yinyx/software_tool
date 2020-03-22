@@ -286,4 +286,32 @@
         WHERE id =#{software.id,jdbcType=INTEGER}
     </foreach>
     </update>
+	
+	<!-- 获取软件种类列表 -->
+	<select id="querySoftwaresList" parameterType="java.util.Map" resultType="java.util.Map">
+		<if test="Kind != null">
+            SELECT * FROM server_software WHERE kind=#{Kind} limit #{start},#{length}
+		</if>
+		<if test="Kind == null">
+            SELECT * FROM server_software limit #{start},#{length}
+		</if>
+	</select>
+
+	<!-- 获取软件种类总数 -->
+	<select id="querySoftwaresCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		<if test="Kind != null">
+ 		SELECT
+			COUNT(1)
+		FROM
+			server_software
+		WHERE
+     		kind=#{Kind}
+		</if>
+		<if test="Kind == null">
+ 		SELECT
+			COUNT(1)
+		FROM
+			server_software
+		</if>
+	</select>
 </mapper>

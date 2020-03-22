@@ -92,9 +92,7 @@ function loadMenu(){
 		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_TypeInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"static/images/common/dir.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;类别信息</span><span class=\"selected\"></span></a>"+
 		"</li>"+
 		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_UserInfo\" onclick=\"onLoadContent(this)\"> <img alt=\"\" class=\"img-circle\" src=\"static/images/common/user.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;用户信息</span><span class=\"selected\"></span></a>"+
-		"</li>"+
-		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_TestInfo\" onclick=\"onLoadContent(this)\"> <img alt=\"\" class=\"img-circle\" src=\"static/images/common/user.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;软件信息</span><span class=\"selected\"></span></a>"+
-		"</li>";	
+		"</li>";
 	locache.set("200",leftMenuHtml200);
 	locache.set("topMenuHtml",topMenuHtml);
 }

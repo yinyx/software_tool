@@ -4,7 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nari.software_tool.entity.SoftwareInfo;
 import com.nari.software_tool.entity.SysAuthInfo;
 import com.nari.software_tool.service.FileService;
+import com.nari.software_tool.service.SoftwareService;
 import com.nari.software_tool.service.SoftwareKindService;
+import com.nari.software_tool.entity.DataTableModel;
+import com.nari.software_tool.entity.DataTableParam;
+
+import util.aes.AesUtil;
+import util.aes.DatatableUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -20,12 +29,13 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Map;
 import java.util.UUID;
+import java.util.HashMap;
 
 /**
  * @author yinyx
  * @version 1.0 2020/3/19
  */
-@Controller
+@RestController
 @RequestMapping(value = "/software")
 public class SoftwareController {
 
@@ -40,6 +50,29 @@ public class SoftwareController {
 
     @Autowired
     private FileService fileService;
+
+    // 注入软件类别Service
+    @Autowired
+    private SoftwareService softwareService;
+
+    @RequestMapping(value="/querySoftwaresList",method=RequestMethod.POST)
+    public Object  querySoftwaresList(@RequestBody DataTableParam[] dataTableParams){
+
+        DataTableModel dataTableModel = new DataTableModel();
+        Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            dataTableModel = softwareService.querySoftwaresList(dataTableMap);
+            resultMap.put("status", "success");
+            resultMap.put("SoftwaresData", dataTableModel);
+        }
+        catch(Exception e)
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "查询软件信息异常!");
+        }
+        return resultMap;
+    }
 
     @PostMapping("/uploadSoftware")
     @ResponseBody

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yinyx
@@ -62,5 +63,9 @@ public interface SoftwareInfoMapper {
      * @return
      */
     int batchUpdateSoftware(List<SoftwareInfo> softwareInfoList);
+	
+	List<Map<String, Object>> querySoftwaresList(Map<String, Object> paramMap);
+
+    int querySoftwaresCount(Map<String, Object> paramMap);
 
 }

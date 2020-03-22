@@ -37,10 +37,4 @@ public class FileController {
     public String toTypeInfo(){
         return "Info_TypeInfo";
     }
-
-    @GetMapping(value="/Info_TestInfo")
-    public String toTestInfo(){
-        return "Info_TestInfo";
-    }
-
 }

@@ -45,13 +45,20 @@ function initSchoolUserTable() {
 		// 列属性
 		"columns" : [ 
 		 {	
-			 "title" : "类别",  
+			 "title" : "软件类别（中文）",  
 			 "defaultContent" : "", 
 			 "data" :"kind_name",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }            
 		,  {	
+			 "title" : "软件类别（英文）",  
+			 "defaultContent" : "", 
+			 "data" :"name_en",
+			 "width": "10%",
+			 "class" : "text-center"  
+		 }            
+		, {	
 			 "title" : "操作",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -85,6 +92,7 @@ function showUserEditModal(kindId){
                console.log(kindData)
                $("#kindId").val(kindId);
 			   $("#kindName_m").val(kindData.kind_name);
+			   $("#name_en_m").val(kindData.name_en);
                $('#kindModal_add').modal('show');
                stopPageLoading()
 		   } else {

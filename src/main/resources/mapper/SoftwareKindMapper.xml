@@ -6,12 +6,12 @@
 
 
 	<!-- 获取全部软件种类列表 -->
-	<select id="queryAllKinds" resultType="java.util.Map">
+	<select id="queryAllKinds" resultType="java.util.HashMap">
 		SELECT * FROM server_software_kind
 	</select>
 
     <!-- 获取软件种类列表 -->
-	<select id="queryKindList" parameterType="java.util.Map" resultType="java.util.Map">
+	<select id="queryKindList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT * FROM server_software_kind limit #{start},#{length}
 	</select>
 
@@ -34,27 +34,30 @@
 	</select>
 
 	<!-- 新增软件种类 -->
-	<insert id="addKind" parameterType="java.util.Map">
+	<insert id="addKind" parameterType="java.util.HashMap">
 		INSERT server_software_kind (
 	      id,
-	      kind_name
+	      kind_name,
+	      name_en
       	) VALUES (
       		#{kindId},
-			#{kindName}
+			#{kindName},
+			#{name_en}
   		)
 	</insert>
 
 	<!-- 更新软件种类信息 -->
-	<update id="updateKind" parameterType="java.util.Map">
+	<update id="updateKind" parameterType="java.util.HashMap">
 	   UPDATE server_software_kind
 	   	   SET
-			kind_name=#{kindName}
+			kind_name=#{kindName},
+			name_en=#{name_en}
 		   WHERE
 		   	id = #{kindId}
 	</update>
 
 	<!-- 删除软件种类 -->
-	<delete id="deleteKind" parameterType="java.util.Map">
+	<delete id="deleteKind" parameterType="java.util.HashMap">
         DELETE FROM server_software_kind WHERE id = #{kindId}
     </delete>
 	

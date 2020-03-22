@@ -93,6 +93,7 @@ public class SoftwareKindController {
         //平台类型
         paramMap.put("kindId", request.getParameter("kindId"));
         paramMap.put("kindName", request.getParameter("kindName"));
+        paramMap.put("name_en", request.getParameter("name_en"));
         try {
             softwareKindService.saveKind(paramMap);
             resultMap.put("status", "success");

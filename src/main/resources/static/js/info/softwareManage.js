@@ -264,12 +264,14 @@ function sendFile() {
         var introduction = $(":input[name='description']").val();
         var latestVersion = $(":input[name='version']").val();
         var kind = $(":radio[name=\"type\"]:checked").val();
+		var installType = $("#cronInstallType").val();
         var data = {
             "name":name,
             "nameEn":nameEn,
             "introduction":introduction,
             "latestVersion":latestVersion,
-            "kind":kind
+            "kind":kind,
+			"installType":installType
         };
         formData.append("softwareForm",JSON.stringify(data));
 

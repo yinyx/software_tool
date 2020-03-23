@@ -34,6 +34,8 @@ public class SoftwareInfo {
     private String filePath;
     //启动程序相对路径
     private String exe;
+    //安装类型
+    private int install_type;
 
     public int getId() {
         return id;
@@ -139,6 +141,14 @@ public class SoftwareInfo {
         this.exe = exe;
     }
 
+    public int getInstallType() {
+        return install_type;
+    }
+
+    public void setInstallType(int install_type) {
+        this.install_type = install_type;
+    }
+
     @Override
     public String toString() {
         return "SoftPathInfo{" +
@@ -155,6 +165,7 @@ public class SoftwareInfo {
                 ", updateContent='" + updateContent + '\'' +
                 ", filePath='" + filePath + '\'' +
                 ", exe='" + exe + '\'' +
+                ", InstallType='" + install_type + '\'' +
                 '}';
     }
 

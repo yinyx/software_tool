@@ -97,36 +97,54 @@ public class SoftwareController {
         SoftwareInfo softwareInfo = objectMapper.readValue(software.toString(),SoftwareInfo.class);
 
         String kindId = softwareInfo.getKind();
-        Map<String,Object> map = softwareKindService.getKindById(kindId);
-        String softPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master";
+		int install_type = softwareInfo.getInstallType();
+		if (0==install_type)
+        {
+            //解压安装包
+        }
 
+        Map<String,Object> map = softwareKindService.getKindById(kindId);
+        String softPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
+        
         String root = rootPath;
         File rootDir = new File(root);
-
+        
         String typePath = rootPath+"/"+map.get("name_en");
         File typeDir = new File(typePath);
-
+        
         String namePath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn();
         File nameDir = new File(namePath);
-
+        
         String branchPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master";
         File branchDir = new File(branchPath);
-      if(!rootDir.exists()) {
+
+        String versionPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
+        File versionDir = new File(versionPath);
+        
+		if(!rootDir.exists()) {
           rootDir.mkdir();
-          System.out.println("根目录已创建");
-          if (!typeDir.exists()) {
-              typeDir.mkdir();
-              System.out.println("一级目录已创建");
-              if (!nameDir.exists()) {
-                  nameDir.mkdir();
-                  System.out.println("二级目录已创建");
-                  if (!branchDir.exists()) {
-                      branchDir.mkdir();
-                      System.out.println("三级级目录已创建");
-                  }
-              }
-          }
-      }
+		}
+		
+		if(!rootDir.exists()) {
+          rootDir.mkdir();
+		}
+		
+		if(!typeDir.exists()) {
+          typeDir.mkdir();
+		}
+		
+		if(!nameDir.exists()) {
+          nameDir.mkdir();
+		}
+		
+		if(!branchDir.exists()) {
+          branchDir.mkdir();
+		}
+
+        if(!versionDir.exists()) {
+            versionDir.mkdir();
+        }
+		
         //存储文件；
         File softDir = new File(softPath);
         String softDirAbsolutePath = softDir.getAbsolutePath();

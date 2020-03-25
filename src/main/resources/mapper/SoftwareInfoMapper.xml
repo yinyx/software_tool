@@ -13,13 +13,13 @@
         <result property="size" column="size" jdbcType="VARCHAR"/>
         <result property="latestVersion" column="latest_version" jdbcType="VARCHAR"/>
         <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
-        <result property="updateContent" column="update_content" jdbcType="VARCHAR"/>
         <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
-        <result property="exe" column="exe" jdbcType="VARCHAR"/>
+        <result property="install_type" column="install_type" jdbcType="INTEGER"/>
     </resultMap>
 
     <insert id="insertSoftwareInfo" parameterType="com.nari.software_tool.entity.SoftwareInfo">
         INSERT into server_software (
+		        id,
                 soft_id,
                 name,
                 name_en,
@@ -29,48 +29,13 @@
                 size,
                 latest_version,
                 introduction,
-                update_content,
                 file_path,
-                exe)
+                install_type)
         VALUE(
-            <trim suffixOverrides=",">
-              <if test="softId !=null">
-                  #{softId,jdbcType=VARCHAR},
-              </if>
-              <if test="name != null">
-                  #{name,jdbcType=VARCHAR},
-              </if>
-              <if test="nameEn != null">
-                  #{nameEn,jdbcType=VARCHAR},
-              </if>
-              <!--<if test="kind != null">-->
-                  #{kind,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="icon != null">-->
-                  #{icon,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="briefIntroduction != null">-->
-                #{briefIntroduction,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="size != null">-->
-                #{size,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="latestVersion != null">-->
-                #{latestVersion,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="introduction != null">-->
-                #{introduction,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="updateContent != null">-->
-                #{updateContent,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="filePath != null">-->
-                #{filePath,jdbcType=VARCHAR},
-              <!--</if>-->
-              <!--<if test="exe != null">-->
-                #{exe,jdbcType=VARCHAR}
-              <!--</if>-->
-            </trim>)
+      		#{kindId},
+			#{kindName},
+			#{name_en}
+			)
     </insert>
 
     <update id="updateSoftwareInfo" parameterType="com.nari.software_tool.entity.SoftwareInfo">
@@ -139,25 +104,15 @@
 
 
 
-    <select id="querySoftwareById" parameterType="java.lang.Integer" resultMap="SoftwareResultMap">
-        SELECT
-          id,
-          soft_id,
-          name,
-          name_en,
-          kind,
-          icon,
-          brief_introduction,
-          size,
-          latest_version,
-          introduction,
-          update_content,
-          file_path,
-          exe
-        FROM
-          server_software
-        WHERE soft_id = #{soft_id,jdbcType=INTEGER}
-    </select>
+    <!-- 根据软件Id获取软件信息  -->
+    <select id="querySoftwareById" parameterType="java.lang.String" resultType="java.util.HashMap">
+	   	SELECT
+			*
+		FROM
+			server_software
+		WHERE
+            id =  #{softId}
+	</select>
 
     <select id="querySoftwareByName" parameterType="java.lang.String" resultMap="SoftwareResultMap">
         SELECT
@@ -314,4 +269,62 @@
 			server_software
 		</if>
 	</select>
+	
+	<!-- 新增软件信息 -->
+	<insert id="addSoftware" parameterType="java.util.HashMap">
+		INSERT server_software (
+	      id,
+	      soft_id,
+		  name,
+	      name_en,
+		  kind,
+		  icon,
+		  brief_introduction,
+		  size,
+		  latest_version,
+		  introduction,
+		  file_path,
+		  install_type
+      	) VALUES (
+      		#{id},
+			#{soft_id},
+			#{name},
+			#{nameEn},
+			#{kind},
+			#{icon},
+			#{briefIntroduction},
+			#{size},
+			#{latestVersion},
+			#{introduction},
+			#{file_path},
+			#{installType}
+  		)
+	</insert>
+
+	<!-- 更新软件信息 -->
+	<update id="updateSoftware" parameterType="java.util.HashMap">
+	   UPDATE server_software
+	   	   SET
+			name=#{name},
+			name_en=#{name_en},
+			brief_introduction=#{brief_introduction},
+			kind=#{kind},
+			install_type=#{install_type}
+		   WHERE
+		   	id = #{id}
+	</update>
+	
+	<!-- 更新软件图标信息 -->
+	<update id="updateSoftwareIcon" parameterType="java.util.HashMap">
+	   UPDATE server_software
+	   	   SET
+			icon=#{iconpath}
+		   WHERE
+		   	id = #{id}
+	</update>
+	
+	<!-- 删除软件信息 -->
+	<delete id="deleteSoftware" parameterType="java.util.HashMap">
+        DELETE FROM server_software WHERE id = #{softwareId}
+    </delete>
 </mapper>

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SoftwareInfo {
     //编号
-    private int id;
+    private String id;
     //软件ID
     private String softId;
     //名称
@@ -28,8 +28,6 @@ public class SoftwareInfo {
     private String latestVersion;
     //软件介绍
     private String introduction;
-    //更新说明
-    private String updateContent;
     //软件目录
     private String filePath;
     //启动程序相对路径
@@ -37,11 +35,11 @@ public class SoftwareInfo {
     //安装类型
     private int install_type;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -117,28 +115,12 @@ public class SoftwareInfo {
         this.introduction = introduction;
     }
 
-    public String getUpdateContent() {
-        return updateContent;
-    }
-
-    public void setUpdateContent(String updateContent) {
-        this.updateContent = updateContent;
-    }
-
     public String getFilePath() {
         return filePath;
     }
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public String getExe() {
-        return exe;
-    }
-
-    public void setExe(String exe) {
-        this.exe = exe;
     }
 
     public int getInstallType() {
@@ -162,9 +144,7 @@ public class SoftwareInfo {
                 ", size='" + size + '\'' +
                 ", latestVersion='" + latestVersion + '\'' +
                 ", introduction='" + introduction + '\'' +
-                ", updateContent='" + updateContent + '\'' +
                 ", filePath='" + filePath + '\'' +
-                ", exe='" + exe + '\'' +
                 ", InstallType='" + install_type + '\'' +
                 '}';
     }

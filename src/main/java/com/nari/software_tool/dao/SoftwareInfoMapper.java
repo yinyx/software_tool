@@ -27,7 +27,7 @@ public interface SoftwareInfoMapper {
      * @param softId
      * @return
      */
-    SoftwareInfo querySoftwareById(@Param("softId") String softId);
+    Map<String, Object> querySoftwareById(@Param("softId") String softId);
 
     /**
      * 模糊查询（中文、英文名）
@@ -67,5 +67,13 @@ public interface SoftwareInfoMapper {
 	List<Map<String, Object>> querySoftwaresList(Map<String, Object> paramMap);
 
     int querySoftwaresCount(Map<String, Object> paramMap);
+	
+	void addSoftware(Map<String, Object> paramMap);
+
+    void updateSoftware(Map<String, Object> paramMap);
+	
+	void deleteSoftware(String softwareId);
+	
+	void updateSoftwareIcon(Map<String, Object> paramMap);
 
 }

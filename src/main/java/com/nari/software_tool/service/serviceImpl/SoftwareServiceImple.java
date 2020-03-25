@@ -60,6 +60,14 @@ public class SoftwareServiceImple implements SoftwareService{
 
         return dataTableModel;
     }
+
+    public int querySoftwareCountByKind(String kindId){
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("Kind", kindId);
+		Integer count = softwareInfoMapper.querySoftwaresCount(paramMap);
+		return count;
+	}
+
 	
 	public void saveSoftware(Map<String, Object> paramMap)
 	{

@@ -9,6 +9,8 @@ import com.nari.software_tool.entity.SoftwareInfo;
 public interface SoftwareService {
     DataTableModel querySoftwaresList(Map<String, String> dataTableMap);
 	
+	int querySoftwareCountByKind(String kindId);
+	
 	void saveSoftware(Map<String, Object> paramMap);
 
     Map<String, Object> getSoftwareById(String softwareId);

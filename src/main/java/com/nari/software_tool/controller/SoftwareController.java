@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.List;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,6 +56,41 @@ public class SoftwareController {
     // 注入软件类别Service
     @Autowired
     private SoftwareService softwareService;
+
+    @RequestMapping(value="/queryMarqueeInfo",method=RequestMethod.POST)
+    @ResponseBody
+    public Object  queryMarqueeInfo(){ 
+        Map<String, Object> resultMap=new HashMap<String,Object>();
+        Map<String, Object> paramMap = new HashMap<String,Object>();
+        try {
+            int allSoftwareNum = softwareService.querySoftwareCountByKind(null);
+            List<Map<String, Object>> allKinds = softwareKindService.queryAllKinds();
+			int kindnum = 0;
+
+            for (int i = 0; i<allKinds.size(); i++)
+            {
+                Map<String, Object> kindMap = allKinds.get(i);
+                if (kindMap != null)
+                {
+                    String kindId = (String) kindMap.get("id");
+                    String kindName = (String) kindMap.get("kind_name");
+                    kindnum = softwareService.querySoftwareCountByKind(kindId);
+                    paramMap.put(kindName, kindnum);
+                }
+            }
+			
+            resultMap.put("status", "success");
+            resultMap.put("allSoftwareNum",allSoftwareNum);
+			resultMap.put("eachSoftwareNum",paramMap);
+
+        } catch (Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "获取滚动栏信息异常!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
 
     @RequestMapping(value="/querySoftwaresList",method=RequestMethod.POST)
     public Object  querySoftwaresList(@RequestBody DataTableParam[] dataTableParams){

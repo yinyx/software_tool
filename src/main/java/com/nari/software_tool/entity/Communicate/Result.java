@@ -1,6 +1,7 @@
 package com.nari.software_tool.entity.Communicate;
 
 /**
+ * 各类返回类型值定义
  * @author yinyx
  * @version 1.0 2020/3/25
  */

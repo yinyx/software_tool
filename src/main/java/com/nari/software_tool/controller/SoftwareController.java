@@ -2,19 +2,16 @@ package com.nari.software_tool.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nari.software_tool.entity.SoftwareInfo;
-import com.nari.software_tool.entity.SysAuthInfo;
 import com.nari.software_tool.service.FileService;
 import com.nari.software_tool.service.SoftwareService;
 import com.nari.software_tool.service.SoftwareKindService;
 import com.nari.software_tool.entity.DataTableModel;
 import com.nari.software_tool.entity.DataTableParam;
 
-import util.aes.AesUtil;
 import util.aes.DatatableUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URLDecoder;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.Arrays;
 import java.util.Map;
-import java.util.UUID;
 import java.util.HashMap;
 
 /**
@@ -159,5 +156,44 @@ public class SoftwareController {
         }
 
         return jsonObject;
+    }
+
+    @PostMapping("/downloadSoftware")
+    @ResponseBody
+    public String downloadSoftware(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        JSONObject jsonObject = new JSONObject();
+        Map<String,String[]> res = request.getParameterMap();
+        System.out.println("-----"+ Arrays.toString(res.get("fileName"))
+                +"  "+ Arrays.toString(res.get("softwareUrl")) +"-----");
+        String fileName = Arrays.toString(res.get("fileName")).substring(Arrays.toString(res.get("fileName")).indexOf("[")+1,Arrays.toString(res.get("fileName")).indexOf("]"));
+        if(fileName != null){
+            File file = new File(Arrays.toString(res.get("softwareUrl")).substring(Arrays.toString(res.get("softwareUrl")).indexOf("[")+1,Arrays.toString(res.get("softwareUrl")).indexOf("]")));
+            if(file.exists()){
+                response.setContentType("application/force-download");
+                response.addHeader("Content-Disposition","attachment;fileName="+fileName);
+                byte[] buffer = new byte[1024];
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                try{
+                    fis = new FileInputStream(file);
+                    bis = new BufferedInputStream(fis);
+                    OutputStream os = response.getOutputStream();
+                    int i = bis.read(buffer);
+                    while(i != -1){
+                        os.write(buffer,0,i);
+                        i = bis.read(buffer);
+                    }
+                    jsonObject.put("result","download success");
+                    return jsonObject.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    bis.close();
+                    fis.close();
+                }
+            }
+        }
+        jsonObject.put("result","failure");
+        return jsonObject.toString();
     }
 }

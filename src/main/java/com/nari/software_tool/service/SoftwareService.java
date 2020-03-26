@@ -26,4 +26,8 @@ public interface SoftwareService {
 	void deleteDir(String rootPath, String softwareId);
 
 	void deleteFile(String path);
+	
+	Map<String, Object> getInstallConfigBySoftwareId(String softwareId);
+	
+	void updateInstallAttribute(Map<String, Object> paramMap);
 }

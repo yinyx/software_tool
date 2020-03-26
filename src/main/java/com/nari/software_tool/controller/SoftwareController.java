@@ -133,6 +133,36 @@ public class SoftwareController {
         return enResult;
     }
 	
+	@RequestMapping(value="/getInstallConfigBySoftwareId",method=RequestMethod.POST)
+    public Object getInstallConfigBySoftwareId(@RequestParam Map<String, Object> map){
+        JSONObject paramObj=AesUtil.GetParam(map);
+        String softwareId = (String) paramObj.get("softwareId");
+        System.out.println(softwareId);
+        Map<String, Object> InstallConfig = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            InstallConfig = softwareService.getInstallConfigBySoftwareId(softwareId);
+			if (InstallConfig.size() != 0)
+			{
+				resultMap.put("status", "success");
+                resultMap.put("InstallConfig", InstallConfig);
+			}
+			else
+			{
+				resultMap.put("status", "error");
+                resultMap.put("msg", "没有查询到该条软件安装配置信息!");
+			}
+        }
+        catch(Exception e)
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "查询某条软件安装配置信息异常!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+	
 	
 	@RequestMapping(value="/deleteWholeSoftware",method=RequestMethod.POST)
     public Object deleteWholeSoftware(HttpServletRequest request,HttpServletResponse response){
@@ -185,6 +215,32 @@ public class SoftwareController {
         } catch(Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "软件更新失败!");
+        }
+        return resultMap;
+    }
+
+	@RequestMapping(value="/updateInstallAttribute",method=RequestMethod.POST)
+    public Map<String, Object> updateInstallAttribute(HttpServletRequest request,HttpServletResponse response){
+				System.out.println("paramMap");
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        //平台类型
+        paramMap.put("installType", request.getParameter("installType"));
+        paramMap.put("multiFlag", request.getParameter("multiFlag"));
+        paramMap.put("Installer_installAttribute", request.getParameter("Installer_installAttribute"));
+		paramMap.put("Uninstaller_installAttribute", request.getParameter("Uninstaller_installAttribute"));
+        paramMap.put("KeyFile_installAttribute", request.getParameter("KeyFile_installAttribute"));
+		paramMap.put("softwareId_attribute", request.getParameter("softwareId_attribute"));
+		
+		System.out.println(paramMap);
+		
+        try {
+            softwareService.updateInstallAttribute(paramMap);
+            resultMap.put("status", "success");
+            resultMap.put("msg", "安装配置信息更新成功!");
+        } catch(Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "安装配置信息更新失败!");
         }
         return resultMap;
     }

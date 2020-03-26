@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SoftwareInstallMapper">
+	<!-- 根据软件Id获取软件安装配置信息  -->
+	<select id="getInstallById" resultType="java.util.HashMap">
+	   	SELECT
+			*
+		FROM
+			software_install
+		WHERE
+            soft_id =  #{SoftwareId}
+	</select>
+
+	<!-- 新增软件安装配置信息 -->
+	<insert id="addInstall" parameterType="java.util.HashMap">
+		INSERT software_install (
+	      soft_id,
+	      type,
+		  Is_multi,
+		  installer,
+		  uninstaller,
+		  KeyFile
+      	) VALUES (
+      		#{id},
+			#{installType},
+			0,
+			"",
+			"",
+			""
+  		)
+	</insert>
+
+	<!-- 更新软件安装配置信息 -->
+	<update id="updateInstall" parameterType="java.util.HashMap">
+	   UPDATE software_install
+	   	   SET
+		    type=#{installType},
+			Is_multi=#{multiFlag},
+			installer=#{Installer_installAttribute},
+			uninstaller=#{Uninstaller_installAttribute},
+			KeyFile=#{KeyFile_installAttribute}
+		   WHERE
+		   	soft_id = #{softwareId_attribute}
+	</update>
+
+	<!-- 删除软件安装配置信息 -->
+	<delete id="deleteInstall">
+        DELETE FROM software_install WHERE soft_id = #{SoftwareId}
+    </delete>
+</mapper>

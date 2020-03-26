@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nari.software_tool.service.SoftwareService;
 import com.nari.software_tool.dao.SoftwareInfoMapper;
 import com.nari.software_tool.dao.SoftwareKindMapper;
+import com.nari.software_tool.dao.SoftwareInstallMapper;
 import com.nari.software_tool.entity.DataTableModel;
 import com.nari.software_tool.entity.Page;
 import com.nari.software_tool.entity.SoftwareInfo;
@@ -30,6 +31,9 @@ public class SoftwareServiceImple implements SoftwareService{
 	
 	@Autowired
 	private SoftwareKindMapper softwareKindMapper;
+	
+    @Autowired
+	private SoftwareInstallMapper softwareInstallMapper;
 
     public DataTableModel querySoftwaresList(Map<String, String> dataTableMap)
     {
@@ -76,6 +80,9 @@ public class SoftwareServiceImple implements SoftwareService{
 			paramMap.put("id", StringUtils.getUUId());
             paramMap.put("soft_id", StringUtils.getUUId());
             softwareInfoMapper.addSoftware(paramMap);
+			//增加安装配置属性记录
+			softwareInstallMapper.addInstall(paramMap);
+			
         } else {
             softwareInfoMapper.updateSoftware(paramMap);
         }
@@ -91,7 +98,10 @@ public class SoftwareServiceImple implements SoftwareService{
     public boolean deleteSoftware(String softwareId) {
         softwareInfoMapper.deleteSoftware(softwareId);
 		//删除软件相关的其他表的记录
-		
+			//删除安装配置属性记录
+		softwareInstallMapper.deleteInstall(softwareId);
+		    //删除分支记录
+			//删除版本记录
         return true;
     }
 
@@ -105,16 +115,13 @@ public class SoftwareServiceImple implements SoftwareService{
 	
 	public void deleteIcon(String softwareId){
 		Map<String, Object> obj = softwareInfoMapper.querySoftwareById(softwareId);
-		System.out.println("obj");
-		System.out.println(obj);
+
 		String oldIconpath = (String) obj.get("icon");	
-		System.out.println("oldIconpath");
-		System.out.println(oldIconpath);		
+	
 		oldIconpath = "src/main/resources/static/"+oldIconpath;
 		File oldIconpathDir = new File(oldIconpath);
 		String oldIconDirAbsolutePath = oldIconpathDir.getAbsolutePath();
-		System.out.println("oldIconDirAbsolutePath");
-		System.out.println(oldIconDirAbsolutePath);		
+	
 		
 		if (!StringUtils.isEmpty(oldIconDirAbsolutePath))
 		{
@@ -163,5 +170,16 @@ public class SoftwareServiceImple implements SoftwareService{
         String softDirAbsolutePath = softDir.getAbsolutePath();
         deleteFile(softDirAbsolutePath);
     }
+	
+	public Map<String, Object> getInstallConfigBySoftwareId(String softwareId)
+	{
+		Map<String, Object> obj = softwareInstallMapper.getInstallById(softwareId);
+        return obj;
+	}
+	
+	public void updateInstallAttribute(Map<String, Object> paramMap)
+	{
+		softwareInstallMapper.updateInstall(paramMap);
+	}
 }
 

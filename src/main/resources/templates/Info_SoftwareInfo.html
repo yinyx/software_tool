@@ -306,12 +306,98 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-primary" id="editIcon">保存</button>
+                        <button type="submit" class="btn btn-primary" id="editAttribute">保存</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>	
+	
+	<!--编辑安装配置模态框-->
+    <div class="modal fade bs-example-modal-lg" id="installAttributeModal_edit" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form id="editInstallAttributeForm" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">安装配置</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row ">
+                            <div class="col-md-12" style="border-right: 1px solid #e5e5e5;">
+                                <div class="row margiBottom">
+                                    <input type="hidden" id="softwareId_attribute" name="softwareId_attribute"/>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="cronInstallType_installAttribute"><span class="required">*</span>安装类型：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="cronInstallType_installAttribute" class="form-control input-inline">
+												<option value="0">绿色版</option>
+												<option value="1">InstallShield</option>
+												<option value="2">InnoSetup</option>
+												<option value="3">插件</option>
+                                            </select>
+                                        </div>
+                                    </div>
+									
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="cronMultiFlag_installAttribute" id="cronMultiFlag_installAttribute"><span class="required">*</span>多版本安装标志：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="cronMultiFlag" class="form-control input-inline">
+												<option value="0">不允许安装多版本</option>
+												<option value="1">允许重复安装</option>
+                                            </select>
+                                        </div>
+                                    </div>
+									
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="Installer_installAttribute"><span class="required">*</span>安装程序文件名：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input  type="text"   class="form-control " name="Installer_installAttribute" id="Installer_installAttribute"   placeholder="安装程序文件名"/></label>
+                                        </div>
+                                    </div>
+									
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="Uninstaller_installAttribute"><span class="required">*</span>卸载程序文件名：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input  type="text"   class="form-control " name="Uninstaller_installAttribute" id="Uninstaller_installAttribute"   placeholder="卸载程序文件名"/></label>
+                                        </div>
+                                    </div>
+									
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="KeyFile_installAttribute"><span class="required">*</span>关键文件名：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input  type="text"   class="form-control " name="KeyFile_installAttribute" id="KeyFile_installAttribute"   placeholder="关键文件名"/></label>
+                                        </div>
+                                    </div>
+									
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary" id="editIcon">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+	
 </div>
 
 <script src="js/info/softwareManage.js" type="text/javascript"></script>

@@ -119,7 +119,7 @@ function initSchoolUserTable() {
 				 var content = "";
 				  content = '<button class="btn btn-xs blue" onclick="showUserEditModal(\''+row.id+'\') " data-toggle="modal" data-target="#"> 编辑 </button>' +
                  '<button class="btn btn-xs red" onclick="deleteSchoolUser(\''+row.id+'\')"> 删除 </button>'+
-                 '<button class="btn btn-xs red" onclick="resetPassword(\''+row.id+'\')"> 重置密码 </button>';
+                 '<button class="btn btn-xs green" onclick="resetPassword(\''+row.id+'\')"> 重置密码 </button>';
 		         return content;
 		      } 
 		 }]

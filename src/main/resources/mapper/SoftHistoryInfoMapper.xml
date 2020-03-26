@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SoftHistoryInfoMapper">
+    <resultMap id="SoftInstallResultMap" type="com.nari.software_tool.entity.SoftHistoryInfo">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
+        <result property="branchId" column="branch_id" jdbcType="INTEGER"/>
+        <result property="historyVersion" column="history_version" jdbcType="VARCHAR"/>
+        <result property="historyPath" column="history_path" jdbcType="VARCHAR"/>
+        <result property="uploadDate" column="upload_date" jdbcType="TIMESTAMP"/>
+        <result property="operator" column="operator" jdbcType="VARCHAR"/>
+        <result property="appPktDate" column="appPkt_date" jdbcType="TIMESTAMP"/>
+        <result property="appPktNew" column="appPkt_new" jdbcType="VARCHAR"/>
+        <result property="appPktPath" column="appPkt_path" jdbcType="VARCHAR"/>
+        <result property="appPktSize" column="appPkt_size" jdbcType="INTEGER"/>
+        <result property="appPktMd5" column="appPkt_md5" jdbcType="VARCHAR"/>        <result property="appPktSize" column="operator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+</mapper>

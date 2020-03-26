@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SoftInstallInfoMapper">
+    <resultMap id="SoftInstallResultMap" type="com.nari.software_tool.entity.SoftInstallInfo">
+        <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
+        <result property="Type" column="type" jdbcType="INTEGER"/>
+        <result property="Multi" column="Is_multi" jdbcType="INTEGER"/>
+        <result property="Installer" column="installer" jdbcType="VARCHAR"/>
+        <result property="Uninstaller" column="uninstaller" jdbcType="VARCHAR"/>
+        <result property="KeyFile" column="KeyFile" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+</mapper>

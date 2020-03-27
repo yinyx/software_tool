@@ -91,5 +91,10 @@ public class BranchServiceImple implements BranchService{
         }
 
     }
+
+    @Override
+    public List<Map<String, Object>> queryBranchList(String softId) {
+        return branchMapper.queryBranchListBySoftwareId(softId);
+    }
 }
 

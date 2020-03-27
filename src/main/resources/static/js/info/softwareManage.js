@@ -535,7 +535,7 @@ function ScreenShotConfig(softwareId){
 
         },
         error:function(e) {
-            stopPageLoading()
+            stopPageLoading();
             showSuccessOrErrorModal("获取软件信息请求出错了","error");
         }
     });
@@ -558,7 +558,7 @@ function ScreenShotConfig(softwareId){
         }
     });
     $('#screenShots_edit').on('hide.bs.modal', function () {
-        files = null;
+        document.getElementById("screenShots_list").value = "";
         $('#fileDiv').empty();
         document.getElementById("screenShotsForm").reset();
     });
@@ -579,8 +579,8 @@ function ScreenShotConfig(softwareId){
             contentType : false, // 不要设置Content-Type请求头
             success:function(data) {
                 if(data.status == "success") {
+                    stopPageLoading();
                 	console.log(data.status);
-                    window.location.reload();
                 } else {
                     stopPageLoading();
                     showSuccessOrErrorModal("获取截图信息失败","error");

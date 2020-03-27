@@ -500,9 +500,11 @@ public class SoftwareController {
         List<ScreenShotInfo> lst = new ArrayList<>();
         SimpleDateFormat df = new SimpleDateFormat("yyMMdd");//设置日期格式
         Map<String,Object> sfMap = softwareService.getSoftwareById(softwareId);
+
         for (int i=0;i<files.length;i++) {
             String shotName = nameLst.get(i);
             ScreenShotInfo ss = new ScreenShotInfo();
+                    ss.setScreenId(UUID.randomUUID().toString().replace("-", ""));
                     ss.setSoftName((String) sfMap.get("name"));
                     ss.setCreateTime(df.format(new Date()));
                     ss.setId(softwareId);

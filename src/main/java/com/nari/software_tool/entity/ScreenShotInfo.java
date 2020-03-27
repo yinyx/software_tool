@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ScreenShotInfo {
+    //截图编号
+    private String screenId;
     //软件记录编号
     private String Id;
     // 软件名
@@ -22,6 +24,13 @@ public class ScreenShotInfo {
     //创建时间
     private String  createTime;
 
+    public String getScreenId() {
+        return screenId;
+    }
+
+    public void setScreenId(String screenId) {
+        this.screenId = screenId;
+    }
     public String getId() {
         return Id;
     }
@@ -73,12 +82,13 @@ public class ScreenShotInfo {
     @Override
     public String toString() {
         return "ScreenShotInfo{" +
-                "id='" + Id + '\'' +
+                "screenId='" + screenId + '\'' +
+                ", Id='" + Id + '\'' +
                 ", softName='" + softName + '\'' +
                 ", shotsName='" + shotsName + '\'' +
                 ", url='" + url + '\'' +
                 ", shotId=" + shotId +
-                ", createTime=" + createTime +
+                ", createTime='" + createTime + '\'' +
                 '}';
     }
 }

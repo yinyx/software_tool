@@ -19,7 +19,7 @@ import util.aes.PaginationUtil;
 import util.aes.StringUtils;
 
 @Service
-@Transactional
+@Transactional(rollbackFor = { Exception.class })
 public class SoftwareKindServiceImple implements SoftwareKindService{
     // 注入软件类别Mapper
     @Autowired

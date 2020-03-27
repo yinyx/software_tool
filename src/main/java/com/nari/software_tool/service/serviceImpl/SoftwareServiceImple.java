@@ -1,12 +1,12 @@
 package com.nari.software_tool.service.serviceImpl;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.HashMap;
 import java.util.List;
-import java.util.LinkedList;
 import java.io.File;
 
+import com.nari.software_tool.dao.ScreenShotsMapper;
+import com.nari.software_tool.entity.ScreenShotInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,11 @@ import com.nari.software_tool.dao.SoftwareInfoMapper;
 import com.nari.software_tool.dao.SoftwareKindMapper;
 import com.nari.software_tool.dao.SoftwareInstallMapper;
 import com.nari.software_tool.entity.DataTableModel;
-import com.nari.software_tool.entity.Page;
-import com.nari.software_tool.entity.SoftwareInfo;
 
-import util.aes.PaginationUtil;
 import util.aes.StringUtils;
 
 @Service
-@Transactional
+@Transactional(rollbackFor = { Exception.class })
 public class SoftwareServiceImple implements SoftwareService{
     // 注入软件类别Mapper
     @Autowired
@@ -35,7 +32,11 @@ public class SoftwareServiceImple implements SoftwareService{
     @Autowired
 	private SoftwareInstallMapper softwareInstallMapper;
 
-    public DataTableModel querySoftwaresList(Map<String, String> dataTableMap)
+    @Autowired
+	private ScreenShotsMapper screenShotsMapper;
+
+    @Override
+	public DataTableModel querySoftwaresList(Map<String, String> dataTableMap)
     {
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
@@ -65,7 +66,8 @@ public class SoftwareServiceImple implements SoftwareService{
         return dataTableModel;
     }
 
-    public int querySoftwareCountByKind(String kindId){
+    @Override
+	public int querySoftwareCountByKind(String kindId){
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("Kind", kindId);
 		Integer count = softwareInfoMapper.querySoftwaresCount(paramMap);
@@ -73,6 +75,7 @@ public class SoftwareServiceImple implements SoftwareService{
 	}
 
 	
+	@Override
 	public void saveSoftware(Map<String, Object> paramMap)
 	{
         String recordId = (String) paramMap.get("id");
@@ -88,6 +91,7 @@ public class SoftwareServiceImple implements SoftwareService{
         }
 	}
 	
+	@Override
 	public Map<String, Object> getSoftwareById(String softwareId)
 	{
         Map<String, Object> obj = softwareInfoMapper.querySoftwareById(softwareId);
@@ -95,7 +99,8 @@ public class SoftwareServiceImple implements SoftwareService{
     
 	}
 	
-    public boolean deleteSoftware(String softwareId) {
+    @Override
+	public boolean deleteSoftware(String softwareId) {
         softwareInfoMapper.deleteSoftware(softwareId);
 		//删除软件相关的其他表的记录
 			//删除安装配置属性记录
@@ -105,14 +110,17 @@ public class SoftwareServiceImple implements SoftwareService{
         return true;
     }
 
-    public void updateSoftware(Map<String, Object> paramMap){
+    @Override
+	public void updateSoftware(Map<String, Object> paramMap){
         softwareInfoMapper.updateSoftware(paramMap);
     }
 	
+	@Override
 	public void updateSoftwareIcon(Map<String, Object> paramMap){
 		softwareInfoMapper.updateSoftwareIcon(paramMap);
 	}
 	
+	@Override
 	public void deleteIcon(String softwareId){
 		Map<String, Object> obj = softwareInfoMapper.querySoftwareById(softwareId);
 
@@ -134,7 +142,8 @@ public class SoftwareServiceImple implements SoftwareService{
 		}
 	}
 	
-	public  void deleteFile(String path) 
+	@Override
+	public  void deleteFile(String path)
 	{
       File file = new File(path);    
       if (file.isDirectory()) 
@@ -148,7 +157,8 @@ public class SoftwareServiceImple implements SoftwareService{
        file.delete();    
    }
 
-    public void deleteDir(String rootPath, String softwareId)
+    @Override
+	public void deleteDir(String rootPath, String softwareId)
     {
 		Map<String, Object> obj = softwareInfoMapper.querySoftwareById(softwareId);
 		if (obj == null)
@@ -171,15 +181,27 @@ public class SoftwareServiceImple implements SoftwareService{
         deleteFile(softDirAbsolutePath);
     }
 	
+	@Override
 	public Map<String, Object> getInstallConfigBySoftwareId(String softwareId)
 	{
 		Map<String, Object> obj = softwareInstallMapper.getInstallById(softwareId);
         return obj;
 	}
 	
-	public void updateInstallAttribute(Map<String, Object> paramMap)
+	@Override
+    public void updateInstallAttribute(Map<String, Object> paramMap)
 	{
 		softwareInstallMapper.updateInstall(paramMap);
+	}
+
+	@Override
+	public boolean queryScreenShot(ScreenShotInfo screenShotInfo) {
+		return screenShotsMapper.getScreenShot(screenShotInfo);
+	}
+
+	@Override
+	public boolean batchInsertScreenShots(List<ScreenShotInfo> screenShotInfoLists) {
+    	return screenShotsMapper.insertScreenShots(screenShotInfoLists);
 	}
 }
 

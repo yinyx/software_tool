@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.List;
 
 import com.nari.software_tool.entity.DataTableModel;
-import com.nari.software_tool.entity.SoftwareInfo;
+import com.nari.software_tool.entity.ScreenShotInfo;
 
 public interface SoftwareService {
     DataTableModel querySoftwaresList(Map<String, String> dataTableMap);
@@ -30,4 +30,8 @@ public interface SoftwareService {
 	Map<String, Object> getInstallConfigBySoftwareId(String softwareId);
 	
 	void updateInstallAttribute(Map<String, Object> paramMap);
+
+	boolean queryScreenShot(ScreenShotInfo screenShotInfo);
+
+	boolean batchInsertScreenShots(List<ScreenShotInfo> screenShotInfoLists);
 }

@@ -150,6 +150,55 @@
     </div>
 </div>
 
+<!--软件截图模态框-->
+<div class="modal fade bs-example-modal-lg" id="screenShots_edit" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="screenShotsForm" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">软件截图</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row ">
+                        <div class="col-md-12" style="border-right: 1px solid #e5e5e5;">
+                            <div class="row margiBottom">
+                                <input type="hidden" id="screenShotsId" name="recordId_icon"/>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4" style="text-align:right;">
+                                        <label class="control-label" for="softwareName_screen"><span class="required">*</span>软件名（中）：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="softwareName_screen" name="softwareName_screen" class="form-control " placeholder="请输入软件名（中）" required/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12" >
+                                    <div class="col-sm-4" style="text-align:right;">
+                                        <label class="control-label" ><span class="required">*</span>截图：</label>
+                                    </div>
+                                    <div class="col-sm-8" >
+                                        <input  type="file"  id="screenShots_list" name="screenShots_list" multiple="multiple" accept="image/png, image/jpeg, image/gif, image/jpg"/>
+                                    </div>
+                                    <div id="fileDiv"></div>
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="dataDismiss">取消</button>
+                    <button type="submit" class="btn btn-primary" id="editShot">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <!--编辑图标模态框-->
     <div class="modal fade bs-example-modal-lg" id="iconModal_edit" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">

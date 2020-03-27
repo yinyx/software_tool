@@ -2,7 +2,7 @@
 var schoolUserTable = null;
 var userMap = {};
 var userId = 0;
-
+var userAgent = navigator.userAgent; //用于判断浏览器类型
 function initSchoolUserTable() {
 	
 	schoolUserTable = $('#schoolUserTable').DataTable({
@@ -519,6 +519,93 @@ function showKind(){
         }
     })
 
+}
+
+function ScreenShotConfig(softwareId){
+    startPageLoading();
+    var data = {"softwareId":softwareId};
+    var dataObj = {
+        "paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
+    };
+    $.ajax({
+        url:"software/getSoftwareById",
+        type:"post",
+        data:dataObj,
+        dataType:"text",
+        success:function(data) {
+            data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
+            if(data.status=="success") {
+                $("#screenShotsId").val(softwareId);
+                var softwareData = data.softwareData;
+                $("#softwareName_screen").attr("disabled", true);
+                $("#softwareName_screen").val(softwareData.name);
+                $('#screenShots_edit').modal('show');
+                stopPageLoading()
+            } else {
+                stopPageLoading();
+                showSuccessOrErrorModal("获取软件信息失败","error");
+            }
+
+        },
+        error:function(e) {
+            stopPageLoading()
+            showSuccessOrErrorModal("获取软件信息请求出错了","error");
+        }
+    });
+
+    var fileList=[];
+    var fileCatcher = document.getElementById("screenShotsForm");
+    var files = document.getElementById("screenShots_list");
+
+    fileCatcher.addEventListener("submit",function (event) {
+        event.preventDefault();
+        sendFile();
+        window.location.reload();
+    });
+
+    files.addEventListener("change",function () {
+        for(var i = 0;i<files.files.length;i++){
+            fileList.push(files.files[i]);
+            var div="<img id='img"+i+"' width='10%' height='10%' src='"+window.URL.createObjectURL(files.files[i])+"'/>";
+            $("#fileDiv").append(div);
+        }
+    });
+    $('#screenShots_edit').on('hide.bs.modal', function () {
+        files = null;
+        $('#fileDiv').empty();
+        document.getElementById("screenShotsForm").reset();
+    });
+    sendFile = function () {
+        var formData = new FormData();
+        fileList.forEach(function(file){
+            formData.append("screenShots",file,file.name);
+        });
+
+        formData.append("softwareId",softwareId);
+
+        $.ajax({
+            url:"software/uploadBatchScreenShots",
+            type:"post",
+            data:formData,
+            dataType:"json",
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success:function(data) {
+                if(data.status == "success") {
+                	console.log(data.status);
+                    window.location.reload();
+                } else {
+                    stopPageLoading();
+                    showSuccessOrErrorModal("获取截图信息失败","error");
+                }
+
+            },
+            error:function(e) {
+                stopPageLoading();
+                showSuccessOrErrorModal("获取截图信息请求出错了","error");
+            }
+        });
+    };
 }
 
 $(document).ready(function(){

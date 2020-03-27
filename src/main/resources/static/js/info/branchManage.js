@@ -75,7 +75,7 @@ function initSchoolUserTable() {
 		,	 {	
 			 "title" : "操作人",  
 			 "defaultContent" : "", 
-			 "data" :"operater",
+			 "data" :"user_name",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }  			 
@@ -95,8 +95,8 @@ function initSchoolUserTable() {
 	});
 }	
 
-function querySoftwares() {//条件查询同步日志
-	schoolUserTable.ajax.reload();  
+function queryBranchs() {//条件查询软件分支
+	branchTable.ajax.reload();  
 }
 
 // 点击安装配置按钮
@@ -404,6 +404,15 @@ function initSoftware(){
 	});	
 }
 
+function addBranch(){
+	var  softwareName = $("#cronSoftware option:checked").text();
+	var  softwareId = $("#cronSoftware").val();
+	$("#softwareId").val(softwareId);
+	$("#softwareName").val(softwareName);
+	$("#softwareName").attr("disabled", true);
+	
+}
+
 $("select#cronKind").change(function(){
    initSoftware();
 });
@@ -423,28 +432,26 @@ $(document).ready(function(){
 	initSoftware();
 	initSchoolUserTable();
 	// 表单验证(点击submit触发该方法)
-	$("#editAttributeForm").html5Validate(function() {
+	$("#softwareForm").html5Validate(function() {
 		// TODO 验证成功之后的操作
-		var data = $("#editAttributeForm").serialize();
-		var kind = $(":radio[name=\"type_attribute\"]:checked").val();
-		data+="&kind="+kind;
-		data+="&installType="+$("#cronInstallType_attribute").val();
+		var data = $("#softwareForm").serialize();
+		data+="&userId="+userId;
 		$.ajax({
-			url:"software/updateSoftware",
+			url:"branch/saveBranch",
 			type:"post",
 			data:data,
 			dataType:"json",
 			success:function(data) {
 			    if(data.status=="success") {
 			    	showSuccessOrErrorModal(data.msg,"success"); 
-			    	schoolUserTable.draw();
-			    	$("#attributeModal_edit").modal("hide");
+			    	branchTable.draw();
+			    	$("#branchModal_add").modal("hide");
 			    } else {
 			        showSuccessOrErrorModal(data.msg,"error");	
 			    }         
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("更新软件请求出错了","error"); 
+			    showSuccessOrErrorModal("增加软件分支出错了","error"); 
 			}
 		});	
 	}

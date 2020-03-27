@@ -48,4 +48,25 @@ public class BranchController {
         }
         return resultMap;
     }
+	
+	@RequestMapping(value="/saveBranch",method=RequestMethod.POST)
+    public Map<String, Object> saveBranch(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        //平台类型
+        paramMap.put("softwareId", request.getParameter("softwareId"));
+        paramMap.put("branchName", request.getParameter("branchName"));
+        paramMap.put("branchDescription", request.getParameter("branchDescription"));
+		paramMap.put("userId", request.getParameter("userId"));
+		
+        try {
+            branchService.saveBranch(paramMap);
+            resultMap.put("status", "success");
+            resultMap.put("msg", "软件分支保存成功!");
+        } catch(Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "软件分支保存失败!");
+        }
+        return resultMap;
+    }
 }

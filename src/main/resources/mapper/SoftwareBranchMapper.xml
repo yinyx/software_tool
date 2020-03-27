@@ -16,12 +16,18 @@
 	<select id="queryBranchList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 	   	SELECT
 			A.*,
-			B.name
+			B.name,
+			C.user_name
 		FROM
-			software_branch A left join 
-			server_software B on A.soft_id = B.id
+			software_branch A,
+			server_software B,
+			sys_user C
 		WHERE
             A.soft_id =  #{SoftId}
+	    AND
+		    A.soft_id = B.id
+		AND 
+		    A.operater = C.id
 	    limit 
 		    #{start},#{length}
 	</select>
@@ -56,12 +62,12 @@
 		  description,
 		  operater
       	) VALUES (
-      		#{id},
-			#{softID},
-			"",
-			"",
-			"",
-			""
+      		#{branchId},
+			#{softwareId},
+			#{branchName},
+			NOW(),
+			#{branchDescription},
+			#{userId}
   		)
 	</insert>
 

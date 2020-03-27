@@ -74,37 +74,6 @@ public class SoftwareServiceImple implements SoftwareService{
 		return count;
 	}
 
-
-    @Override
-    public DataTableModel queryBranchList(Map<String, String> dataTableMap){
-        DataTableModel dataTableModel = new DataTableModel();
-        Map<String,Object> paramMap = new HashMap<String,Object>();
-        String sEcho = dataTableMap.get("sEcho");
-        String SoftwareId = dataTableMap.get("SoftwareId");
-
-        //if ((SoftwareId != null)&&(SoftwareId.equals("0")))
-        //{
-        //Kind = null;
-        //}
-
-        int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
-        int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
-
-        paramMap.put("start", start);
-        paramMap.put("length", length);
-        paramMap.put("SoftwareId", SoftwareId);
-
-        List<Map<String, Object>> resList = softwareBranchMapper.queryBranchList(paramMap);
-        Integer count = softwareBranchMapper.queryBranchCount(paramMap);
-
-        dataTableModel.setiTotalDisplayRecords(count);
-        dataTableModel.setiTotalRecords(count);
-        dataTableModel.setsEcho(Integer.valueOf(sEcho));
-        dataTableModel.setAaData(resList);
-
-        return dataTableModel;
-    }
-
 	@Override
 	public void saveSoftware(Map<String, Object> paramMap)
 	{
@@ -115,6 +84,13 @@ public class SoftwareServiceImple implements SoftwareService{
             softwareInfoMapper.addSoftware(paramMap);
 			//增加安装配置属性记录
 			softwareInstallMapper.addInstall(paramMap);
+			//增加默认主分支记录
+			paramMap.put("branchId", StringUtils.getUUId());
+			paramMap.put("softwareId", (String) paramMap.get("id"));
+			paramMap.put("branchName", "master");
+			paramMap.put("branchDescription", (String) paramMap.get("briefIntroduction"));
+			paramMap.put("userId", (String) paramMap.get("userId"));
+			softwareBranchMapper.addBranch(paramMap);
 			
         } else {
             softwareInfoMapper.updateSoftware(paramMap);

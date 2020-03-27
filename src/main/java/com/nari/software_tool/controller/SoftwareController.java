@@ -150,24 +150,6 @@ public class SoftwareController {
         return enResult;
     }
 	
-	@RequestMapping(value="/getBranchConfigBySoftwareId",method=RequestMethod.POST)
-    public Object getBranchConfigBySoftwareId(@RequestBody DataTableParam[] dataTableParams){
-        DataTableModel dataTableModel = new DataTableModel();
-        Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        try {
-            dataTableModel = softwareService.queryBranchList(dataTableMap);
-            resultMap.put("status", "success");
-            resultMap.put("BranchsData", dataTableModel);
-        }
-        catch(Exception e)
-        {
-            resultMap.put("status", "error");
-            resultMap.put("msg", "查询软件分支信息异常!");
-        }
-        return resultMap;
-    }
-	
 	@RequestMapping(value="/getInstallConfigBySoftwareId",method=RequestMethod.POST)
     public Object getInstallConfigBySoftwareId(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);

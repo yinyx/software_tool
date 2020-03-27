@@ -34,6 +34,8 @@ public class SoftwareInfo {
     private String exe;
     //安装类型
     private int install_type;
+    //操作员
+    private String userId;
 
     public String getId() {
         return id;
@@ -131,6 +133,14 @@ public class SoftwareInfo {
         this.install_type = install_type;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "SoftPathInfo{" +
@@ -146,6 +156,7 @@ public class SoftwareInfo {
                 ", introduction='" + introduction + '\'' +
                 ", filePath='" + filePath + '\'' +
                 ", InstallType='" + install_type + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 

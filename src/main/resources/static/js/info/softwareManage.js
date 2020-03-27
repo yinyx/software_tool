@@ -439,7 +439,8 @@ function sendFile() {
             "latestVersion":latestVersion,
             "kind":kind,
 			"installType":installType,
-			"briefIntroduction":briefIntroduction
+			"briefIntroduction":briefIntroduction,
+			"userId":userId
         };
         formData.append("softwareForm",JSON.stringify(data));
 

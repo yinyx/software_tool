@@ -36,5 +36,5 @@ public interface SoftwareService {
 	boolean batchInsertScreenShots(List<ScreenShotInfo> screenShotInfoLists);
 
     List<Map<String,Object>> querySoftwaresByKind(String kindId);
-    DataTableModel queryBranchList(Map<String, String> dataTableMap);
+    
 }

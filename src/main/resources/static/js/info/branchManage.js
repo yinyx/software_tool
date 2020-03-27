@@ -3,7 +3,7 @@ var branchTable = null;
 var userMap = {};
 var userId = 0;
 
-function initSchoolUserTable() {
+function initBranchTable() {
 	
 	branchTable = $('#branchTable').DataTable({
 		// url
@@ -87,8 +87,8 @@ function initSchoolUserTable() {
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
 				 var content = "";
-				  content = '<button class="btn btn-xs blue" onclick="EditIcon(\''+row.id+'\') " data-toggle="modal" data-target="#"> 编辑 </button>' +
-				 '<button class="btn btn-xs red" onclick="deleteSchoolUser(\''+row.id+'\')"> 删除 </button>';
+				  content = '<button class="btn btn-xs blue" onclick="editBranch(\''+row.branch_id+'\') " data-toggle="modal" data-target="#"> 编辑 </button>' +
+				 '<button class="btn btn-xs red" onclick="deleteBranch(\''+row.branch_id+'\')"> 删除 </button>';
 		         return content;
 		      } 
 		 }]
@@ -99,55 +99,31 @@ function queryBranchs() {//条件查询软件分支
 	branchTable.ajax.reload();  
 }
 
-// 点击安装配置按钮
-function InstallConfig(softwareId){
-	console.log(softwareId)
+// 点击编辑分支按钮
+function editBranch(branchId){
+	console.log(branchId)
 	startPageLoading();
-	var data = {"softwareId":softwareId};
+	var data = {"branchId":branchId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	}
 	$.ajax({
-		url:"software/getInstallConfigBySoftwareId",
+		url:"branch/getBranchById",
 		type:"post",
 		data:dataObj,
 		dataType:"text",
 		success:function(data) {
 		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		   if(data.status=="success") {
-			   $("#softwareId_attribute").val(softwareId);
-               var InstallConfig = data.InstallConfig;
-			   console.log(InstallConfig)
-			   
-			   	var InstallTypeList = document.getElementById("cronInstallType_installAttribute");
-				var ops = InstallTypeList.options;
-				for(var i=0;i<ops.length; i++){
-				    var tempValue = ops[i].value;
-				    if(tempValue == InstallConfig.type) //这里是你要选的值
-				    {
-				       ops[i].selected = true;
-				       break;
-				    }
-				}	
-				
-			    var MultiFlagList = document.getElementById("cronMultiFlag");
-				var ops1 = MultiFlagList.options;
-				console.log(MultiFlagList)
-				console.log(ops1)
-					for(var i=0;i<ops1.length; i++){
-				    var tempValue1 = ops1[i].value;
-				    if(tempValue1 == InstallConfig.Is_multi) //这里是你要选的值
-				    {
-				       ops1[i].selected = true;
-				       break;
-				    }
-				} 	
-			   
-			   $("#Installer_installAttribute").val(InstallConfig.installer);
-               $("#Uninstaller_installAttribute").val(InstallConfig.uninstaller);			
-               $("#KeyFile_installAttribute").val(InstallConfig.KeyFile);
-   			   
-               $('#installAttributeModal_edit').modal('show');
+			   $("#branchId").val(branchId);
+               var branchData = data.branchData;
+			   console.log(branchData)	
+               var  softwareName = $("#cronSoftware option:checked").text();			   
+			   $("#softwareName").val(softwareName);
+               $("#branchName").val(branchData.branch);			
+               $("#branchDescription").val(branchData.description);
+			   $("#softwareName").attr("disabled", true);
+               $('#branchModal_add').modal('show');
                stopPageLoading()
 		   } else {
 			   stopPageLoading()
@@ -157,143 +133,31 @@ function InstallConfig(softwareId){
 		},
 		error:function(e) {
 			stopPageLoading()
-		   showSuccessOrErrorModal("获取软件安装配置信息请求出错了","error"); 
+		   showSuccessOrErrorModal("获取软件分支信息请求出错了","error"); 
 		}
 	});
-}
-
-// 点击编辑属性按钮
-function EditAttribute(softwareId){
-	console.log(softwareId)
-	startPageLoading();
-	var data = {"softwareId":softwareId};
-	var dataObj = {
-			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
-	}
-	$.ajax({
-		url:"software/getSoftwareById",
-		type:"post",
-		data:dataObj,
-		dataType:"text",
-		success:function(data) {
-		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-		   if(data.status=="success") {
-			   $("#recordId_attribute").val(softwareId);
-               var softwareData = data.softwareData;
-			   $("#softwareName_attribute").val(softwareData.name);	
-               $("#softwareName_enattribute").val(softwareData.name_en);
-               $("#uuid_text_attribute").val(softwareData.soft_id);
-			   $("#description_attribute").val(softwareData.brief_introduction);
-			   $("#version_attribute").val(softwareData.latest_version);	
-			   $("input[type='radio']").each(function(){
-				   if($(this).val()==softwareData.kind){
-					   $(this).prop("checked",true)
-				   }
-				   else{
-					   $(this).prop("checked",false)
-				   }
-			   });
-			   	var InstallTypeList = document.getElementById("cronInstallType_attribute");
-				var ops = InstallTypeList.options;
-				for(var i=0;i<ops.length; i++){
-				    var tempValue = ops[i].value;
-				    if(tempValue == softwareData.install_type) //这里是你要选的值
-				    {
-				       ops[i].selected = true;
-				       break;
-				    }
-				}			   
-               $('#attributeModal_edit').modal('show');
-               stopPageLoading()
-		   } else {
-			   stopPageLoading()
-			   showSuccessOrErrorModal("获取软件信息失败","error");
-		   }
-		   
-		},
-		error:function(e) {
-			stopPageLoading()
-		   showSuccessOrErrorModal("获取软件信息请求出错了","error"); 
-		}
-	});
-}
-
-// 点击编辑图标按钮
-function EditIcon(softwareId){
-	console.log(softwareId)
-	startPageLoading();
-	var data = {"softwareId":softwareId};
-	var dataObj = {
-			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
-	}
-	$.ajax({
-		url:"software/getSoftwareById",
-		type:"post",
-		data:dataObj,
-		dataType:"text",
-		success:function(data) {
-		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-		   if(data.status=="success") {
-			   $("#recordId_icon").val(softwareId);
-               var softwareData = data.softwareData;
-               $("#softwareName_icon").attr("disabled", true);
-               $("#icon_now_text").attr("disabled", true);
-			   $("#softwareName_icon").val(softwareData.name);
-               $("#icon_now_text").val(softwareData.icon);			   
-               var html = '<img src='+softwareData.icon+'>';
-               $("#icon_now_show").html(html);			   
-               $('#iconModal_edit').modal('show');
-               stopPageLoading()
-		   } else {
-			   stopPageLoading()
-			   showSuccessOrErrorModal("获取软件信息失败","error");
-		   }
-		   
-		},
-		error:function(e) {
-			stopPageLoading()
-		   showSuccessOrErrorModal("获取软件信息请求出错了","error"); 
-		}
-	});
-}
-
-//刷新表格
-function querySchoolUser()
-{	
-	schoolUserTable.draw(); 
-};
-//新增软件按钮
-function addSoftware(){
-	$("#softdir_now_label").attr("style","display:none;");
-	$("#softdir_now_text").attr("style","display:none;");
-	$("#uuid_label").attr("style","display:none;");
-	$("#uuid_text").attr("style","display:none;");
-	$("#softLabel").attr("style","display:;");
-	$("#soft").attr("style","display:;");
-	$("#softwareForm")[0].reset();
-	$("#recordId").val("");
 }
 
 //删除软件
-function deleteSchoolUser(softwareId){
+function deleteBranch(branchId){
 	showConfirmModal("是否确定删除！",function(){
 		$.ajax({
-			url:"software/deleteWholeSoftware",
+			url:"branch/deleteBranch",
 			type:"post",
-			data:{"softwareId":softwareId},
+			data:{"branchId":branchId},
 			dataType:"text",
 			success:function(data) {
 				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 			    if(data.status=="success") {
 			        showSuccessOrErrorModal(data.msg,"success"); 
-			        schoolUserTable.draw(); //刷新表格
+			        branchTable.draw(); //刷新表格
 			    } else {
 			        showSuccessOrErrorModal(data.msg,"error");	
 			    }         
 			},
 			error:function(e) {
 				
-			    showSuccessOrErrorModal("删除软件请求出错了","error"); 
+			    showSuccessOrErrorModal("删除分支请求出错了","error"); 
 			}
 		});
 	});
@@ -406,10 +270,9 @@ function initSoftware(){
 
 function addBranch(){
 	var  softwareName = $("#cronSoftware option:checked").text();
-	var  softwareId = $("#cronSoftware").val();
-	$("#softwareId").val(softwareId);
 	$("#softwareName").val(softwareName);
 	$("#softwareName").attr("disabled", true);
+	$("#branchId").val("");
 	
 }
 
@@ -430,12 +293,13 @@ $(document).ready(function(){
 	timer = setInterval("showTime()",10000);
 	initKind();
 	initSoftware();
-	initSchoolUserTable();
+	initBranchTable();
 	// 表单验证(点击submit触发该方法)
 	$("#softwareForm").html5Validate(function() {
 		// TODO 验证成功之后的操作
 		var data = $("#softwareForm").serialize();
 		data+="&userId="+userId;
+		data+="&softwareId="+$("#cronSoftware").val();;
 		$.ajax({
 			url:"branch/saveBranch",
 			type:"post",
@@ -451,62 +315,7 @@ $(document).ready(function(){
 			    }         
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("增加软件分支出错了","error"); 
-			}
-		});	
-	}
-	);
-	
-	//更新图标
-	$("#editIconForm").html5Validate(function() {
-		// TODO 验证成功之后的操作
-		var data = $("#editAttributeForm").serialize();
-		var kind = $(":radio[name=\"type_attribute\"]:checked").val();
-		data+="&kind="+kind;
-		data+="&installType="+$("#cronInstallType_attribute").val();
-		$.ajax({
-			url:"software/updateSoftware",
-			type:"post",
-			data:data,
-			dataType:"json",
-			success:function(data) {
-			    if(data.status=="success") {
-			    	showSuccessOrErrorModal(data.msg,"success"); 
-			    	schoolUserTable.draw();
-			    	$("#attributeModal_edit").modal("hide");
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-			    showSuccessOrErrorModal("更新软件请求出错了","error"); 
-			}
-		});	
-	}
-	);
-	
-	//更新安装配置信息
-	$("#editInstallAttributeForm").html5Validate(function() {
-		// TODO 验证成功之后的操作
-		var data = $("#editInstallAttributeForm").serialize();
-		data+="&installType="+$("#cronInstallType_installAttribute").val();
-		data+="&multiFlag="+$("#cronMultiFlag").val();
-		$.ajax({
-			url:"software/updateInstallAttribute",
-			type:"post",
-			data:data,
-			dataType:"json",
-			success:function(data) {
-			    if(data.status=="success") {
-			    	showSuccessOrErrorModal(data.msg,"success"); 
-			    	schoolUserTable.draw();
-			    	$("#installAttributeModal_edit").modal("hide");
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-			    showSuccessOrErrorModal("更新安装配置信息请求出错了","error"); 
+			    showSuccessOrErrorModal("保存软件分支出错了","error"); 
 			}
 		});	
 	}

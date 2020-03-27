@@ -75,12 +75,12 @@
 	<update id="updateBranch" parameterType="java.util.HashMap">
 	   UPDATE software_branch
 	   	   SET
-		    branch=#{branch},
-			create_time=#{create_time},
-			description=#{description},
-			operater=#{operater},
+		    branch=#{branchName},
+			description=#{branchDescription},
+			create_time=NOW(),
+			operater=#{userId}
 		   WHERE
-		   	branch_id = #{branch_id}
+		   	branch_id = #{branchId}
 	</update>
 
 	<!-- 删除软件分支信息 -->

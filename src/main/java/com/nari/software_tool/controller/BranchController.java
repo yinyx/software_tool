@@ -54,6 +54,7 @@ public class BranchController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Map<String, Object> paramMap = new HashMap<String, Object>();
         //平台类型
+		paramMap.put("branchId", request.getParameter("branchId"));
         paramMap.put("softwareId", request.getParameter("softwareId"));
         paramMap.put("branchName", request.getParameter("branchName"));
         paramMap.put("branchDescription", request.getParameter("branchDescription"));
@@ -68,5 +69,50 @@ public class BranchController {
             resultMap.put("msg", "软件分支保存失败!");
         }
         return resultMap;
+    }
+	
+	@RequestMapping(value="/getBranchById",method=RequestMethod.POST)
+    public Object getBranchById(@RequestParam Map<String, Object> map){
+        JSONObject paramObj=AesUtil.GetParam(map);
+        String branchId = (String) paramObj.get("branchId");
+        Map<String, Object> branchData = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            branchData = branchService.getBranchById(branchId);
+            resultMap.put("status", "success");
+            resultMap.put("branchData", branchData);
+        }
+        catch(Exception e)
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "查询某条软件分支信息异常!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+	
+	@RequestMapping(value="/deleteBranch",method=RequestMethod.POST)
+    public Object deleteBranch(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        String branchId = request.getParameter("branchId");
+
+        try {
+            boolean flag = branchService.deleteBranch(branchId);
+            if(flag){
+                resultMap.put("status", "success");
+                resultMap.put("msg", "删除分支成功!");
+            }else{
+                resultMap.put("status", "error");
+                resultMap.put("msg", "删除分支失败!");
+            }
+        } catch(Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "删除分支失败!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
     }
 }

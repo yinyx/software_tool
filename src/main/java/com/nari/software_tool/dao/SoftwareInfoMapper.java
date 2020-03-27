@@ -75,5 +75,7 @@ public interface SoftwareInfoMapper {
 	void deleteSoftware(String softwareId);
 	
 	void updateSoftwareIcon(Map<String, Object> paramMap);
+	
+	List<Map<String, Object>> querySoftwaresByKind(String kindId);
 
 }

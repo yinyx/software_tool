@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SoftwareBranchMapper">
+	<!-- 根据软件Id获取软件分支列表信息  -->
+	<select id="queryBranchListBySoftwareId" resultType="java.util.HashMap">
+	   	SELECT
+			*
+		FROM
+			software_branch
+		WHERE
+            soft_id =  #{SoftwareId}
+	</select>
+
+    <!-- 根据软件Id获取软件分支列表 -->
+	<select id="queryBranchList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	   	SELECT
+			A.*,
+			B.name
+		FROM
+			software_branch A left join 
+			server_software B on A.soft_id = B.id
+		WHERE
+            A.soft_id =  #{SoftId}
+	    limit 
+		    #{start},#{length}
+	</select>
+
+	<!-- 获取软件种类总数 -->
+	<select id="queryBranchCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+ 		SELECT
+			COUNT(1)
+		FROM
+			software_branch
+		WHERE
+		    #{SoftId}
+	</select>
+
+	<!-- 根据分支Id获取软件分支信息  -->
+	<select id="getBranchById" resultType="java.util.HashMap">
+	   	SELECT
+			*
+		FROM
+			software_branch
+		WHERE
+            branch_id =  #{BranchId}
+	</select>
+
+	<!-- 新增软件分支信息 -->
+	<insert id="addBranch" parameterType="java.util.HashMap">
+		INSERT software_branch (
+	      branch_id,
+	      soft_id,
+		  branch,
+		  create_time,
+		  description,
+		  operater
+      	) VALUES (
+      		#{id},
+			#{softID},
+			"",
+			"",
+			"",
+			""
+  		)
+	</insert>
+
+	<!-- 更新软件分支信息 -->
+	<update id="updateBranch" parameterType="java.util.HashMap">
+	   UPDATE software_branch
+	   	   SET
+		    branch=#{branch},
+			create_time=#{create_time},
+			description=#{description},
+			operater=#{operater},
+		   WHERE
+		   	branch_id = #{branch_id}
+	</update>
+
+	<!-- 删除软件分支信息 -->
+	<delete id="deleteBranchByBranchId">
+        DELETE FROM software_branch WHERE branch_id = #{branch_id}
+    </delete>
+	
+	<!-- 删除软件的全部分支信息 -->
+	<delete id="deleteBranchBySoftwareId">
+        DELETE FROM software_branch WHERE soft_id = #{soft_id}
+    </delete>
+	
+	<!-- 判断软件分支名是否重复 -->
+	<select id="queryBranchNameIsRepeat" parameterType="java.lang.String" resultType="java.lang.Integer">
+	   SELECT
+			COUNT(1)
+		FROM
+			software_branch T
+		WHERE
+			T.branch = #{name}
+	</select>
+</mapper>

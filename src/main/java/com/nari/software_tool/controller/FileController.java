@@ -37,4 +37,14 @@ public class FileController {
     public String toTypeInfo(){
         return "Info_TypeInfo";
     }
+
+    @GetMapping(value="/Info_BranchInfo")
+    public String toBranchInfo(){
+        return "Info_BranchInfo";
+    }
+
+    @GetMapping(value="/Info_VersionInfo")
+    public String toVersionInfo(){
+        return "Info_VersionInfo";
+    }
 }

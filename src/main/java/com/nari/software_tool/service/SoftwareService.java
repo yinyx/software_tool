@@ -2,7 +2,7 @@ package com.nari.software_tool.service;
 
 import java.util.Map;
 import java.util.List;
-
+import com.nari.software_tool.entity.SoftwareInfo;
 import com.nari.software_tool.entity.DataTableModel;
 import com.nari.software_tool.entity.ScreenShotInfo;
 
@@ -34,4 +34,7 @@ public interface SoftwareService {
 	boolean queryScreenShot(ScreenShotInfo screenShotInfo);
 
 	boolean batchInsertScreenShots(List<ScreenShotInfo> screenShotInfoLists);
+
+    List<Map<String,Object>> querySoftwaresByKind(String kindId);
+    DataTableModel queryBranchList(Map<String, String> dataTableMap);
 }

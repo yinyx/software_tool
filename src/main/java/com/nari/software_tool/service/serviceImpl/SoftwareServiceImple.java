@@ -5,16 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.io.File;
 
-import com.nari.software_tool.dao.ScreenShotsMapper;
+import com.nari.software_tool.dao.*;
 import com.nari.software_tool.entity.ScreenShotInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nari.software_tool.service.SoftwareService;
-import com.nari.software_tool.dao.SoftwareInfoMapper;
-import com.nari.software_tool.dao.SoftwareKindMapper;
-import com.nari.software_tool.dao.SoftwareInstallMapper;
 import com.nari.software_tool.entity.DataTableModel;
 
 import util.aes.StringUtils;
@@ -34,6 +31,9 @@ public class SoftwareServiceImple implements SoftwareService{
 
     @Autowired
 	private ScreenShotsMapper screenShotsMapper;
+
+    @Autowired
+    private SoftwareBranchMapper softwareBranchMapper;
 
     @Override
 	public DataTableModel querySoftwaresList(Map<String, String> dataTableMap)
@@ -74,7 +74,37 @@ public class SoftwareServiceImple implements SoftwareService{
 		return count;
 	}
 
-	
+
+    @Override
+    public DataTableModel queryBranchList(Map<String, String> dataTableMap){
+        DataTableModel dataTableModel = new DataTableModel();
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        String sEcho = dataTableMap.get("sEcho");
+        String SoftwareId = dataTableMap.get("SoftwareId");
+
+        //if ((SoftwareId != null)&&(SoftwareId.equals("0")))
+        //{
+        //Kind = null;
+        //}
+
+        int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
+        int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
+
+        paramMap.put("start", start);
+        paramMap.put("length", length);
+        paramMap.put("SoftwareId", SoftwareId);
+
+        List<Map<String, Object>> resList = softwareBranchMapper.queryBranchList(paramMap);
+        Integer count = softwareBranchMapper.queryBranchCount(paramMap);
+
+        dataTableModel.setiTotalDisplayRecords(count);
+        dataTableModel.setiTotalRecords(count);
+        dataTableModel.setsEcho(Integer.valueOf(sEcho));
+        dataTableModel.setAaData(resList);
+
+        return dataTableModel;
+    }
+
 	@Override
 	public void saveSoftware(Map<String, Object> paramMap)
 	{
@@ -203,5 +233,11 @@ public class SoftwareServiceImple implements SoftwareService{
 	public boolean batchInsertScreenShots(List<ScreenShotInfo> screenShotInfoLists) {
     	return screenShotsMapper.insertScreenShots(screenShotInfoLists);
 	}
+
+    @Override
+    public List<Map<String,Object>> querySoftwaresByKind(String kindId){
+        List<Map<String, Object>> allSoftwares = softwareInfoMapper.querySoftwaresByKind(kindId);
+        return allSoftwares;
+    }
 }
 

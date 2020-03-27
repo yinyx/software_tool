@@ -91,6 +91,24 @@ public class SoftwareController {
         return enResult;
     }
 
+    @RequestMapping(value="/querySoftwaresByKind")
+    public Object querySoftwaresByKind(@RequestParam Map<String, Object> map){
+        JSONObject paramObj=AesUtil.GetParam(map);
+        String kindId = (String) paramObj.get("kindId");
+		Map<String, Object> resultMap=new HashMap<String,Object>();
+        try {
+            List<Map<String,Object>> dataList = softwareService.querySoftwaresByKind(kindId);
+            resultMap.put("status", "success");
+            resultMap.put("dataList",dataList);
+        } catch (Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "获取某一类软件列表信息异常!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+
     @RequestMapping(value="/querySoftwaresList",method=RequestMethod.POST)
     public Object  querySoftwaresList(@RequestBody DataTableParam[] dataTableParams){
 
@@ -130,6 +148,24 @@ public class SoftwareController {
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
+    }
+	
+	@RequestMapping(value="/getBranchConfigBySoftwareId",method=RequestMethod.POST)
+    public Object getBranchConfigBySoftwareId(@RequestBody DataTableParam[] dataTableParams){
+        DataTableModel dataTableModel = new DataTableModel();
+        Map<String, String> dataTableMap = DatatableUtil.convertToMap(dataTableParams);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            dataTableModel = softwareService.queryBranchList(dataTableMap);
+            resultMap.put("status", "success");
+            resultMap.put("BranchsData", dataTableModel);
+        }
+        catch(Exception e)
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "查询软件分支信息异常!");
+        }
+        return resultMap;
     }
 	
 	@RequestMapping(value="/getInstallConfigBySoftwareId",method=RequestMethod.POST)

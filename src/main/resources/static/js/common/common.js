@@ -85,13 +85,17 @@ $(document).ready(function(){
 
 //加载菜单
 function loadMenu(){
-	var topMenuHtml = "<li class=\"classic-menu-dropdown\" data-url=\"#\" data-id=\"200\" onclick=\"onLoadLeftMenu('200')\"><a href=\"javascript:;\"><img alt=\"\" class=\"img-circle\" src=\"static/images/common/configs.png\"/>&nbsp;&nbsp;基本配置</a></li>";
+	var topMenuHtml = "<li class=\"classic-menu-dropdown\" data-url=\"#\" data-id=\"200\" onclick=\"onLoadLeftMenu('200')\"><a href=\"javascript:;\"><img alt=\"\" class=\"img-circle\" src=\"images/common/configs.png\"/>&nbsp;&nbsp;基本配置</a></li>";
 	var leftMenuHtml200 = 
-		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_SoftwareInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"static/images/common/software.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;软件信息</span><span class=\"selected\"></span></a>"+
-		"</li>"+	
-		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_TypeInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"static/images/common/dir.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;类别信息</span><span class=\"selected\"></span></a>"+
+		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_TypeInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"images/common/dir.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;类别信息</span><span class=\"selected\"></span></a>"+
 		"</li>"+
-		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_UserInfo\" onclick=\"onLoadContent(this)\"> <img alt=\"\" class=\"img-circle\" src=\"static/images/common/user.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;用户信息</span><span class=\"selected\"></span></a>"+
+		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_SoftwareInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"images/common/software.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;软件信息</span><span class=\"selected\"></span></a>"+
+		"</li>"+
+		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_BranchInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"images/common/sb.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;分支信息</span><span class=\"selected\"></span></a>"+
+		"</li>"+
+		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_VersionInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"images/common/version.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;版本信息</span><span class=\"selected\"></span></a>"+
+		"</li>"+		
+		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_UserInfo\" onclick=\"onLoadContent(this)\"> <img alt=\"\" class=\"img-circle\" src=\"images/common/user.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;用户信息</span><span class=\"selected\"></span></a>"+
 		"</li>";
 	locache.set("200",leftMenuHtml200);
 	locache.set("topMenuHtml",topMenuHtml);

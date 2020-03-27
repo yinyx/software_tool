@@ -242,7 +242,18 @@
     </foreach>
     </update>
 	
-	<!-- 获取软件种类列表 -->
+    <!-- 根据软件种类获取软件列表 -->
+	<select id="querySoftwaresByKind" resultType="java.util.Map">
+        SELECT 
+		      id,
+			  name 
+	    FROM 
+		      server_software 
+	    WHERE 
+		      kind=#{kindId}
+	</select>
+	
+	<!-- 分页获取软件列表 -->
 	<select id="querySoftwaresList" parameterType="java.util.Map" resultType="java.util.Map">
 		<if test="Kind != null">
             SELECT * FROM server_software WHERE kind=#{Kind} limit #{start},#{length}
@@ -252,7 +263,7 @@
 		</if>
 	</select>
 
-	<!-- 获取软件种类总数 -->
+	<!-- 获取软件总数 -->
 	<select id="querySoftwaresCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		<if test="Kind != null">
  		SELECT

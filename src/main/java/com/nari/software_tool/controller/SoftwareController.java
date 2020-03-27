@@ -1,6 +1,7 @@
 package com.nari.software_tool.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nari.software_tool.entity.ScreenShotInfo;
 import com.nari.software_tool.entity.SoftwareInfo;
 import com.nari.software_tool.service.FileService;
 import com.nari.software_tool.service.SoftwareService;
@@ -26,10 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -412,12 +411,9 @@ public class SoftwareController {
     @ResponseBody
     public String downloadSoftware(HttpServletRequest request,HttpServletResponse response) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        Map<String,String[]> res = request.getParameterMap();
-        System.out.println("-----"+ Arrays.toString(res.get("fileName"))
-                +"  "+ Arrays.toString(res.get("softwareUrl")) +"-----");
-        String fileName = Arrays.toString(res.get("fileName")).substring(Arrays.toString(res.get("fileName")).indexOf("[")+1,Arrays.toString(res.get("fileName")).indexOf("]"));
+        String fileName = (request.getParameter("fileName"));
         if(fileName != null){
-            File file = new File(Arrays.toString(res.get("softwareUrl")).substring(Arrays.toString(res.get("softwareUrl")).indexOf("[")+1,Arrays.toString(res.get("softwareUrl")).indexOf("]")));
+            File file = new File(request.getParameter("softwareUrl"));
             if(file.exists()){
                 response.setContentType("application/force-download");
                 response.addHeader("Content-Disposition","attachment;fileName="+fileName);
@@ -446,4 +442,51 @@ public class SoftwareController {
         jsonObject.put("result","failure");
         return jsonObject.toString();
     }
+
+    @PostMapping("/uploadBatchScreenShots")
+    @ResponseBody
+    public JSONObject uploadBatchScreenShots(@RequestParam("screenShots") MultipartFile[] files,@RequestParam("softwareId") String softwareId) throws IOException {
+        JSONObject jsonObject = new JSONObject();
+        List<String> nameLst = new ArrayList<>();
+        //批量存储文件至本地file文件夹
+        File fileDir = new File(iconPath);
+        String path = fileDir.getAbsolutePath();
+        if(!fileDir.exists()){
+            fileDir.mkdir();
+        }
+        MultipartFile multipartFile;
+        for(int i=0;i<files.length;i++){
+            multipartFile = files[i];
+            String fileName = multipartFile.getOriginalFilename();
+            nameLst.add(fileName);
+            multipartFile.transferTo(new File(path,fileName));
+        }
+        List<ScreenShotInfo> lst = new ArrayList<>();
+        SimpleDateFormat df = new SimpleDateFormat("yyMMdd");//设置日期格式
+        Map<String,Object> sfMap = softwareService.getSoftwareById(softwareId);
+        for (int i=0;i<files.length;i++) {
+            String shotName = nameLst.get(i);
+            ScreenShotInfo ss = new ScreenShotInfo();
+                    ss.setSoftName((String) sfMap.get("name"));
+                    ss.setCreateTime(df.format(new Date()));
+                    ss.setId(softwareId);
+                    ss.setShotsName(shotName);
+                    ss.setUrl(path+"\\"+shotName);
+                    ss.setShotId(i);
+                lst.add(ss);
+        }
+        System.out.println(lst.toString());
+        try{
+                if(softwareService.batchInsertScreenShots(lst)){
+                    jsonObject.put("status","success");
+                }else{
+                    jsonObject.put("status","failure");
+                }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return jsonObject;
+    }
+
 }

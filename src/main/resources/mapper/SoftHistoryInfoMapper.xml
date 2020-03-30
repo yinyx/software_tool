@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nari.software_tool.dao.SoftHistoryInfoMapper">
     <resultMap id="SoftInstallResultMap" type="com.nari.software_tool.entity.SoftHistoryInfo">
-        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="historyId" column="history_id" jdbcType="VARCHAR"/>
         <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
         <result property="branchId" column="branch_id" jdbcType="INTEGER"/>
         <result property="historyVersion" column="history_version" jdbcType="VARCHAR"/>
@@ -16,6 +16,129 @@
         <result property="appPktSize" column="appPkt_size" jdbcType="INTEGER"/>
         <result property="appPktMd5" column="appPkt_md5" jdbcType="VARCHAR"/>        <result property="appPktSize" column="operator" jdbcType="VARCHAR"/>
     </resultMap>
+    <!-- 根据软件Id获取软件历史版本列表信息  -->
+    <select id="queryHistoryListBySoftwareId" resultType="java.util.HashMap">
+        SELECT
+               history_id,
+               soft_id,
+               branch_id,
+               history_version,
+               history_path,
+               upload_date,
+               operator,
+               appPkt_date,
+               appPkt_new,
+               appPkt_path,
+               appPkt_size,
+               appPkt_md5
+        FROM
+             software_history
+        WHERE
+              soft_id =  #{softId,jdbcType=VARCHAR}
+    </select>
 
+    <select id="queryHistoryById" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT
+               history_id,
+               soft_id,
+               branch_id,
+               history_version,
+               history_path,
+               upload_date,
+               operator,
+               appPkt_date,
+               appPkt_new,
+               appPkt_path,
+               appPkt_size,
+               appPkt_md5
+        FROM
+             software_history
+        WHERE
+                history_id =  #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据软件Id获取软件历史版本列表 -->
+    <select id="queryHistoryList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+               software_history.history_id,
+               software_history.soft_id,
+               software_history.branch_id,
+               history_version,
+               history_path,
+               upload_date,
+               operator,
+               appPkt_date,
+               appPkt_new,
+               appPkt_path,
+               appPkt_size,
+               appPkt_md5,
+               server_software.name,
+              software_branch.branch
+        FROM
+            software_history left join server_software on software_history.soft_id = server_software.id
+            left join software_branch on software_history.soft_id = software_branch.soft_id
+        WHERE 1=1
+            <if test='Kind != null and Kind != "0" '>
+                AND server_software.kind = #{Kind,jdbcType=VARCHAR}
+            </if>
+            <if test='softId != null and softId != "0"'>
+                AND software_history.soft_id = #{softId,jdbcType=VARCHAR}
+            </if>
+            <if test='branchId != null and branchId !="0"'>
+                AND software_history.branch_id = #{branchId,jdbcType=VARCHAR}
+            </if>
+        limit
+              #{start},#{length}
+    </select>
+
+    <!-- 获取软件种类总数 -->
+    <select id="queryHistoryCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+            SELECT
+              COUNT(1)
+            FROM
+            software_history left join server_software on software_history.soft_id = server_software.id
+            left join software_branch on software_history.soft_id = software_branch.soft_id
+        WHERE 1=1
+                <if test='Kind != null and Kind != "0"'>
+                    AND server_software.kind = #{Kind,jdbcType=VARCHAR}
+                </if>
+                <if test='softId != null and softId != "0"'>
+                    AND software_history.soft_id = #{softId,jdbcType=VARCHAR}
+                </if>
+                <if test='branchId != null and branchId !="0"'>
+                    AND software_history.branch_id = #{branchId,jdbcType=VARCHAR}
+                </if>
+    </select>
+
+    <insert id="addVersion" parameterType="java.util.HashMap">
+        INSERT software_history (
+                history_id,
+                soft_id,
+                branch_id,
+                history_version,
+                history_path,
+                upload_date,
+                operator,
+                appPkt_date,
+                appPkt_new,
+                appPkt_path,
+                appPkt_size,
+                appPkt_md5
+                )
+        VALUES (
+                     #{historyId},
+                     #{softId},
+                     #{branchId},
+                     #{historyVersion},
+                     #{historyPath},
+                     #{uploadDate},
+                     #{operator},
+                     #{appPktDate},
+                     #{appPktNew},
+                     #{appPktPath},
+                     #{appPktSize},
+                     #{appPktMd5}
+             )
+    </insert>
 
 </mapper>

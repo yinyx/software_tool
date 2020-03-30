@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public class SoftHistoryInfo {
     //编号
-    private int id;
+    private String historyId;
 
     private String softId;
 
@@ -36,12 +36,12 @@ public class SoftHistoryInfo {
 
     private String appPktMd5;
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return historyId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String historyId) {
+        this.historyId = historyId;
     }
 
     public String getSoftId() {
@@ -135,7 +135,7 @@ public class SoftHistoryInfo {
     @Override
     public String toString() {
         return "SoftHistoryInfo{" +
-                "id=" + id +
+                "historyId=" + historyId +
                 ", softId='" + softId + '\'' +
                 ", branchId='" + branchId + '\'' +
                 ", historyVersion='" + historyVersion + '\'' +

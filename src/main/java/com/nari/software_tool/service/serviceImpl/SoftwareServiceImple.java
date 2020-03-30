@@ -59,7 +59,6 @@ public class SoftwareServiceImple implements SoftwareService{
         paramMap.put("start", start);
         paramMap.put("length", length);
 		paramMap.put("Kind", Kind);
-
         List<Map<String, Object>> resList = softwareInfoMapper.querySoftwaresList(paramMap);
         Integer count = softwareInfoMapper.querySoftwaresCount(paramMap);
 
@@ -98,7 +97,7 @@ public class SoftwareServiceImple implements SoftwareService{
 			paramMap.put("userId", (String) paramMap.get("userId"));
 			softwareBranchMapper.addBranch(paramMap);
 			//增加版本记录
-			paramMap.put("softId",paramMap.get("soft_id"));
+			paramMap.put("softId",paramMap.get("id"));
 			paramMap.put("historyId",StringUtils.getUUId());
 			paramMap.put("operator",paramMap.get("userId"));
 			SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );

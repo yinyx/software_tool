@@ -1,15 +1,13 @@
 package com.nari.software_tool.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nari.software_tool.entity.ScreenShotInfo;
-import com.nari.software_tool.entity.SoftwareInfo;
+import com.nari.software_tool.entity.*;
 import com.nari.software_tool.service.FileService;
 import com.nari.software_tool.service.SoftwareService;
 import com.nari.software_tool.service.SoftwareKindService;
-import com.nari.software_tool.entity.DataTableModel;
-import com.nari.software_tool.entity.DataTableParam;
 
 import util.aes.DatatableUtil;
+import util.aes.MD5.MD5Util;
 import util.aes.StringUtils;
 import util.aes.AesUtil;
 import net.sf.json.JSONObject;
@@ -27,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
@@ -366,7 +365,11 @@ public class SoftwareController {
 		//设置软件大小，暂时设为0
 		softwareInfo.setSize("0");
 		paramMap.put("size","0");
-		
+
+		//配置历史版本记录
+        paramMap.put("historyVersion",softwareInfo.getLatestVersion());
+		paramMap.put("historyPath",softwareInfo.getFilePath());
+        paramMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
 		//数据库增加记录
 		softwareService.saveSoftware(paramMap);
 
@@ -480,13 +483,13 @@ public class SoftwareController {
             multipartFile.transferTo(new File(path,fileName));
         }
         List<ScreenShotInfo> lst = new ArrayList<>();
-        SimpleDateFormat df = new SimpleDateFormat("yyMMdd");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );//设置日期格式
         Map<String,Object> sfMap = softwareService.getSoftwareById(softwareId);
 
         for (int i=0;i<files.length;i++) {
             String shotName = nameLst.get(i);
             ScreenShotInfo ss = new ScreenShotInfo();
-                    ss.setScreenId(UUID.randomUUID().toString().replace("-", ""));
+                    ss.setScreenId(StringUtils.getUUId());
                     ss.setSoftName((String) sfMap.get("name"));
                     ss.setCreateTime(df.format(new Date()));
                     ss.setId(softwareId);

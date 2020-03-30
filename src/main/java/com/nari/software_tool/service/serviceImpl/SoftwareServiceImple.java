@@ -1,5 +1,7 @@
 package com.nari.software_tool.service.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,9 @@ public class SoftwareServiceImple implements SoftwareService{
 
     @Autowired
     private SoftwareBranchMapper softwareBranchMapper;
+
+    @Autowired
+    private SoftHistoryInfoMapper softHistoryInfoMapper;
 
     @Override
 	public DataTableModel querySoftwaresList(Map<String, String> dataTableMap)
@@ -79,6 +84,7 @@ public class SoftwareServiceImple implements SoftwareService{
 	{
         String recordId = (String) paramMap.get("id");
         if (StringUtils.isEmpty(recordId)) {
+		try{
 			paramMap.put("id", StringUtils.getUUId());
             paramMap.put("soft_id", StringUtils.getUUId());
             softwareInfoMapper.addSoftware(paramMap);
@@ -91,9 +97,26 @@ public class SoftwareServiceImple implements SoftwareService{
 			paramMap.put("branchDescription", (String) paramMap.get("briefIntroduction"));
 			paramMap.put("userId", (String) paramMap.get("userId"));
 			softwareBranchMapper.addBranch(paramMap);
-			
+			//增加版本记录
+			paramMap.put("softId",paramMap.get("soft_id"));
+			paramMap.put("historyId",StringUtils.getUUId());
+			paramMap.put("operator",paramMap.get("userId"));
+			SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
+			paramMap.put("uploadDate",sdf.format(new Date()));
+			paramMap.put("appPktDate",sdf.format(new Date()));
+			paramMap.put("appPktNew","");
+			paramMap.put("appPktPath",paramMap.get("file_path"));
+			paramMap.put("appPktSize",paramMap.get("size"));
+			softHistoryInfoMapper.addVersion(paramMap);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         } else {
-            softwareInfoMapper.updateSoftware(paramMap);
+        	try {
+				softwareInfoMapper.updateSoftware(paramMap);
+			}catch(Exception e){
+        		e.printStackTrace();
+			}
         }
 	}
 	

@@ -39,7 +39,7 @@
 		FROM
 			software_branch
 		WHERE
-		    #{SoftId}
+		    soft_id = #{SoftId}
 	</select>
 
 	<!-- 根据分支Id获取软件分支信息  -->

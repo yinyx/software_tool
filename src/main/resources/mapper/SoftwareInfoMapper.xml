@@ -263,22 +263,16 @@
 		</if>
 	</select>
 
-	<!-- 获取软件总数 -->
+	<!-- 获取软件总数 -->	
 	<select id="querySoftwaresCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-		<if test="Kind != null">
- 		SELECT
+		SELECT
 			COUNT(1)
 		FROM
 			server_software
+		<if test='Kind != null and Kind != "0" '>
 		WHERE
      		kind=#{Kind}
-		</if>
-		<if test="Kind == null">
- 		SELECT
-			COUNT(1)
-		FROM
-			server_software
-		</if>
+        </if>	
 	</select>
 	
 	<!-- 新增软件信息 -->

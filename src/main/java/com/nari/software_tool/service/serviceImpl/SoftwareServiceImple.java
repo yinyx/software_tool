@@ -9,6 +9,8 @@ import java.io.File;
 
 import com.nari.software_tool.dao.*;
 import com.nari.software_tool.entity.ScreenShotInfo;
+import com.nari.software_tool.entity.User;
+import com.nari.software_tool.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class SoftwareServiceImple implements SoftwareService{
 
     @Autowired
     private SoftHistoryInfoMapper softHistoryInfoMapper;
+
+    @Autowired
+	private UserService userService;
 
     @Override
 	public DataTableModel querySoftwaresList(Map<String, String> dataTableMap)
@@ -99,7 +104,8 @@ public class SoftwareServiceImple implements SoftwareService{
 			//增加版本记录
 			paramMap.put("softId",paramMap.get("id"));
 			paramMap.put("historyId",StringUtils.getUUId());
-			paramMap.put("operator",paramMap.get("userId"));
+			Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
+			paramMap.put("operator",userMap.get("user_name"));
 			SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
 			paramMap.put("uploadDate",sdf.format(new Date()));
 			paramMap.put("appPktDate",sdf.format(new Date()));

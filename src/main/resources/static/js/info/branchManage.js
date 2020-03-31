@@ -280,6 +280,11 @@ function addBranch(){
 
 $("select#cronKind").change(function(){
    initSoftware();
+   branchTable.draw();
+});
+
+$("select#cronSoftware").change(function(){
+   branchTable.draw();
 });
 
 $(document).ready(function(){
@@ -290,6 +295,7 @@ $(document).ready(function(){
 	}else{
 		//parent.location.href = jQuery.getBasePath() + "/login.html";
 	}
+	$("#queryButton").hide();
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);

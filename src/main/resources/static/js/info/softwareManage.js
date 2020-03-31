@@ -550,7 +550,7 @@ function ScreenShotConfig(softwareId){
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
-        window.location.reload();
+        //window.location.reload();
     });
 
     files.addEventListener("change",function () {
@@ -582,6 +582,7 @@ function ScreenShotConfig(softwareId){
             contentType : false, // 不要设置Content-Type请求头
             success:function(data) {
                 if(data.status == "success") {
+					showSuccessOrErrorModal("获取截图信息成功","error");
                     stopPageLoading();
                 	console.log(data.status);
                 } else {
@@ -598,6 +599,10 @@ function ScreenShotConfig(softwareId){
     };
 }
 
+$("select#cronKind").change(function(){
+   schoolUserTable.draw();
+});
+
 $(document).ready(function(){
 	//判断是否登录
 	userMap = isLogined();
@@ -606,6 +611,7 @@ $(document).ready(function(){
 	}else{
 		//parent.location.href = jQuery.getBasePath() + "/login.html";
 	}
+	$("#queryButton").hide();
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);

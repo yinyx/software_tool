@@ -273,6 +273,8 @@ function addBranch(){
 	$("#softwareName").val(softwareName);
 	$("#softwareName").attr("disabled", true);
 	$("#branchId").val("");
+	$("#branchName").val("");
+	$("#branchDescription").val("");
 	
 }
 

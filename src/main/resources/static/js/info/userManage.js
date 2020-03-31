@@ -25,7 +25,7 @@ function initSchoolUserTable() {
 		// 服务器回调函数 
 		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
 		{
-			
+
 			$.ajax({
 				type: "POST",
 				url: sSource,

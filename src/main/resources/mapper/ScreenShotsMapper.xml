@@ -9,7 +9,7 @@
         <result property="shotsName" column="shots_name" jdbcType="VARCHAR"/>
         <result property="url" column="url" jdbcType="VARCHAR"/>
         <result property="shotId" column="shot_id" jdbcType="INTEGER"/>
-        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <select id="getScreenShotsList" resultMap="ScreenShotsResultMap">
@@ -55,7 +55,7 @@
             #{screenShots.shotsName,jdbcType=VARCHAR},
             #{screenShots.url,jdbcType=VARCHAR},
             #{screenShots.shotId,jdbcType=INTEGER},
-            #{screenShots.createTime,jdbcType=VARCHAR})
+            #{screenShots.createTime,jdbcType=TIMESTAMP})
         </foreach>
     </insert>
 </mapper>

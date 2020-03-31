@@ -76,6 +76,13 @@ public class VersionServiceImple implements VersionService {
         return false;
     }
 
+    @Override
+    public int updateVersion(Map<String, Object> paramMap) {
+
+
+        return softHistoryInfoMapper.updateVersion(paramMap);
+    }
+
 
 }
 

@@ -23,4 +23,6 @@ public interface SoftHistoryInfoMapper {
     int queryHistoryCount(Map<String, Object> paramMap);
 
     int addVersion(Map<String, Object> paramMap);
+
+    int updateVersion(Map<String,Object> paramMap);
 }

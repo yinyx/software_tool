@@ -97,8 +97,7 @@ function initSchoolUserTable() {
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
 				 var content = "";
-				  content = '<button class="btn btn-xs blue" onclick="EditIcon(\''+row.history_id+'\') " data-toggle="modal" data-target="#"> 编辑 </button>' +
-				 '<button class="btn btn-xs red" onclick="deleteVersion(\''+row.history_id+'\')"> 删除版本 </button>';
+				  content = '<button class="btn btn-xs blue" onclick="updateVersion(\''+row.history_id+'\') " data-toggle="modal" data-target="#"> 更新版本 </button>' ;
 		         return content;
 		      } 
 		 }]
@@ -225,7 +224,7 @@ function EditAttribute(softwareId){
 }
 
 // 点击编辑图标按钮
-function EditIcon(historyId){
+function updateVersion(historyId){
 	console.log(historyId);
 	startPageLoading();
 	var data = {"historyId":historyId};
@@ -242,13 +241,10 @@ function EditIcon(historyId){
 		   if(data.status=="success") {
 			   $("#recordId_icon").val(historyId);
                var versionData = data.versionData;
-               $("#softwareName_icon").attr("disabled", true);
-               $("#icon_now_text").attr("disabled", true);
-			   $("#softwareName_icon").val(versionData.name);
-               $("#icon_now_text").val(versionData.icon);
-               var html = '<img src='+versionData.icon+'>';
-               $("#icon_now_show").html(html);			   
-               $('#iconModal_edit').modal('show');
+			   $("#softwareName_icon").val(versionData.name).attr("disabled", true);
+               $("#nowBranch").val(versionData.branch).attr("disabled", true);
+               $("#nowVersion").val(versionData.history_version).attr("disabled", true);
+               $('#versionModal_edit').modal('show');
                stopPageLoading()
 		   } else {
 			   stopPageLoading();
@@ -257,10 +253,36 @@ function EditIcon(historyId){
 		   
 		},
 		error:function(e) {
-			stopPageLoading()
+			stopPageLoading();
 		   showSuccessOrErrorModal("获取软件信息请求出错了","error"); 
 		}
 	});
+    var fileCatcher = document.getElementById("updateVersionForm");
+    var upSoft = document.getElementById("up_soft");
+
+    fileCatcher.addEventListener("submit",function (event) {
+        event.preventDefault();
+        sendFile();
+        window.location.reload();
+    });
+    $("#versionModal_edit").on('hide.bs.modal', function () {
+        document.getElementById("up_soft").value = "";
+        document.getElementById("updateVersionForm").reset();
+    });
+    sendFile = function () {
+        var formData = new FormData();
+        var request = new XMLHttpRequest();
+        formData.append("upFile",upSoft.files[0]);
+        var appPktNew =  $("#update_description").val();
+		var versionObj  = {
+			"historyId":historyId,
+			"appPktNew":appPktNew,
+			"userId":userId
+		};
+        formData.append("versionObj",JSON.stringify(versionObj));
+        request.open("POST","history/updateVersion");
+        request.send(formData);
+    };
 }
 function queryVersion() {//条件查询同步日志
     branchTable.ajax.reload();

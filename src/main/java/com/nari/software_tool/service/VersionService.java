@@ -20,4 +20,6 @@ public interface VersionService {
     boolean deleteBranch(String BranchId);
 	
 	boolean queryBranchNameIsRepeat(String BranchName);
+
+	int updateVersion(Map<String,Object> paramMap);
 }

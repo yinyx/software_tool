@@ -3,13 +3,21 @@ package com.nari.software_tool.controller;
 import com.nari.software_tool.entity.DataTableModel;
 import com.nari.software_tool.entity.DataTableParam;
 import com.nari.software_tool.service.BranchService;
+import com.nari.software_tool.service.UserService;
 import com.nari.software_tool.service.VersionService;
 import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import util.aes.AesUtil;
 import util.aes.DatatableUtil;
+import util.aes.MD5.MD5Util;
+import util.aes.StringUtils;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +32,9 @@ public class VersionController {
 
     @Resource
     private BranchService branchService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value="/queryHistoryList",method=RequestMethod.POST)
     public Object  queryHistoryList(@RequestBody DataTableParam[] dataTableParams){
@@ -80,4 +91,62 @@ public class VersionController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
+
+    @PostMapping("/updateVersion")
+    @ResponseBody
+    public JSONObject updateVersion(@RequestParam("upFile") MultipartFile upFile, @RequestParam("versionObj") String versionObj){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject versionJson = JSONObject.fromObject(versionObj);
+        Map<String, Object> paramMap = versionJson;
+        Map<String,Object> versionMap = versionService.getHistoryById((String) paramMap.get("historyId"));
+        System.out.println(versionMap.toString()+"-------------");
+        String oldVersionpath = (String) versionMap.get("appPkt_path");
+        File oldVersionpathDir = new File(oldVersionpath);
+        String oldVersionDirAbsolutePath = oldVersionpathDir.getAbsolutePath();
+        if (!StringUtils.isEmpty(oldVersionDirAbsolutePath))
+        {
+            File file = new File(oldVersionDirAbsolutePath+"\\");
+            if (file.isFile()) {
+                file.delete();
+                System.out.println("文件已删除");
+            }
+        }
+        String[] pathArray = oldVersionpath.split("\\\\");
+        String upFileName = upFile.getOriginalFilename();
+        pathArray[pathArray.length-1] = upFileName;
+
+        String newPath = pathArray[0];
+        for(int i = 1; i < pathArray.length; i++) {
+            newPath = newPath + "\\" + pathArray[i];
+        }
+        //存储版本；
+        File versionDir = new File(newPath);
+        String versionDirAbsolutePath = versionDir.getAbsolutePath();
+        if(!versionDir.exists()){
+            versionDir.mkdir();
+        }
+        try {
+            upFile.transferTo(new File(versionDirAbsolutePath,upFileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try{
+            paramMap.put("historyPath",newPath);
+            paramMap.put("appPktPath",newPath);
+            SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
+            paramMap.put("appPktDate",sdf.format(new Date()));
+            paramMap.put("uploadDate",sdf.format(new Date()));
+            Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
+            paramMap.put("operator",userMap.get("user_name"));
+            paramMap.put("appPktSize",0);
+            paramMap.put("appPktMd5", MD5Util.getFileMD5String(new File(versionDirAbsolutePath,upFileName)));
+            //数据库更新记录
+            versionService.updateVersion(paramMap);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 }

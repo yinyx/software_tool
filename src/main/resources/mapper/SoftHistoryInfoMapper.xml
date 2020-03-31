@@ -40,8 +40,10 @@
     <select id="queryHistoryById" parameterType="java.lang.String" resultType="java.util.HashMap">
         SELECT
                history_id,
-               soft_id,
-               branch_id,
+               software_history.soft_id,
+               server_software.name,
+               software_history.branch_id,
+               software_branch.branch,
                history_version,
                history_path,
                upload_date,
@@ -52,7 +54,8 @@
                appPkt_size,
                appPkt_md5
         FROM
-             software_history
+             software_history left join server_software on software_history.soft_id = server_software.id
+            left join software_branch on software_history.branch_id = software_branch.branch_id
         WHERE
                 history_id =  #{id,jdbcType=VARCHAR}
     </select>
@@ -140,5 +143,20 @@
                      #{appPktMd5}
              )
     </insert>
+
+    <!-- 更新软件分支信息 -->
+    <update id="updateVersion" parameterType="java.util.HashMap">
+        UPDATE software_history
+        SET
+            history_path=#{historyPath,jdbcType=VARCHAR},
+            operator=#{operator,jdbcType=VARCHAR},
+            upload_date=#{uploadDate,jdbcType=TIMESTAMP},
+            appPkt_path=#{appPktPath,jdbcType=VARCHAR},
+            appPkt_new=#{appPktNew,jdbcType=VARCHAR},
+            appPkt_size=#{appPktSize,jdbcType=INTEGER},
+            appPkt_md5=#{appPktMd5,jdbcType=VARCHAR}
+        WHERE
+            history_id = #{historyId,jdbcType=VARCHAR}
+    </update>
 
 </mapper>

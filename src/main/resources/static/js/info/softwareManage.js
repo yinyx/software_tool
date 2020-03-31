@@ -215,8 +215,10 @@ function EditAttribute(softwareId){
 			   $("#softwareName_attribute").val(softwareData.name);	
                $("#softwareName_enattribute").val(softwareData.name_en);
                $("#uuid_text_attribute").val(softwareData.soft_id);
+			   $("#uuid_text_attribute").attr("disabled", true);
 			   $("#description_attribute").val(softwareData.brief_introduction);
 			   $("#version_attribute").val(softwareData.latest_version);	
+			   $("#version_attribute").attr("disabled", true);
 			   $("input[type='radio']").each(function(){
 				   if($(this).val()==softwareData.kind){
 					   $(this).prop("checked",true)

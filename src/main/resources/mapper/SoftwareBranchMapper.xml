@@ -94,12 +94,14 @@
     </delete>
 	
 	<!-- 判断软件分支名是否重复 -->
-	<select id="queryBranchNameIsRepeat" parameterType="java.lang.String" resultType="java.lang.Integer">
+	<select id="queryBranchNameIsRepeat" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 	   SELECT
 			COUNT(1)
 		FROM
 			software_branch T
 		WHERE
-			T.branch = #{name}
+			T.branch = #{branchName}
+		AND
+		    T.soft_id = #{softwareId}
 	</select>
 </mapper>

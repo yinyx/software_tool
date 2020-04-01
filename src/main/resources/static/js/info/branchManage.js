@@ -326,6 +326,35 @@ $(document).ready(function(){
 			    showSuccessOrErrorModal("保存软件分支出错了","error"); 
 			}
 		});	
-	}
-	);
+	});
+	
+	$("#branchName").on('change blur',function(e){
+		    var branchName = this.value;
+			var self = this;
+			var softwareId = $("#cronSoftware").val();
+		    $.ajax({
+			url:"branch/queryBranchNameIsRepeat",
+			type:"post",
+			data:{branchName:branchName,
+			      softwareId:softwareId},
+			dataType:"json",
+			success:function(data) {
+				console.log(data)
+			    if(data.status=="success") {
+			    	if(!data.flag){
+			    		console.log(self)
+		 		        if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
+		 		            $(self).testRemind("当前软件的该分支名已存在，请确认"); 
+		 		            $(self).focus();
+		 		        }    
+			    	}
+			    } else {
+			        showSuccessOrErrorModal(data.msg,"error");	
+			    }         
+			},
+			error:function(e) {
+			    showSuccessOrErrorModal("请求查询分支是否重名出错了","error"); 
+			}
+		});
+	});
 });

@@ -82,8 +82,8 @@ public class BranchServiceImple implements BranchService{
     }
 	
 	@Override
-    public boolean queryBranchNameIsRepeat(String branchName) {
-        Integer count = branchMapper.queryBranchNameIsRepeat(branchName);
+    public boolean queryBranchNameIsRepeat(Map<String, Object> paramMap) {
+        Integer count = branchMapper.queryBranchNameIsRepeat(paramMap);
         if (count == 0) {
             return true;
         } else {

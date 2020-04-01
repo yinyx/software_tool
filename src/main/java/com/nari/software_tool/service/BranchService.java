@@ -16,7 +16,7 @@ public interface BranchService {
 
     boolean deleteBranch(String BranchId);
 	
-	boolean queryBranchNameIsRepeat(String BranchName);
+	boolean queryBranchNameIsRepeat(Map<String, Object> paramMap);
 
     List<Map<String,Object>> queryBranchList(String softId);
 }

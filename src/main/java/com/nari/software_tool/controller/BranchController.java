@@ -115,4 +115,23 @@ public class BranchController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
+	
+	@RequestMapping(value="/queryBranchNameIsRepeat",method=RequestMethod.POST)
+    public Object  queryBranchNameIsRepeat(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap=new HashMap<String,Object>();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+				
+		paramMap.put("branchName", request.getParameter("branchName"));
+        paramMap.put("softwareId", request.getParameter("softwareId"));
+        boolean flag = false;
+        try {
+            flag = branchService.queryBranchNameIsRepeat(paramMap);
+            resultMap.put("status", "success");
+            resultMap.put("flag",flag);
+        } catch (Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "获取软件分支名是否重复失败!");
+        }
+        return resultMap;
+    }
 }

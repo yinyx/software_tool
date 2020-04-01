@@ -11,7 +11,9 @@ public enum Result{
 
     HISTORY_RESP(1,"历史版本列表"),
 
-    PACKET_RESP(2,"程序包信息");
+    PACKET_RESP(2,"程序包信息"),
+
+    USER_RESP(3,"用户信息");
 
     private int code;
     private String description;

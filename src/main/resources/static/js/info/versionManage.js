@@ -529,9 +529,15 @@ function initBranch(){
 
 $("select#cronKind").change(function(){
    initSoftware();
+    queryVersion();
 });
 $("select#cronSoftware").change(function(){
     initBranch();
+    queryVersion();
+});
+
+$("select#cronBranch").change(function(){
+    queryVersion();
 });
 
 $(document).ready(function(){

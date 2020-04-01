@@ -15,6 +15,8 @@ import java.util.Map;
 @Repository
 public interface SoftHistoryInfoMapper {
     Map<String, Object> queryHistoryById(@Param("id") String historyId);
+	
+	Map<String, Object> getVersionPkgCfgById(@Param("id") String historyId);
 
     List<Map<String, Object>> queryHistoryListBySoftwareId(String softId);
 
@@ -25,4 +27,6 @@ public interface SoftHistoryInfoMapper {
     int addVersion(Map<String, Object> paramMap);
 
     int updateVersion(Map<String,Object> paramMap);
+	
+	void setVersionInstllconfig(Map<String,Object> paramMap);
 }

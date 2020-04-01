@@ -60,6 +60,18 @@
                 history_id =  #{id,jdbcType=VARCHAR}
     </select>
 
+	<!-- 根据软件版本Id获取对应的安装配置信息  -->
+	<select id="getVersionPkgCfgById" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT
+               appPkt_date,
+               appPkt_size,
+               appPkt_md5
+        FROM
+               software_history 
+        WHERE
+               history_id =  #{id,jdbcType=VARCHAR}
+    </select>
+
     <!-- 根据软件Id获取软件历史版本列表 -->
     <select id="queryHistoryList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         SELECT
@@ -157,6 +169,17 @@
             appPkt_md5=#{appPktMd5,jdbcType=VARCHAR}
         WHERE
             history_id = #{historyId,jdbcType=VARCHAR}
+    </update>
+	
+	<!-- 更新软件版本程序包信息 -->
+    <update id="setVersionInstllconfig" parameterType="java.util.HashMap">
+        UPDATE software_history
+        SET
+            appPkt_date=#{appPkt_date,jdbcType=VARCHAR},
+            appPkt_size=#{appPkt_size,jdbcType=INTEGER},
+            appPkt_md5=#{appPkt_md5,jdbcType=VARCHAR}
+        WHERE
+            history_id = #{history_id,jdbcType=VARCHAR}
     </update>
 
 </mapper>

@@ -60,6 +60,17 @@ public class VersionServiceImple implements VersionService {
         Map<String, Object> obj = softHistoryInfoMapper.queryHistoryById(historyId);
         return obj;
     }
+	
+	@Override
+    public Map<String, Object> getVersionPkgCfgById(String historyId) {
+        Map<String, Object> obj = softHistoryInfoMapper.getVersionPkgCfgById(historyId);
+        return obj;
+    }
+
+	@Override
+	public void setVersionInstllconfigById(Map<String, Object> paramMap){
+		softHistoryInfoMapper.setVersionInstllconfig(paramMap);
+	}
 
     @Override
     public void saveBranch(Map<String, Object> paramMap) {

@@ -3,6 +3,16 @@ var branchTable = null;
 var userMap = {};
 var userId = 0;
 
+function initTimeSelect(){
+    $("#appPkt_date").datetimepicker({
+        language: "zh-CN",
+        autoclose: true,//选中之后自动隐藏日期选择框
+        clearBtn: true,//清除按钮
+        todayBtn: true,//今日按钮
+        format: "yyyy-mm-dd hh:ii"
+    });
+}
+
 function initSchoolUserTable() {
 	
 	branchTable = $('#versionTable').DataTable({
@@ -88,7 +98,19 @@ function initSchoolUserTable() {
 			 "data" :"operator",
 			 "width": "10%",
 			 "class" : "text-center"  
-		 }  			 
+		 } 
+		,  {	
+			 "title" : "程序包",  
+			 "defaultContent" : "", 
+			 "data" :null,
+			 "width": "10%",
+			 "class" : "text-center",
+			 "render": function(data, type, row, meta) {
+				 var content = "";
+				  content = '<button class="btn btn-xs green" onclick="configPackage(\''+row.history_id+'\') " data-toggle="modal" data-target="#"> 程序包 </button>' ;
+		         return content;
+		      } 
+		 }		 
 		,  {	
 			 "title" : "操作",  
 			 "defaultContent" : "", 
@@ -103,6 +125,43 @@ function initSchoolUserTable() {
 		 }]
 	});
 }	
+
+//点击程序包按钮
+function configPackage(history_id){
+	console.log(history_id)
+	startPageLoading();
+	var data = {"history_id":history_id};
+	var dataObj = {
+			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
+	}
+	$.ajax({
+		url:"history/getVersionInstllconfigById",
+		type:"post",
+		data:dataObj,
+		dataType:"text",
+		success:function(data) {
+		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
+		   if(data.status=="success") {
+               var versionPkgCfgData = data.versionPkgCfgData;
+   			   console.log(versionPkgCfgData)
+			   $("#AppPktId").val(history_id);
+			   $("#appPkt_date").val(versionPkgCfgData.appPkt_date);
+               $("#appPkt_size").val(versionPkgCfgData.appPkt_size);			
+               $("#appPkt_md5").val(versionPkgCfgData.appPkt_md5);
+               $('#AppPktModal').modal('show');
+               stopPageLoading()
+		   } else {
+			   stopPageLoading()
+			   showSuccessOrErrorModal(data.msg,"error");
+		   }
+		   
+		},
+		error:function(e) {
+			stopPageLoading()
+		   showSuccessOrErrorModal("获取软件版本对应的程序包信息请求出错了","error"); 
+		}
+	});
+}
 
 // 点击安装配置按钮
 function InstallConfig(softwareId){
@@ -486,6 +545,7 @@ $(document).ready(function(){
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);
+	initTimeSelect();
 	initKind();
 	initSoftware();
     initBranch();
@@ -546,28 +606,25 @@ $(document).ready(function(){
 	}
 	);
 	
-	//更新安装配置信息
-	$("#editInstallAttributeForm").html5Validate(function() {
+	//更新程序包配置信息
+	$("#AppPktForm").html5Validate(function() {
 		// TODO 验证成功之后的操作
-		var data = $("#editInstallAttributeForm").serialize();
-		data+="&installType="+$("#cronInstallType_installAttribute").val();
-		data+="&multiFlag="+$("#cronMultiFlag").val();
+		var data = $("#AppPktForm").serialize();
 		$.ajax({
-			url:"software/updateInstallAttribute",
+			url:"history/setVersionInstllconfigById",
 			type:"post",
 			data:data,
 			dataType:"json",
 			success:function(data) {
 			    if(data.status=="success") {
 			    	showSuccessOrErrorModal(data.msg,"success"); 
-			    	schoolUserTable.draw();
-			    	$("#installAttributeModal_edit").modal("hide");
+			    	$("#AppPktModal").modal("hide");
 			    } else {
 			        showSuccessOrErrorModal(data.msg,"error");	
 			    }         
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("更新安装配置信息请求出错了","error"); 
+			    showSuccessOrErrorModal("更新程序包配置信息请求出错了","error"); 
 			}
 		});	
 	}

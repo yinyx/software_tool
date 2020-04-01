@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "/history")
@@ -68,6 +70,27 @@ public class VersionController {
         {
             resultMap.put("status", "error");
             resultMap.put("msg", "查询某条版本信息异常!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+	
+	@RequestMapping(value="/getVersionInstllconfigById",method=RequestMethod.POST)
+    public Object getVersionInstllconfigById(@RequestParam Map<String, Object> map){
+        JSONObject paramObj=AesUtil.GetParam(map);
+        String historyId = (String) paramObj.get("history_id");
+        Map<String, Object> versionPkgCfgData = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            versionPkgCfgData = versionService.getVersionPkgCfgById(historyId);
+            resultMap.put("status", "success");
+            resultMap.put("versionPkgCfgData", versionPkgCfgData);
+        }
+        catch(Exception e)
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "查询某条版本的安装包配置信息异常!");
         }
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
@@ -147,6 +170,26 @@ public class VersionController {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+	
+	@RequestMapping(value="/setVersionInstllconfigById",method=RequestMethod.POST)
+    public Map<String, Object> setVersionInstllconfigById(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        //平台类型
+        paramMap.put("history_id", request.getParameter("AppPktId"));
+        paramMap.put("appPkt_date", request.getParameter("appPkt_date"));
+        paramMap.put("appPkt_size", request.getParameter("appPkt_size"));
+		paramMap.put("appPkt_md5", request.getParameter("appPkt_md5"));
+        try {
+            versionService.setVersionInstllconfigById(paramMap);
+            resultMap.put("status", "success");
+            resultMap.put("msg", "软件版本对应程序包信息保存成功!");
+        } catch(Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "软件版本对应程序包信息保存失败!");
+        }
+        return resultMap;
     }
 
 }

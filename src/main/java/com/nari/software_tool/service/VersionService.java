@@ -14,8 +14,12 @@ public interface VersionService {
     Map<String, Object> getBranchById(String BranchId);
 
     Map<String, Object> getHistoryById(String historyId);
+	
+	Map<String, Object> getVersionPkgCfgById(String historyId);
 
     void saveBranch(Map<String, Object> paramMap);
+	
+	void setVersionInstllconfigById(Map<String, Object> paramMap);
 
     boolean deleteBranch(String BranchId);
 	

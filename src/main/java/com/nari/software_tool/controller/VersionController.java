@@ -2,11 +2,10 @@ package com.nari.software_tool.controller;
 
 import com.nari.software_tool.entity.DataTableModel;
 import com.nari.software_tool.entity.DataTableParam;
-import com.nari.software_tool.service.BranchService;
-import com.nari.software_tool.service.UserService;
-import com.nari.software_tool.service.VersionService;
+import com.nari.software_tool.service.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import util.aes.AesUtil;
@@ -28,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/history")
 public class VersionController {
 
+    @Value("${rootPath}")
+    private String rootPath;
+
     // 注入软件类别Service
     @Resource
     private VersionService versionService;
@@ -37,6 +39,12 @@ public class VersionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SoftwareKindService softwareKindService;
+
+    @Autowired
+    private SoftwareService softwareService;
 
     @RequestMapping(value="/queryHistoryList",method=RequestMethod.POST)
     public Object  queryHistoryList(@RequestBody DataTableParam[] dataTableParams){
@@ -188,6 +196,101 @@ public class VersionController {
             resultMap.put("msg", "软件版本对应程序包信息保存失败!");
         }
         return resultMap;
+    }
+
+
+    @PostMapping("/addVersionInfo")
+    @ResponseBody
+    public JSONObject addVersionInfo(@RequestParam("soft") MultipartFile soft, @RequestParam("versionObj") String versionObj){
+        JSONObject jsonObject = new JSONObject();
+        Map<String,Object> paramMap = JSONObject.fromObject(versionObj);
+        System.out.println(paramMap+"----------");
+
+        if((paramMap.get("kindId") == "0")&&(paramMap.get("softwareId")=="0")&&
+        (paramMap.get("branchId") == "0")){
+            jsonObject.put("status","failure");
+        }
+
+        Map<String,Object> typeMap = softwareKindService.getKindById((String) paramMap.get("kindId"));
+        Map<String,Object> softMap = softwareService.getSoftwareById((String) paramMap.get("softwareId"));
+        Map<String,Object> branchMap = branchService.getBranchById((String) paramMap.get("branchId"));
+        Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
+
+        String root = rootPath;
+        File rootDir = new File(root);
+
+        String typePath = rootPath+"/"+typeMap.get("name_en");
+        File typeDir = new File(typePath);
+
+        String namePath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en");
+        File nameDir = new File(namePath);
+
+        String branchPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch");
+        File branchDir = new File(branchPath);
+
+        String versionPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+paramMap.get("historyVersion");
+        File versionDir = new File(versionPath);
+
+        if(!rootDir.exists()) {
+            rootDir.mkdir();
+        }
+
+        if(!typeDir.exists()) {
+            typeDir.mkdir();
+        }
+
+        if(!nameDir.exists()) {
+            nameDir.mkdir();
+        }
+
+        if(!branchDir.exists()) {
+            branchDir.mkdir();
+        }
+
+        if(!versionDir.exists()) {
+            versionDir.mkdir();
+        }
+
+        //存储文件；
+        File softDir = new File(versionPath);
+        String softDirAbsolutePath = softDir.getAbsolutePath();
+        if(!softDir.exists()){
+            softDir.mkdir();
+        }
+        String softName = soft.getOriginalFilename();
+        try {
+            soft.transferTo(new File(softDirAbsolutePath,softName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try{
+            Map<String,Object> versionMap = new HashMap<>();
+            versionMap.put("historyId",StringUtils.getUUId());
+            versionMap.put("softId",paramMap.get("softwareId"));
+            versionMap.put("branchId",paramMap.get("branchId"));
+            versionMap.put("historyVersion",paramMap.get("historyVersion"));
+            versionMap.put("historyPath",softDirAbsolutePath);
+            versionMap.put("uploadDate"," ");
+            versionMap.put("operator",userMap.get("user_name"));
+            versionMap.put("appPktNew",paramMap.get("appPktNew"));
+            versionMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
+            versionMap.put("appPktSize",soft.getSize());
+            versionMap.put("appPktPath",versionPath);
+            SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
+            versionMap.put("appPktDate",sdf.format(new Date()));
+
+            if(versionService.addVersion(versionMap) ==1){
+                jsonObject.put("status","success");
+            }else{
+                jsonObject.put("status","failure");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return jsonObject;
     }
 
 }

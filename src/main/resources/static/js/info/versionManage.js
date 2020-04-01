@@ -354,15 +354,65 @@ function querySchoolUser()
     branchTable.draw();
 };
 //新增软件按钮
-function addSoftware(){
-	$("#softdir_now_label").attr("style","display:none;");
-	$("#softdir_now_text").attr("style","display:none;");
-	$("#uuid_label").attr("style","display:none;");
-	$("#uuid_text").attr("style","display:none;");
-	$("#softLabel").attr("style","display:;");
-	$("#soft").attr("style","display:;");
-	$("#softwareForm")[0].reset();
-	$("#recordId").val("");
+function addVersion(){
+	var kindName = $("#cronKind  option:checked").text();
+	$("#kindName").val(kindName).attr("disabled",true);
+    var softwareName = $("#cronSoftware  option:checked").text();
+    $("#softwareName").val(softwareName).attr("disabled",true);
+    var branchName = $("#cronBranch  option:checked").text();
+    $("#branchName").val(branchName).attr("disabled",true);
+
+    var fileCatcher = document.getElementById("versionForm");
+    var soft = document.getElementById("soft");
+
+    fileCatcher.addEventListener("submit",function (event) {
+        event.preventDefault();
+        sendFile();
+    });
+
+    $('#versionModal_add').on('hide.bs.modal', function () {
+        document.getElementById("versionForm").reset();
+    });
+    sendFile = function () {
+        var formData = new FormData();
+        formData.append("soft",soft.files[0]);
+        var kindId = $("#cronKind").val();
+		var softwareId = $("#cronSoftware").val();
+		var branchId = $("#cronBranch").val();
+		var appPktNew = $("#description").val();
+		var historyVersion = $("#version").val();
+		var versionObj = {
+			"kindId":kindId,
+            "softwareId":softwareId,
+            "branchId":branchId,
+            "appPktNew":appPktNew,
+            "historyVersion":historyVersion,
+			"userId":userId
+		};
+		formData.append("versionObj",JSON.stringify(versionObj));
+        $.ajax({
+            url:"history/addVersionInfo",
+            type:"post",
+            data:formData,
+            dataType:"json",
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success:function(data) {
+                if(data.status == "success") {
+                    $('#versionModal_add').modal('hide');
+                    stopPageLoading();
+                } else {
+                    stopPageLoading();
+                    showSuccessOrErrorModal("上传版本信息失败","error");
+                }
+
+            },
+            error:function(e) {
+                stopPageLoading();
+                showSuccessOrErrorModal("上传版本信息出错了","error");
+            }
+        });
+    };
 }
 
 //删除软件

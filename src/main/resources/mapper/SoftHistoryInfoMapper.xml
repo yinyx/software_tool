@@ -91,7 +91,7 @@
               software_branch.branch
         FROM
             software_history left join server_software on software_history.soft_id = server_software.id
-            left join software_branch on software_history.soft_id = software_branch.soft_id
+            left join software_branch on software_history.soft_id = software_branch.soft_id and software_branch.branch_id = software_history.branch_id
         WHERE 1=1
             <if test='Kind != null and Kind != "0" '>
                 AND server_software.kind = #{Kind,jdbcType=VARCHAR}
@@ -109,10 +109,10 @@
     <!-- 获取软件种类总数 -->
     <select id="queryHistoryCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
             SELECT
-              COUNT(1)
+        COUNT(1)
             FROM
             software_history left join server_software on software_history.soft_id = server_software.id
-            left join software_branch on software_history.soft_id = software_branch.soft_id
+            left join software_branch on software_history.soft_id = software_branch.soft_id and software_branch.branch_id = software_history.branch_id
         WHERE 1=1
                 <if test='Kind != null and Kind != "0"'>
                     AND server_software.kind = #{Kind,jdbcType=VARCHAR}

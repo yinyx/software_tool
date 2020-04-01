@@ -26,4 +26,6 @@ public interface VersionService {
 	boolean queryBranchNameIsRepeat(String BranchName);
 
 	int updateVersion(Map<String,Object> paramMap);
+
+	int addVersion(Map<String,Object> paramMap);
 }

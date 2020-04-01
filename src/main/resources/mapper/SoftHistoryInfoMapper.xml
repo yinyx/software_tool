@@ -175,9 +175,7 @@
     <update id="setVersionInstllconfig" parameterType="java.util.HashMap">
         UPDATE software_history
         SET
-            appPkt_date=#{appPkt_date,jdbcType=VARCHAR},
-            appPkt_size=#{appPkt_size,jdbcType=INTEGER},
-            appPkt_md5=#{appPkt_md5,jdbcType=VARCHAR}
+            appPkt_date=#{appPkt_date,jdbcType=VARCHAR}
         WHERE
             history_id = #{history_id,jdbcType=VARCHAR}
     </update>

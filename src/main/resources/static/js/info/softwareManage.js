@@ -415,8 +415,8 @@ function sendFile() {
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
-        alert("添加成功");
-        window.location.reload();
+        $("#softwareModal_add").modal("hide");
+		showSuccessOrErrorModal("创建软件信息对象成功","success");
     });
 
     sendFile = function () {
@@ -458,8 +458,7 @@ function updateIcon() {
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
         updateIcon();
-        alert("更新图标成功");
-        window.location.reload();
+        $("#iconModal_edit").modal("hide");
     });
 
     updateIcon = function () {
@@ -550,7 +549,6 @@ function ScreenShotConfig(softwareId){
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
-        //window.location.reload();
     });
 
     files.addEventListener("change",function () {
@@ -582,18 +580,19 @@ function ScreenShotConfig(softwareId){
             contentType : false, // 不要设置Content-Type请求头
             success:function(data) {
                 if(data.status == "success") {
-					showSuccessOrErrorModal("获取截图信息成功","error");
+					$("#screenShots_edit").modal("hide");
+					showSuccessOrErrorModal("设置截图信息成功","success");
                     stopPageLoading();
                 	console.log(data.status);
                 } else {
                     stopPageLoading();
-                    showSuccessOrErrorModal("获取截图信息失败","error");
+                    showSuccessOrErrorModal("设置截图信息失败","error");
                 }
 
             },
             error:function(e) {
                 stopPageLoading();
-                showSuccessOrErrorModal("获取截图信息请求出错了","error");
+                showSuccessOrErrorModal("设置截图信息请求出错了","error");
             }
         });
     };

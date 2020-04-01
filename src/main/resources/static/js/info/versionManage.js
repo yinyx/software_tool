@@ -148,6 +148,8 @@ function configPackage(history_id){
 			   $("#appPkt_date").val(versionPkgCfgData.appPkt_date);
                $("#appPkt_size").val(versionPkgCfgData.appPkt_size);			
                $("#appPkt_md5").val(versionPkgCfgData.appPkt_md5);
+			   $("#appPkt_size").attr("disabled", true);
+			   $("#appPkt_md5").attr("disabled", true);
                $('#AppPktModal').modal('show');
                stopPageLoading()
 		   } else {

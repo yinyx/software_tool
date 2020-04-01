@@ -179,8 +179,6 @@ public class VersionController {
         //平台类型
         paramMap.put("history_id", request.getParameter("AppPktId"));
         paramMap.put("appPkt_date", request.getParameter("appPkt_date"));
-        paramMap.put("appPkt_size", request.getParameter("appPkt_size"));
-		paramMap.put("appPkt_md5", request.getParameter("appPkt_md5"));
         try {
             versionService.setVersionInstllconfigById(paramMap);
             resultMap.put("status", "success");

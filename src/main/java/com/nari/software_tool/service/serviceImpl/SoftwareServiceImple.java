@@ -243,5 +243,27 @@ public class SoftwareServiceImple implements SoftwareService{
         List<Map<String, Object>> allSoftwares = softwareInfoMapper.querySoftwaresByKind(kindId);
         return allSoftwares;
     }
+
+	@Override
+	public boolean querySoftwareNameIsRepeat(Map<String, Object> paramMap) {
+		Integer count = softwareInfoMapper.querySoftwareNameIsRepeat(paramMap);
+		if (count == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	@Override
+	public boolean querySoftwareEnNameIsRepeat(Map<String, Object> paramMap) {
+		Integer count = softwareInfoMapper.querySoftwareEnNameIsRepeat(paramMap);
+		if (count == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 }
 

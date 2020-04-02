@@ -332,4 +332,24 @@
 	<delete id="deleteSoftware" parameterType="java.util.HashMap">
         DELETE FROM server_software WHERE id = #{softwareId}
     </delete>
+
+    <!-- 查询软件是否重名-->
+    <select id="querySoftwareNameIsRepeat" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	   SELECT
+			COUNT(1)
+		FROM
+			server_software T
+		WHERE
+			T.name = #{softwareName}
+	</select>
+
+    <!-- 查询软件英文名是否重名-->
+    <select id="querySoftwareEnNameIsRepeat" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	   SELECT
+			COUNT(1)
+		FROM
+			server_software T
+		WHERE
+			T.name_en = #{softwareName_en}
+	</select>
 </mapper>

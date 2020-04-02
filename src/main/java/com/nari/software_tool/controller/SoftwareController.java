@@ -51,19 +51,18 @@ public class SoftwareController {
     @Autowired
     private FileService fileService;
 
-    // 注入软件类别Service
     @Autowired
     private SoftwareService softwareService;
 
     @RequestMapping(value="/queryMarqueeInfo",method=RequestMethod.POST)
     @ResponseBody
-    public Object  queryMarqueeInfo(){ 
+    public Object  queryMarqueeInfo(){
         Map<String, Object> resultMap=new HashMap<String,Object>();
         Map<String, Object> paramMap = new HashMap<String,Object>();
         try {
             int allSoftwareNum = softwareService.querySoftwareCountByKind(null);
             List<Map<String, Object>> allKinds = softwareKindService.queryAllKinds();
-			int kindnum = 0;
+            int kindnum = 0;
 
             for (int i = 0; i<allKinds.size(); i++)
             {
@@ -76,10 +75,10 @@ public class SoftwareController {
                     paramMap.put(kindName, kindnum);
                 }
             }
-			
+
             resultMap.put("status", "success");
             resultMap.put("allSoftwareNum",allSoftwareNum);
-			resultMap.put("eachSoftwareNum",paramMap);
+            resultMap.put("eachSoftwareNum",paramMap);
 
         } catch (Exception e) {
             resultMap.put("status", "error");
@@ -126,7 +125,7 @@ public class SoftwareController {
         }
         return resultMap;
     }
-	
+
 	@RequestMapping(value="/getSoftwareById",method=RequestMethod.POST)
     public Object getSoftwareById(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
@@ -531,4 +530,41 @@ public class SoftwareController {
         return jsonObject;
     }
 
+    @RequestMapping(value="/querySoftwareNameIsRepeat",method=RequestMethod.POST)
+    public Object  querySoftwareNameIsRepeat(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap=new HashMap<String,Object>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+
+        paramMap.put("softwareName", request.getParameter("softwareName"));
+
+        boolean flag ;
+        try {
+            flag = softwareService.querySoftwareNameIsRepeat(paramMap);
+            resultMap.put("status", "success");
+            resultMap.put("flag",flag);
+        } catch (Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "获取软件中文名是否重名失败!");
+        }
+        return resultMap;
+    }
+
+    @RequestMapping(value="/querySoftwareEnNameIsRepeat",method=RequestMethod.POST)
+    public Object  querySoftwareEnNameIsRepeat(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap=new HashMap<String,Object>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+
+        paramMap.put("softwareName_en", request.getParameter("softwareName_en"));
+
+        boolean flag ;
+        try {
+            flag = softwareService.querySoftwareEnNameIsRepeat(paramMap);
+            resultMap.put("status", "success");
+            resultMap.put("flag",flag);
+        } catch (Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "获取软件英文名是否重名失败!");
+        }
+        return resultMap;
+    }
 }

@@ -78,4 +78,18 @@ public interface SoftwareInfoMapper {
 	
 	List<Map<String, Object>> querySoftwaresByKind(String kindId);
 
+    /**
+     * 查询软件是否重名
+     * @param paramMap
+     * @return int
+     */
+    int querySoftwareNameIsRepeat(Map<String, Object> paramMap);
+
+    /**
+     * 查询软件英文名是否重名
+     * @param paramMap
+     * @return int
+     */
+    int querySoftwareEnNameIsRepeat(Map<String, Object> paramMap);
+
 }

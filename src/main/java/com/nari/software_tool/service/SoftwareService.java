@@ -36,5 +36,21 @@ public interface SoftwareService {
 	boolean batchInsertScreenShots(List<ScreenShotInfo> screenShotInfoLists);
 
     List<Map<String,Object>> querySoftwaresByKind(String kindId);
+
+	/**
+	 * 查询软件是否重名
+	 *
+	 * @param paramMap 软件中文名
+	 * @return boolean
+	 */
+	boolean querySoftwareNameIsRepeat(Map<String, Object> paramMap);
+
+	/**
+	 * 查询软件英文名是否重名
+	 *
+	 * @param paramMap 软件中文名
+	 * @return boolean
+	 */
+	boolean querySoftwareEnNameIsRepeat(Map<String, Object> paramMap);
     
 }

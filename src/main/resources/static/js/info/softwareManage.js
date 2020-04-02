@@ -712,9 +712,61 @@ $(document).ready(function(){
 	}
 	);
 	
-		//更新安装配置信息
-	$("#branchForm").html5Validate(function() {
-		// TODO 验证成功之后的操作
-	}
-	);
+	//检测新增软件的中文名是否重复
+	$("#softwareName").on('change blur',function(e){
+		    var softwareName = this.value;
+			var self = this;
+		    $.ajax({
+			url:"software/querySoftwareNameIsRepeat",
+			type:"post",
+			data:{softwareName:softwareName},
+			dataType:"json",
+			success:function(data) {
+				console.log(data)
+			    if(data.status=="success") {
+			    	if(!data.flag){
+			    		console.log(self)
+		 		        if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
+		 		            $(self).testRemind("该软件中文名已存在，请确认"); 
+		 		            $(self).focus();
+		 		        }    
+			    	}
+			    } else {
+			        showSuccessOrErrorModal(data.msg,"error");	
+			    }         
+			},
+			error:function(e) {
+			    showSuccessOrErrorModal("请求查询软件中文名是否重名出错了","error"); 
+			}
+		});
+	});
+	
+	//检测新增软件的英文名是否重复
+	$("#softwareName_en").on('change blur',function(e){
+		    var softwareName_en = this.value;
+			var self = this;
+		    $.ajax({
+			url:"software/querySoftwareEnNameIsRepeat",
+			type:"post",
+			data:{softwareName_en:softwareName_en},
+			dataType:"json",
+			success:function(data) {
+				console.log(data)
+			    if(data.status=="success") {
+			    	if(!data.flag){
+			    		console.log(self)
+		 		        if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
+		 		            $(self).testRemind("该软件英文名已存在，请确认"); 
+		 		            $(self).focus();
+		 		        }    
+			    	}
+			    } else {
+			        showSuccessOrErrorModal(data.msg,"error");	
+			    }         
+			},
+			error:function(e) {
+			    showSuccessOrErrorModal("请求查询软件英文名是否重名出错了","error"); 
+			}
+		});
+	});
 });

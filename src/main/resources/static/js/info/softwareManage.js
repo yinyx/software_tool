@@ -51,7 +51,6 @@ function initSchoolUserTable() {
 			 "width": "10%",
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
-				 console.log(data)
 				 var pic = data;
 				 var content = "";
 				  content = '<img src='+pic+'>';
@@ -133,7 +132,6 @@ function querySoftwares() {//条件查询同步日志
 
 // 点击安装配置按钮
 function InstallConfig(softwareId){
-	console.log(softwareId)
 	startPageLoading();
 	var data = {"softwareId":softwareId};
 	var dataObj = {
@@ -149,7 +147,7 @@ function InstallConfig(softwareId){
 		   if(data.status=="success") {
 			   $("#softwareId_attribute").val(softwareId);
                var InstallConfig = data.InstallConfig;
-			   console.log(InstallConfig)
+			   
 			   
 			   	var InstallTypeList = document.getElementById("cronInstallType_installAttribute");
 				var ops = InstallTypeList.options;
@@ -164,8 +162,7 @@ function InstallConfig(softwareId){
 				
 			    var MultiFlagList = document.getElementById("cronMultiFlag");
 				var ops1 = MultiFlagList.options;
-				console.log(MultiFlagList)
-				console.log(ops1)
+				
 					for(var i=0;i<ops1.length; i++){
 				    var tempValue1 = ops1[i].value;
 				    if(tempValue1 == InstallConfig.Is_multi) //这里是你要选的值
@@ -196,7 +193,7 @@ function InstallConfig(softwareId){
 
 // 点击编辑属性按钮
 function EditAttribute(softwareId){
-	console.log(softwareId)
+	
 	startPageLoading();
 	var data = {"softwareId":softwareId};
 	var dataObj = {
@@ -254,7 +251,7 @@ function EditAttribute(softwareId){
 
 // 点击编辑图标按钮
 function EditIcon(softwareId){
-	console.log(softwareId)
+	
 	startPageLoading();
 	var data = {"softwareId":softwareId};
 	var dataObj = {
@@ -289,6 +286,51 @@ function EditIcon(softwareId){
 		   showSuccessOrErrorModal("获取软件信息请求出错了","error"); 
 		}
 	});
+	
+	var fileCatcher = document.getElementById("editIconForm");
+    var file_icon = document.getElementById("icon_icon");
+
+    fileCatcher.addEventListener("submit",function (event) {
+        event.preventDefault();
+		updateIcon();
+    });
+
+    updateIcon = function () {
+        var formData = new FormData();
+        var request = new XMLHttpRequest();
+		formData.append("icon",file_icon.files[0]);
+		var recordId = $("#recordId_icon").val();
+		var iconpath = $("#icon_now_text").val();
+		var data = {
+			"id":recordId,
+			"iconpath":iconpath
+        };
+		formData.append("editIconForm",JSON.stringify(data));		
+		$.ajax({
+            url:"software/uploadIcon",
+            type:"post",
+            data:formData,
+            dataType:"json",
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success:function(data) {
+                if(data.status == "success") {
+					$("#iconModal_edit").modal("hide");
+					querySchoolUser();
+					showSuccessOrErrorModal(data.msg,"success");
+                    stopPageLoading();
+                } else {
+                    stopPageLoading();
+                    showSuccessOrErrorModal(data.msg,"error");
+                }
+
+            },
+            error:function(e) {
+                stopPageLoading();
+                showSuccessOrErrorModal("设置软件图标信息请求出错了","error");
+            }
+        });
+    };
 }
 
 //刷新表格
@@ -306,6 +348,72 @@ function addSoftware(){
 	$("#soft").attr("style","display:;");
 	$("#softwareForm")[0].reset();
 	$("#recordId").val("");
+	
+	
+	var fileCatcher = document.getElementById("softwareForm");
+    var file_icon = document.getElementById("icon");
+    var file_soft = document.getElementById("soft");
+
+    fileCatcher.addEventListener("submit",function (event) {
+        event.preventDefault();
+        sendFile();
+        //$("#softwareModal_add").modal("hide");
+		//schoolUserTable.draw();
+		//showSuccessOrErrorModal("创建软件信息对象成功","success");
+    });
+
+    sendFile = function () {
+        var formData = new FormData();
+        var request = new XMLHttpRequest();
+		formData.append("icon",file_icon.files[0]);
+        formData.append("soft",file_soft.files[0]);
+        var name = $(":input[name='softwareName']").val();
+        var nameEn = $(":input[name='softwareName_en']").val();
+        var introduction = $(":input[name='description']").val();
+        var latestVersion = $(":input[name='version']").val();
+        var kind = $(":radio[name=\"type\"]:checked").val();
+		var installType = $("#cronInstallType").val();
+		var briefIntroduction = $("#description").val();
+		var recordId = $("#recordId").val();
+		
+        var data = {
+			"id":recordId,
+            "name":name,
+            "nameEn":nameEn,
+            "introduction":introduction,
+            "latestVersion":latestVersion,
+            "kind":kind,
+			"installType":installType,
+			"briefIntroduction":briefIntroduction,
+			"userId":userId
+        };
+        formData.append("softwareForm",JSON.stringify(data));
+		
+		$.ajax({
+            url:"software/uploadSoftware",
+            type:"post",
+            data:formData,
+            dataType:"json",
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success:function(data) {
+                if(data.status == "success") {
+					$("#softwareModal_add").modal("hide");
+					querySchoolUser();
+					showSuccessOrErrorModal(data.msg,"success");
+                    stopPageLoading();
+                } else {
+                    stopPageLoading();
+                    showSuccessOrErrorModal(data.msg,"error");
+                }
+
+            },
+            error:function(e) {
+                stopPageLoading();
+                showSuccessOrErrorModal("创建软件信息对象请求出错了","error");
+            }
+        });
+    };
 }
 
 //删除软件
@@ -407,76 +515,6 @@ function initKind(){
 	});	
 }
 
-function sendFile() {
-    var fileCatcher = document.getElementById("softwareForm");
-    var file_icon = document.getElementById("icon");
-    var file_soft = document.getElementById("soft");
-
-    fileCatcher.addEventListener("submit",function (event) {
-        event.preventDefault();
-        sendFile();
-        $("#softwareModal_add").modal("hide");
-		showSuccessOrErrorModal("创建软件信息对象成功","success");
-    });
-
-    sendFile = function () {
-        var formData = new FormData();
-        var request = new XMLHttpRequest();
-		formData.append("icon",file_icon.files[0]);
-        formData.append("soft",file_soft.files[0]);
-        var name = $(":input[name='softwareName']").val();
-        var nameEn = $(":input[name='softwareName_en']").val();
-        var introduction = $(":input[name='description']").val();
-        var latestVersion = $(":input[name='version']").val();
-        var kind = $(":radio[name=\"type\"]:checked").val();
-		var installType = $("#cronInstallType").val();
-		var briefIntroduction = $("#description").val();
-		var recordId = $("#recordId").val();
-		
-        var data = {
-			"id":recordId,
-            "name":name,
-            "nameEn":nameEn,
-            "introduction":introduction,
-            "latestVersion":latestVersion,
-            "kind":kind,
-			"installType":installType,
-			"briefIntroduction":briefIntroduction,
-			"userId":userId
-        };
-        formData.append("softwareForm",JSON.stringify(data));
-
-        request.open("POST","software/uploadSoftware");
-        request.send(formData);
-    };
-}
-
-function updateIcon() {
-    var fileCatcher = document.getElementById("editIconForm");
-    var file_icon = document.getElementById("icon_icon");
-
-    fileCatcher.addEventListener("submit",function (event) {
-        event.preventDefault();
-        updateIcon();
-        $("#iconModal_edit").modal("hide");
-    });
-
-    updateIcon = function () {
-        var formData = new FormData();
-        var request = new XMLHttpRequest();
-		formData.append("icon",file_icon.files[0]);
-		var recordId = $("#recordId_icon").val();
-		var iconpath = $("#icon_now_text").val();
-		var data = {
-			"id":recordId,
-			"iconpath":iconpath
-        };
-		formData.append("editIconForm",JSON.stringify(data));
-        request.open("POST","software/uploadIcon");
-        request.send(formData);
-    };
-}
-
 function showKind(){
     $.ajax({
         url:"softwareKind/queryAllKinds",
@@ -489,14 +527,14 @@ function showKind(){
             {
                 for (var i = 0; i < data.dataList.length; i++) {
                     var html = "";
-                    console.log(data.dataList[i].id);
+                    
                     html += '<label class="control-label">';
                     html += '<input type="radio" name="type" id="'+data.dataList[i].id+'" value= "'+data.dataList[i].id+'" checked="checked">' +data.dataList[i].kind_name;
                     html += '</label>';
                     $("#type_radio").append(html);
 					
 					var html_attribute = "";
-                    console.log(data.dataList[i].id);
+                    
                     html_attribute += '<label class="control-label">';
                     html_attribute += '<input type="radio" name="type_attribute" id="'+data.dataList[i].id+'" value= "'+data.dataList[i].id+'" checked="checked">' +data.dataList[i].kind_name;
                     html_attribute += '</label>';
@@ -583,7 +621,7 @@ function ScreenShotConfig(softwareId){
 					$("#screenShots_edit").modal("hide");
 					showSuccessOrErrorModal("设置截图信息成功","success");
                     stopPageLoading();
-                	console.log(data.status);
+                	
                 } else {
                     stopPageLoading();
                     showSuccessOrErrorModal("设置截图信息失败","error");
@@ -615,40 +653,12 @@ $(document).ready(function(){
 	showTime();
 	timer = setInterval("showTime()",10000);
 	showKind();
-    sendFile();
-	updateIcon();
+    //sendFile();
+	//updateIcon();
 	initKind();
 	initSchoolUserTable();
 	// 表单验证(点击submit触发该方法)
 	$("#editAttributeForm").html5Validate(function() {
-		// TODO 验证成功之后的操作
-		var data = $("#editAttributeForm").serialize();
-		var kind = $(":radio[name=\"type_attribute\"]:checked").val();
-		data+="&kind="+kind;
-		data+="&installType="+$("#cronInstallType_attribute").val();
-		$.ajax({
-			url:"software/updateSoftware",
-			type:"post",
-			data:data,
-			dataType:"json",
-			success:function(data) {
-			    if(data.status=="success") {
-			    	showSuccessOrErrorModal(data.msg,"success"); 
-			    	schoolUserTable.draw();
-			    	$("#attributeModal_edit").modal("hide");
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-			    showSuccessOrErrorModal("更新软件请求出错了","error"); 
-			}
-		});	
-	}
-	);
-	
-	//更新图标
-	$("#editIconForm").html5Validate(function() {
 		// TODO 验证成功之后的操作
 		var data = $("#editAttributeForm").serialize();
 		var kind = $(":radio[name=\"type_attribute\"]:checked").val();

@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.nari.software_tool.entity.DataTableModel;
 
+/**
+ * @author zh
+ */
 public interface BranchService {
     List<Map<String,Object>> queryAllBranchs(Map<String, Object> paramMap);
 

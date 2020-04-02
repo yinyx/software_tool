@@ -371,7 +371,16 @@ public class SoftwareController {
 		paramMap.put("historyPath",softwareInfo.getFilePath());
         paramMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
 		//数据库增加记录
-		softwareService.saveSoftware(paramMap);
+
+        try{
+            softwareService.saveSoftware(paramMap);
+            jsonObject.put("status","success");
+            jsonObject.put("msg","创建软件信息对象成功！");
+
+        }catch (Exception e){
+            jsonObject.put("status","failure");
+            e.printStackTrace();
+        }
 
         return jsonObject;
     }
@@ -423,7 +432,16 @@ public class SoftwareController {
 		paramMap.put("iconpath", iconPath1);
 		
 		//数据库更新记录
-		softwareService.updateSoftwareIcon(paramMap);
+
+        try{
+                softwareService.updateSoftwareIcon(paramMap);
+                jsonObject.put("status","success");
+                jsonObject.put("msg","更新图标成功！");
+
+        }catch (Exception e){
+            jsonObject.put("status","failure");
+            e.printStackTrace();
+        }
 
         return jsonObject;
     }
@@ -483,7 +501,8 @@ public class SoftwareController {
             multipartFile.transferTo(new File(path,fileName));
         }
         List<ScreenShotInfo> lst = new ArrayList<>();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );//设置日期格式
+        //设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
         Map<String,Object> sfMap = softwareService.getSoftwareById(softwareId);
 
         for (int i=0;i<files.length;i++) {

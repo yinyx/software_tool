@@ -13,6 +13,7 @@ function initBranchTable() {
 		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
 		{
 			aoData.push({ "name": "SoftId", "value": $("#cronSoftware").val()});
+			aoData.push({ "name": "branch_name", "value": $("#branch_name").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
@@ -295,7 +296,7 @@ $(document).ready(function(){
 	}else{
 		//parent.location.href = jQuery.getBasePath() + "/login.html";
 	}
-	$("#queryButton").hide();
+
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);

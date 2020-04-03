@@ -24,6 +24,10 @@
 			sys_user C
 		WHERE
             A.soft_id =  #{SoftId}
+		<if test='branch_name != null and branch_name != "" '>
+		AND
+     		branch like concat(concat('%',#{branch_name}),'%')
+        </if>
 	    AND
 		    A.soft_id = B.id
 		AND 
@@ -40,6 +44,10 @@
 			software_branch
 		WHERE
 		    soft_id = #{SoftId}
+		<if test='branch_name != null and branch_name != "" '>
+		AND
+     		branch like concat(concat('%',#{branch_name}),'%')
+        </if>
 	</select>
 
 	<!-- 根据分支Id获取软件分支信息  -->

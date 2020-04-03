@@ -40,6 +40,7 @@ public class BranchServiceImple implements BranchService{
         Map<String,Object> paramMap = new HashMap<String,Object>();
         String sEcho = dataTableMap.get("sEcho");
 		String SoftwareId = dataTableMap.get("SoftId");
+		String branch_name = dataTableMap.get("branch_name");
 
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
@@ -47,6 +48,7 @@ public class BranchServiceImple implements BranchService{
         paramMap.put("start", start);
         paramMap.put("length", length);
 		paramMap.put("SoftId", SoftwareId);
+		paramMap.put("branch_name", branch_name);
 
         List<Map<String, Object>> resList = branchMapper.queryBranchList(paramMap);
         Integer count = branchMapper.queryBranchCount(paramMap);

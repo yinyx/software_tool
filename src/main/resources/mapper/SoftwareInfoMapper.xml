@@ -255,12 +255,21 @@
 	
 	<!-- 分页获取软件列表 -->
 	<select id="querySoftwaresList" parameterType="java.util.Map" resultType="java.util.Map">
-		<if test="Kind != null">
-            SELECT * FROM server_software WHERE kind=#{Kind} limit #{start},#{length}
-		</if>
-		<if test="Kind == null">
-            SELECT * FROM server_software limit #{start},#{length}
-		</if>
+		SELECT
+			*
+		FROM
+			server_software
+		WHERE 1=1
+		<if test='Kind != null and Kind != "0" '>
+		AND
+     		kind=#{Kind}
+        </if>
+		<if test='SoftName != null and SoftName != "" '>
+		AND
+     		name like concat(concat('%',#{SoftName}),'%')
+        </if>
+		limit 
+		    #{start},#{length}
 	</select>
 
 	<!-- 获取软件总数 -->	
@@ -269,10 +278,15 @@
 			COUNT(1)
 		FROM
 			server_software
+		WHERE 1=1
 		<if test='Kind != null and Kind != "0" '>
-		WHERE
+		AND
      		kind=#{Kind}
-        </if>	
+        </if>
+		<if test='SoftName != null and SoftName != "" '>
+		AND
+     		name like concat(concat('%',#{SoftName}),'%')
+        </if>		
 	</select>
 	
 	<!-- 新增软件信息 -->

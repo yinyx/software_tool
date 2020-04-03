@@ -53,6 +53,7 @@ public class SoftwareServiceImple implements SoftwareService{
         Map<String,Object> paramMap = new HashMap<String,Object>();
         String sEcho = dataTableMap.get("sEcho");
 		String Kind = dataTableMap.get("Kind");
+		String SoftName = dataTableMap.get("SoftName");
 		
 		if ((Kind != null)&&(Kind.equals("0")))
 		{
@@ -65,6 +66,8 @@ public class SoftwareServiceImple implements SoftwareService{
         paramMap.put("start", start);
         paramMap.put("length", length);
 		paramMap.put("Kind", Kind);
+		paramMap.put("SoftName", SoftName);
+
         List<Map<String, Object>> resList = softwareInfoMapper.querySoftwaresList(paramMap);
         Integer count = softwareInfoMapper.querySoftwaresCount(paramMap);
 

@@ -3,10 +3,12 @@
            <marquee onMouseOut=start(); onMouseOver=stop(); scrolldelay=500 scrollamount=5 direction="right" behavior="scroll" id="marqueeTitle"></marquee>
         </div>
 	<div class="row">
-	    <div class="col-md-6">
+	    <div class="col-md-10">
             <label class="control-label">&nbsp;软件类别：</label> 
             <select id="cronKind" class="form-control input-inline">
             </select>
+			<label class="control-label">&nbsp;软件名称：</label> 
+            <input type="text" id="software_name" class="form-control input-inline"  placeholder="软件名称" value=""/>
             <button class='btn green' type="button" style='margin-right:15px;' onclick="querySoftwares()" id="queryButton">查询</button>
         </div>
 		<div class="form-group">

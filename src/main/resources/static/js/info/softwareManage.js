@@ -13,6 +13,7 @@ function initSchoolUserTable() {
 		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
 		{
 			aoData.push({ "name": "Kind", "value": $("#cronKind").val()});
+			aoData.push({ "name": "SoftName", "value": $("#software_name").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
@@ -659,7 +660,7 @@ $(document).ready(function(){
 	}else{
 		//parent.location.href = jQuery.getBasePath() + "/login.html";
 	}
-	$("#queryButton").hide();
+	
 	clearInterval(timer);
 	showTime();
 	timer = setInterval("showTime()",10000);

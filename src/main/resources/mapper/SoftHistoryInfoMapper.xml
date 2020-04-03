@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nari.software_tool.dao.SoftHistoryInfoMapper">
-    <resultMap id="SoftInstallResultMap" type="com.nari.software_tool.entity.SoftHistoryInfo">
+    <resultMap id="SoftHistoryResultMap" type="com.nari.software_tool.entity.SoftHistoryInfo">
         <result property="historyId" column="history_id" jdbcType="VARCHAR"/>
         <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
-        <result property="branchId" column="branch_id" jdbcType="INTEGER"/>
+        <result property="branchId" column="branch_id" jdbcType="VARCHAR"/>
         <result property="historyVersion" column="history_version" jdbcType="VARCHAR"/>
         <result property="historyPath" column="history_path" jdbcType="VARCHAR"/>
-        <result property="uploadDate" column="upload_date" jdbcType="TIMESTAMP"/>
+        <result property="uploadDate" column="upload_date" jdbcType="VARCHAR"/>
         <result property="operator" column="operator" jdbcType="VARCHAR"/>
         <result property="appPktDate" column="appPkt_date" jdbcType="TIMESTAMP"/>
         <result property="appPktNew" column="appPkt_new" jdbcType="VARCHAR"/>
@@ -179,5 +179,48 @@
         WHERE
             history_id = #{history_id,jdbcType=VARCHAR}
     </update>
+
+    <select id="queryHistoryVersionCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+               count(1)
+        FROM
+             software_history left join software_branch on software_history.branch_id = software_branch.branch_id
+        WHERE
+                software_history.soft_id =  #{softId,jdbcType=VARCHAR}
+            and software_branch.branch = "master"
+    </select>
+
+    <select id="queryHistoryVersionUrl" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+          software_history.history_path
+        FROM
+        software_history left join software_branch on software_history.branch_id = software_branch.branch_id
+        WHERE
+            software_history.soft_id =  #{softId,jdbcType=VARCHAR}
+        and software_branch.branch = "master"
+    </select>
+
+    <select id="queryHistoryVersion" parameterType="java.lang.String" resultType="com.nari.software_tool.entity.SoftHistoryInfo">
+        SELECT
+            software_history.history_id,
+            software_history.soft_id,
+            software_history.branch_id,
+            software_history.history_version,
+            software_history.history_path,
+            software_history.upload_date,
+            software_history.operator,
+            software_history.appPkt_date,
+            software_history.appPkt_new,
+            software_history.appPkt_path,
+            software_history.appPkt_size,
+            software_history.appPkt_md5
+        FROM
+            software_history
+        LEFT JOIN software_branch on software_history.branch_id = software_branch.branch_id
+        LEFT JOIN server_software ON server_software.latest_version = software_history.history_version and server_software.id = software_history.soft_id
+        WHERE
+            software_history.soft_id =  #{softId,jdbcType=VARCHAR}
+        and software_branch.branch = "master"
+    </select>
 
 </mapper>

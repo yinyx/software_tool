@@ -356,4 +356,34 @@
 		AND
 		    T.kind = #{kind}
 	</select>
+
+    <!-- 根据软件种类获取软件列表 -->
+    <select id="queryScreenShotListById" resultType="java.util.Map">
+        SELECT
+               shot_id,
+               shots_name,
+               url
+        FROM
+             software_screen
+        WHERE
+                id=#{Id}
+    </select>
+
+    <select id="querySoftList" resultMap="SoftwareResultMap">
+        SELECT
+               id,
+               soft_id,
+               name,
+               name_en,
+               kind,
+               icon,
+               brief_introduction,
+               size,
+               latest_version,
+               introduction,
+               file_path,
+               install_type
+        FROM
+             server_software
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.nari.software_tool.entity;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  * @version 1.0 2020/3/25
  */
 @Component
-public class SoftHistoryInfo {
+public class SoftHistoryInfo implements Serializable {
     //编号
     private String historyId;
 
@@ -22,7 +23,7 @@ public class SoftHistoryInfo {
 
     private String historyPath;
 
-    private Date uploadDate;
+    private String uploadDate;
 
     private String operator;
 
@@ -76,11 +77,11 @@ public class SoftHistoryInfo {
         this.historyPath = historyPath;
     }
 
-    public Date getUploadDate() {
+    public String getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
+    public void setUploadDate(String uploadDate) {
         this.uploadDate = uploadDate;
     }
 

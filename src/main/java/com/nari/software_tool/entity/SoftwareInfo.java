@@ -30,8 +30,6 @@ public class SoftwareInfo {
     private String introduction;
     //软件目录
     private String filePath;
-    //启动程序相对路径
-    private String exe;
     //安装类型
     private int install_type;
     //操作员

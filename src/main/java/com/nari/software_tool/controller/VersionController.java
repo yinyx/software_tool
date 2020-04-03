@@ -66,7 +66,7 @@ public class VersionController {
     @RequestMapping(value="/getVersionById",method=RequestMethod.POST)
     public Object getVersionById(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
-        String historyId = (String) paramObj.get("historyId");
+        String historyId = paramObj.get("historyId").toString();
         Map<String, Object> versionData = new HashMap<String, Object>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
@@ -87,7 +87,7 @@ public class VersionController {
 	@RequestMapping(value="/getVersionInstllconfigById",method=RequestMethod.POST)
     public Object getVersionInstllconfigById(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
-        String historyId = (String) paramObj.get("history_id");
+        String historyId = paramObj.get("history_id").toString();
         Map<String, Object> versionPkgCfgData = new HashMap<String, Object>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
@@ -108,7 +108,7 @@ public class VersionController {
     @RequestMapping(value="/queryBranchBySelect")
     public Object queryBranchBySelect(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
-        String softId = (String) paramObj.get("softId");
+        String softId = paramObj.get("softId").toString();
         Map<String, Object> resultMap=new HashMap<>();
         try {
             List<Map<String,Object>> dataList = branchService.queryBranchList(softId);

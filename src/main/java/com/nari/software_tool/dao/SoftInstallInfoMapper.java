@@ -1,6 +1,9 @@
 package com.nari.software_tool.dao;
 
+import com.nari.software_tool.entity.SoftInstallInfo;
+import com.nari.software_tool.entity.SoftwareInstall;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SoftInstallInfoMapper {
 
-
+    SoftInstallInfo queryInstallPktById(@Param("Id") String id);
 }

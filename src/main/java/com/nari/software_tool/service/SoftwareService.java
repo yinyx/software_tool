@@ -37,6 +37,10 @@ public interface SoftwareService {
 
     List<Map<String,Object>> querySoftwaresByKind(String kindId);
 
+    List<ScreenShotInfo> queryScreenShotListById(String id);
+
+    List<SoftwareInfo> querySoftList();
+
 	/**
 	 * 查询软件是否重名
 	 *
@@ -52,5 +56,5 @@ public interface SoftwareService {
 	 * @return boolean
 	 */
 	boolean querySoftwareEnNameIsRepeat(Map<String, Object> paramMap);
-    
+
 }

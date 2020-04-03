@@ -1,5 +1,7 @@
 package com.nari.software_tool.dao;
 
+import com.nari.software_tool.entity.SoftHistoryInfo;
+import com.nari.software_tool.entity.SoftwareInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -29,4 +31,10 @@ public interface SoftHistoryInfoMapper {
     int updateVersion(Map<String,Object> paramMap);
 	
 	void setVersionInstllconfig(Map<String,Object> paramMap);
+
+	int queryHistoryVersionCount(@Param("softId") String softId);
+
+    List<String> queryHistoryVersionUrl(@Param("softId") String softId);
+
+    SoftHistoryInfo queryHistoryVersion(@Param("softId") String softId);
 }

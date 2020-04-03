@@ -92,7 +92,7 @@ public class SoftwareController {
     @RequestMapping(value="/querySoftwaresByKind")
     public Object querySoftwaresByKind(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
-        String kindId = (String) paramObj.get("kindId");
+        String kindId = paramObj.get("kindId").toString();
 		Map<String, Object> resultMap=new HashMap<String,Object>();
         try {
             List<Map<String,Object>> dataList = softwareService.querySoftwaresByKind(kindId);

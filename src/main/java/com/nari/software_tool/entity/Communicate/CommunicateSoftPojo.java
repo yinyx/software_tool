@@ -20,13 +20,13 @@ public class CommunicateSoftPojo{
     //ICON文件的URL路径
     private String Icon;
     //软件分类
-    private int Type;
+    private String Type;
     //程序描述
     private String Desc;
     //历史版本数量
     private int History;
     //历史版本列表请求URL字符串
-    private String HistoryUrl;
+    private List<String> HistoryUrl;
     //安装配置对象
     private SoftInstallInfo softwareInstallInfo;
     //程序包对象
@@ -66,11 +66,11 @@ public class CommunicateSoftPojo{
         Icon = icon;
     }
 
-    public int getType() {
+    public String getType() {
         return Type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         Type = type;
     }
 
@@ -90,11 +90,11 @@ public class CommunicateSoftPojo{
         History = history;
     }
 
-    public String getHistoryUrl() {
+    public List<String> getHistoryUrl() {
         return HistoryUrl;
     }
 
-    public void setHistoryUrl(String historyUrl) {
+    public void setHistoryUrl(List<String> historyUrl) {
         HistoryUrl = historyUrl;
     }
 

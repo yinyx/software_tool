@@ -11,5 +11,19 @@
         <result property="KeyFile" column="KeyFile" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="queryInstallPktById" parameterType="java.lang.String" resultMap="SoftInstallResultMap">
+        select
+               soft_id,
+                type,
+               Is_multi,
+                installer,
+               uninstaller,
+               KeyFile
+        from software_install
+        where
+                soft_id = #{Id,jdbcType=VARCHAR}
+    </select>
+
+
 
 </mapper>

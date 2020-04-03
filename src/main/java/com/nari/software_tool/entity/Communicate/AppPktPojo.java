@@ -1,5 +1,7 @@
 package com.nari.software_tool.entity.Communicate;
 
+import java.util.Date;
+
 /**
  * @author yinyx
  * @version 1.0 2020/3/25
@@ -8,7 +10,7 @@ public class AppPktPojo {
 
     private String Ver;
 
-    private String Date;
+    private Date Date;
 
     private String New;
 
@@ -26,13 +28,14 @@ public class AppPktPojo {
         Ver = ver;
     }
 
-    public String getDate() {
+    public void setDate(java.util.Date date) {
+        Date = date;
+    }
+
+    public Date getDate() {
         return Date;
     }
 
-    public void setDate(String date) {
-        Date = date;
-    }
 
     public String getNew() {
         return New;

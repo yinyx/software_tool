@@ -1,5 +1,6 @@
 package com.nari.software_tool.dao;
 
+import com.nari.software_tool.entity.ScreenShotInfo;
 import com.nari.software_tool.entity.SoftwareInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -91,5 +92,9 @@ public interface SoftwareInfoMapper {
      * @return int
      */
     int querySoftwareEnNameIsRepeat(Map<String, Object> paramMap);
+
+	List<ScreenShotInfo> queryScreenShotListById(String id);
+
+	List<SoftwareInfo> querySoftList();
 
 }

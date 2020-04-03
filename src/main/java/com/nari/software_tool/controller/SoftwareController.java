@@ -536,6 +536,7 @@ public class SoftwareController {
         Map<String, Object> paramMap = new HashMap<String, Object>();
 
         paramMap.put("softwareName", request.getParameter("softwareName"));
+        paramMap.put("kind", request.getParameter("kind"));
 
         boolean flag ;
         try {
@@ -544,7 +545,7 @@ public class SoftwareController {
             resultMap.put("flag",flag);
         } catch (Exception e) {
             resultMap.put("status", "error");
-            resultMap.put("msg", "获取软件中文名是否重名失败!");
+            resultMap.put("msg", "获取当前类别的软件中文名是否重名失败!");
         }
         return resultMap;
     }
@@ -555,6 +556,7 @@ public class SoftwareController {
         Map<String, Object> paramMap = new HashMap<String, Object>();
 
         paramMap.put("softwareName_en", request.getParameter("softwareName_en"));
+        paramMap.put("kind", request.getParameter("kind"));
 
         boolean flag ;
         try {
@@ -563,7 +565,7 @@ public class SoftwareController {
             resultMap.put("flag",flag);
         } catch (Exception e) {
             resultMap.put("status", "error");
-            resultMap.put("msg", "获取软件英文名是否重名失败!");
+            resultMap.put("msg", "获取当前类别的软件英文名是否重名失败!");
         }
         return resultMap;
     }

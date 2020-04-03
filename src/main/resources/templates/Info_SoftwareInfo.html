@@ -11,7 +11,7 @@
         </div>
 		<div class="form-group">
 			<div style="float:right;margin-right:120px;">
-				<button class="btn  blue"data-toggle="modal" data-target="#softwareModal_add" onclick="addSoftware()">新增</button>
+				<button class="btn  blue" onclick="addSoftware()">新增</button>
 			</div>
 		</div>
 	</div>
@@ -37,6 +37,15 @@
                             <div class="col-md-12" style="border-right: 1px solid #e5e5e5;">
                                 <div class="row margiBottom">
                                     <input type="hidden" id="recordId" name="recordId"/>
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="softwareKindRead"><span class="required">*</span>软件类别：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="softwareKindRead" name="softwareKindRead" class="form-control ">
+                                        </div>
+                                    </div>
+									
                                     <div class="col-sm-12">
                                         <div class="col-sm-4"style="text-align:right;">
                                             <label class="control-label" for="softwareName"><span class="required">*</span>软件名（中）：</label>
@@ -96,6 +105,7 @@
                                             <input  type="text"   class="form-control " name="version" id="version"   placeholder="请输入版本"/></label>
                                         </div>
                                     </div>
+									<!--
                                     <div class="col-sm-12">
                                         <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label"><span class="required">*</span>类别：</label>
@@ -103,6 +113,7 @@
                                         <div class="col-sm-8" id="type_radio">
                                         </div>
                                     </div>
+									-->
 
                                     <div class="col-sm-12">
                                         <div class="col-sm-4"style="text-align:right;">

@@ -340,6 +340,14 @@ function querySchoolUser()
 };
 //新增软件按钮
 function addSoftware(){
+	var softKind = $("#cronKind").val();
+	if ((softKind == null)||(softKind == 0))
+	{
+		showSuccessOrErrorModal("增加软件之前请先在软件类别下拉框指定一款软件类别！","warning");
+		
+		return;
+	}
+	
 	$("#softdir_now_label").attr("style","display:none;");
 	$("#softdir_now_text").attr("style","display:none;");
 	$("#uuid_label").attr("style","display:none;");
@@ -348,7 +356,10 @@ function addSoftware(){
 	$("#soft").attr("style","display:;");
 	$("#softwareForm")[0].reset();
 	$("#recordId").val("");
-	
+	var  softwareKind = $("#cronKind option:checked").text();
+	$("#softwareKindRead").val(softwareKind);
+	$("#softwareKindRead").attr("disabled", true);
+	$('#softwareModal_add').modal('show');
 	
 	var fileCatcher = document.getElementById("softwareForm");
     var file_icon = document.getElementById("icon");
@@ -371,7 +382,7 @@ function addSoftware(){
         var nameEn = $(":input[name='softwareName_en']").val();
         var introduction = $(":input[name='description']").val();
         var latestVersion = $(":input[name='version']").val();
-        var kind = $(":radio[name=\"type\"]:checked").val();
+        var kind = $("#cronKind").val();
 		var installType = $("#cronInstallType").val();
 		var briefIntroduction = $("#description").val();
 		var recordId = $("#recordId").val();
@@ -715,11 +726,15 @@ $(document).ready(function(){
 	//检测新增软件的中文名是否重复
 	$("#softwareName").on('change blur',function(e){
 		    var softwareName = this.value;
+			var kind = $("#cronKind").val();
 			var self = this;
 		    $.ajax({
 			url:"software/querySoftwareNameIsRepeat",
 			type:"post",
-			data:{softwareName:softwareName},
+			data:{
+				  softwareName:softwareName,
+			      kind:kind
+			     },
 			dataType:"json",
 			success:function(data) {
 				console.log(data)
@@ -727,7 +742,7 @@ $(document).ready(function(){
 			    	if(!data.flag){
 			    		console.log(self)
 		 		        if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
-		 		            $(self).testRemind("该软件中文名已存在，请确认"); 
+		 		            $(self).testRemind("当前类别该软件中文名已存在，请确认"); 
 		 		            $(self).focus();
 		 		        }    
 			    	}
@@ -736,7 +751,7 @@ $(document).ready(function(){
 			    }         
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("请求查询软件中文名是否重名出错了","error"); 
+			    showSuccessOrErrorModal("请求查询当前类别的软件中文名是否重名出错了","error"); 
 			}
 		});
 	});
@@ -744,11 +759,15 @@ $(document).ready(function(){
 	//检测新增软件的英文名是否重复
 	$("#softwareName_en").on('change blur',function(e){
 		    var softwareName_en = this.value;
+			var kind = $("#cronKind").val();
 			var self = this;
 		    $.ajax({
 			url:"software/querySoftwareEnNameIsRepeat",
 			type:"post",
-			data:{softwareName_en:softwareName_en},
+			data:{
+				   softwareName_en:softwareName_en,
+				   kind:kind
+				 },
 			dataType:"json",
 			success:function(data) {
 				console.log(data)
@@ -756,7 +775,7 @@ $(document).ready(function(){
 			    	if(!data.flag){
 			    		console.log(self)
 		 		        if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
-		 		            $(self).testRemind("该软件英文名已存在，请确认"); 
+		 		            $(self).testRemind("当前类别的该软件英文名已存在，请确认"); 
 		 		            $(self).focus();
 		 		        }    
 			    	}
@@ -765,7 +784,7 @@ $(document).ready(function(){
 			    }         
 			},
 			error:function(e) {
-			    showSuccessOrErrorModal("请求查询软件英文名是否重名出错了","error"); 
+			    showSuccessOrErrorModal("请求查询当前类别的软件英文名是否重名出错了","error"); 
 			}
 		});
 	});

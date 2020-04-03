@@ -46,32 +46,36 @@ public class CommunicateServiceImpl implements CommunicateService {
             communicateSoftPojo.setName(ech.getName());
             communicateSoftPojo.setVersion(ech.getLatestVersion());
             communicateSoftPojo.setIcon(ech.getIcon());
-            communicateSoftPojo.setType(Integer.parseInt(ech.getKind()));
+            communicateSoftPojo.setType(ech.getKind());
             communicateSoftPojo.setDesc(ech.getBriefIntroduction());
 
-            communicateSoftPojo.setHistory(softHistoryInfoMapper.queryHistoryVersionCount(ech.getSoftId()));
-            communicateSoftPojo.setHistoryUrl(softHistoryInfoMapper.queryHistoryVersionUrl(ech.getSoftId()));
+            communicateSoftPojo.setHistory(softHistoryInfoMapper.queryHistoryVersionCount(ech.getId()));
+            communicateSoftPojo.setHistoryUrl(softHistoryInfoMapper.queryHistoryVersionUrl(ech.getId()));
 
             //安装配置对象
             SoftInstallInfo softInstallInfo = softInstallInfoMapper.queryInstallPktById(ech.getId());
             communicateSoftPojo.setSoftwareInstallInfo(softInstallInfo);
 
             //程序包对象
-            SoftHistoryInfo softHistoryInfo = softHistoryInfoMapper.queryHistoryVersion(ech.getSoftId());
-            AppPktPojo appPktPojo = new AppPktPojo();
-            appPktPojo.setVer(softHistoryInfo.getHistoryVersion());
-            appPktPojo.setNew(softHistoryInfo.getAppPktNew());
-            appPktPojo.setPath(softHistoryInfo.getHistoryPath());
-            appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
-            appPktPojo.setSize(softHistoryInfo.getAppPktSize());
-            appPktPojo.setDate(softHistoryInfo.getAppPktDate());
-            communicateSoftPojo.setSoftPktInfo(appPktPojo);
-
+            SoftHistoryInfo softHistoryInfo = softHistoryInfoMapper.queryHistoryVersion(ech.getId());
+            if(softHistoryInfo!= null) {
+                AppPktPojo appPktPojo = new AppPktPojo();
+                appPktPojo.setVer(softHistoryInfo.getHistoryVersion());
+                appPktPojo.setNew(softHistoryInfo.getAppPktNew());
+                appPktPojo.setPath(softHistoryInfo.getHistoryPath());
+                appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
+                appPktPojo.setSize(softHistoryInfo.getAppPktSize());
+                appPktPojo.setDate(softHistoryInfo.getAppPktDate());
+                communicateSoftPojo.setSoftPktInfo(appPktPojo);
+            }else{
+                AppPktPojo appPktPojo = new AppPktPojo();
+                communicateSoftPojo.setSoftPktInfo(appPktPojo);
+            }
             communicateSoftPojo.setScreenShotInfoList(softwareInfoMapper.queryScreenShotListById(ech.getId()));
-
             softPojoList.add(communicateSoftPojo);
         }
         communicatePojo.setTotal(softPojoList.size());
+        communicatePojo.setLst(softPojoList);
         return communicatePojo;
     }
 }

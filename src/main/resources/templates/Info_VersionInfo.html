@@ -13,7 +13,10 @@
             <label class="control-label">&nbsp;分支：</label>
             <select id="cronBranch" class="form-control input-inline">
             </select>
-        </div>
+			<label class="control-label">&nbsp;版本号：</label> 
+            <input type="text" id="version_name" class="form-control input-inline"  placeholder="版本号" value=""/>
+            <button class='btn green' type="button" style='margin-right:15px;' onclick="queryVersions()" id="queryButton">查询</button>
+		</div>
 		<div class="form-group">
 			<div style="float:right;margin-right:120px;">
 				<button class="btn  blue" data-toggle="modal" data-target="#versionModal_add" onclick="addVersion()">新增</button>

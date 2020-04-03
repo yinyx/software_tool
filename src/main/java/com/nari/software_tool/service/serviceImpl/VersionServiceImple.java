@@ -34,12 +34,14 @@ public class VersionServiceImple implements VersionService {
         String Kind = dataTableMap.get("Kind");
         String softId = dataTableMap.get("softId");
         String branchId = dataTableMap.get("branchId");
+        String version_name = dataTableMap.get("version_name");
 
         paramMap.put("start", start);
         paramMap.put("length", length);
         paramMap.put("Kind",Kind);
         paramMap.put("softId",softId);
         paramMap.put("branchId",branchId);
+        paramMap.put("version_name",version_name);
 
         List<Map<String, Object>> resList = softHistoryInfoMapper.queryHistoryList(paramMap);
         int count = softHistoryInfoMapper.queryHistoryCount(paramMap);

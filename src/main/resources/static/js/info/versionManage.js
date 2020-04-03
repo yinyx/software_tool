@@ -25,6 +25,7 @@ function initSchoolUserTable() {
 			aoData.push({"name":"Kind","value":$("#cronKind").val()});
             aoData.push({"name":"softId","value":$("#cronSoftware").val()});
             aoData.push({"name":"branchId","value":$("#cronBranch").val()});
+			aoData.push({"name":"version_name","value":$("#version_name").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
@@ -577,6 +578,10 @@ function initBranch(){
             showSuccessOrErrorModal("初始化软件列表下拉框请求出错了","error");
         }
     });
+}
+
+function queryVersions(){
+	queryVersion();
 }
 
 $("select#cronKind").change(function(){

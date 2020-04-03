@@ -102,6 +102,10 @@
             <if test='branchId != null and branchId !="0"'>
                 AND software_history.branch_id = #{branchId,jdbcType=VARCHAR}
             </if>
+			<if test='version_name != null and version_name != "" '>
+		        AND
+     		        history_version like concat(concat('%',#{version_name}),'%')
+            </if>
         limit
               #{start},#{length}
     </select>
@@ -122,6 +126,10 @@
                 </if>
                 <if test='branchId != null and branchId !="0"'>
                     AND software_history.branch_id = #{branchId,jdbcType=VARCHAR}
+                </if>
+				<if test='version_name != null and version_name != "" '>
+		            AND
+     		            history_version like concat(concat('%',#{version_name}),'%')
                 </if>
     </select>
 

@@ -12,7 +12,7 @@ function initSchoolUserTable() {
 		// 服务器回调函数 
 		"fnServerData": function retrieveData(sSource, aoData, fnCallback) 
 		{
-			
+			aoData.push({ "name": "KindName", "value": $("#kind_name").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,
@@ -73,6 +73,11 @@ function initSchoolUserTable() {
 		 }]
 	});
 }	
+
+function querySoftwares(){
+	querySchoolUser();
+}
+
 // 点击编辑按钮
 function showUserEditModal(kindId){
 	startPageLoading();

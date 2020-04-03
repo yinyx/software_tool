@@ -3,6 +3,11 @@
            <marquee onMouseOut=start(); onMouseOver=stop(); scrolldelay=500 scrollamount=5 direction="right" behavior="scroll" id="marqueeTitle"></marquee>
         </div>
 	<div class="row">
+		<div class="col-md-6">
+            <label class="control-label">&nbsp;类别名称：</label> 
+            <input type="text" id="kind_name" class="form-control input-inline"  placeholder="类别名称" value=""/>
+            <button class='btn green' type="button" style='margin-right:15px;' onclick="querySoftwares()" id="queryButton">查询</button>
+        </div>
 		<div class="form-group">
 			<div style="float:right;margin-right:120px;">
 				<button class="btn  blue"data-toggle="modal" data-target="#kindModal_add" onclick="addSoftwareKind()">新增</button>

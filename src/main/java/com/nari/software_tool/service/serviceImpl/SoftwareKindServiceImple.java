@@ -38,15 +38,17 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
         DataTableModel dataTableModel = new DataTableModel();
         Map<String,Object> paramMap = new HashMap<String,Object>();
         String sEcho = dataTableMap.get("sEcho");
+        String KindName = dataTableMap.get("KindName");
 
         int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
         int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
 
         paramMap.put("start", start);
         paramMap.put("length", length);
+        paramMap.put("KindName", KindName);
 
         List<Map<String, Object>> resList = softwareKindMapper.queryKindList(paramMap);
-        Integer count = softwareKindMapper.queryKindsCount();
+        Integer count = softwareKindMapper.queryKindsCount(paramMap);
 
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);

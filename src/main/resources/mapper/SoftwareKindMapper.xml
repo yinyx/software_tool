@@ -12,15 +12,28 @@
 
     <!-- 获取软件种类列表 -->
 	<select id="queryKindList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT * FROM server_software_kind limit #{start},#{length}
+		SELECT 
+		    * 
+		FROM 
+		    server_software_kind 
+		<if test='KindName != null and KindName != "0" '>
+		WHERE
+     		kind_name like concat(concat('%',#{KindName}),'%')
+        </if>	
+	    limit 
+		    #{start},#{length}	
 	</select>
 
 	<!-- 获取软件种类总数 -->
-	<select id="queryKindsCount" resultType="java.lang.Integer">
+	<select id="queryKindsCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
  		SELECT
 			COUNT(1)
 		FROM
 			server_software_kind
+		<if test='KindName != null and KindName != "0" '>
+		WHERE
+     		kind_name like concat(concat('%',#{KindName}),'%')
+        </if>	
 	</select>
 
 	<!-- 根据软件种类Id获取软件种类信息  -->

@@ -16,7 +16,7 @@ public interface SoftwareKindMapper {
 
     List<Map<String, Object>> queryKindList(Map<String, Object> paramMap);
 
-    int queryKindsCount();
+    int queryKindsCount(Map<String, Object> paramMap);
 
     Map<String, Object> getKindById(String KindId);
 

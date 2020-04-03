@@ -26,7 +26,7 @@ public class CommunicateSoftPojo{
     //历史版本数量
     private int History;
     //历史版本列表请求URL字符串
-    private String HistoryUrl;
+    private List<String> HistoryUrl;
     //安装配置对象
     private SoftInstallInfo softwareInstallInfo;
     //程序包对象
@@ -90,11 +90,11 @@ public class CommunicateSoftPojo{
         History = history;
     }
 
-    public String getHistoryUrl() {
+    public List<String> getHistoryUrl() {
         return HistoryUrl;
     }
 
-    public void setHistoryUrl(String historyUrl) {
+    public void setHistoryUrl(List<String> historyUrl) {
         HistoryUrl = historyUrl;
     }
 

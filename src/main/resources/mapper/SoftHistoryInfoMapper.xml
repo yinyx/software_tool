@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nari.software_tool.dao.SoftHistoryInfoMapper">
-    <resultMap id="SoftInstallResultMap" type="com.nari.software_tool.entity.SoftHistoryInfo">
+    <resultMap id="SoftHistoryResultMap" type="com.nari.software_tool.entity.SoftHistoryInfo">
         <result property="historyId" column="history_id" jdbcType="VARCHAR"/>
         <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
         <result property="branchId" column="branch_id" jdbcType="INTEGER"/>
@@ -179,5 +179,54 @@
         WHERE
             history_id = #{history_id,jdbcType=VARCHAR}
     </update>
+
+    <select id="queryHistoryVersionCount" parameterType="java.lang.String" >
+        SELECT
+               count(1)
+        FROM
+             software_history left join software_branch on software_history.branch_id = software_branch.branch_id
+        WHERE
+            <if test="softId != null and softId != '0'">
+                software_history.soft_id =  #{softId,jdbcType=VARCHAR}
+            </if>
+            and software_branch.branch = "master"
+    </select>
+
+    <select id="queryHistoryVersionUrl" parameterType="java.lang.String" >
+        SELECT
+          software_history.history_path
+        FROM
+        software_history left join software_branch on software_history.branch_id = software_branch.branch_id
+        WHERE
+        <if test="softId != null and softId != '0'">
+            software_history.soft_id =  #{softId,jdbcType=VARCHAR}
+        </if>
+        and software_branch.branch = "master"
+    </select>
+
+    <select id="queryHistoryVersion" parameterType="java.lang.String" resultMap="SoftHistoryResultMap">
+        SELECT
+            software_history.history_id,
+            software_history.soft_id,
+            software_history.branch_id,
+            history_version,
+            history_path,
+            upload_date,
+            operator,
+            appPkt_date,
+            appPkt_new,
+            appPkt_path,
+            appPkt_size,
+            appPkt_md5
+        FROM
+            software_history
+        LEFT JOIN software_branch on software_history.branch_id = software_branch.branch_id
+        LEFT JOIN server_software ON server_software.latest_version = software_history.history_version and server_software.soft_id = software_history.soft_id
+        WHERE
+        <if test="softId != null and softId != '0'">
+            software_history.soft_id =  #{softId,jdbcType=VARCHAR}
+        </if>
+        and software_branch.branch = "master"
+    </select>
 
 </mapper>

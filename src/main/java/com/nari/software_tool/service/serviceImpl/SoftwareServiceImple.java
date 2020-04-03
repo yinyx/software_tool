@@ -9,6 +9,7 @@ import java.io.File;
 
 import com.nari.software_tool.dao.*;
 import com.nari.software_tool.entity.ScreenShotInfo;
+import com.nari.software_tool.entity.SoftwareInfo;
 import com.nari.software_tool.entity.User;
 import com.nari.software_tool.service.UserService;
 import org.springframework.stereotype.Service;
@@ -264,6 +265,16 @@ public class SoftwareServiceImple implements SoftwareService{
 			return false;
 		}
 
+	}
+
+	@Override
+	public List<ScreenShotInfo> queryScreenShotListById(String id) {
+		return softwareInfoMapper.queryScreenShotListById(id);
+	}
+
+	@Override
+	public List<SoftwareInfo> querySoftList() {
+		return softwareInfoMapper.querySoftList();
 	}
 }
 

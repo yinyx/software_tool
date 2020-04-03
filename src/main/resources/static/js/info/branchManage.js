@@ -280,12 +280,14 @@ function addBranch(){
 }
 
 $("select#cronKind").change(function(){
-   initSoftware();
-   branchTable.draw();
+	$("#branch_name").val("");
+    initSoftware();
+    branchTable.draw();
 });
 
 $("select#cronSoftware").change(function(){
-   branchTable.draw();
+	$("#branch_name").val("");
+    branchTable.draw();
 });
 
 $(document).ready(function(){

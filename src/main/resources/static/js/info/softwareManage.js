@@ -649,7 +649,8 @@ function ScreenShotConfig(softwareId){
 }
 
 $("select#cronKind").change(function(){
-   schoolUserTable.draw();
+	$("#software_name").val("");	
+    schoolUserTable.draw();
 });
 
 $(document).ready(function(){

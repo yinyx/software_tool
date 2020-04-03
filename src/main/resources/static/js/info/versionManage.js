@@ -585,15 +585,18 @@ function queryVersions(){
 }
 
 $("select#cronKind").change(function(){
-   initSoftware();
+	$("#version_name").val("");
+    initSoftware();
     queryVersion();
 });
 $("select#cronSoftware").change(function(){
+	$("#version_name").val("");
     initBranch();
     queryVersion();
 });
 
 $("select#cronBranch").change(function(){
+	$("#version_name").val("");
     queryVersion();
 });
 

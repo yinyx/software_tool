@@ -20,7 +20,7 @@ public class CommunicateSoftPojo{
     //ICON文件的URL路径
     private String Icon;
     //软件分类
-    private int Type;
+    private String Type;
     //程序描述
     private String Desc;
     //历史版本数量
@@ -66,11 +66,11 @@ public class CommunicateSoftPojo{
         Icon = icon;
     }
 
-    public int getType() {
+    public String getType() {
         return Type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         Type = type;
     }
 

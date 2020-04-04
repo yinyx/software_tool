@@ -26,13 +26,13 @@ public class CommunicateSoftPojo{
     //历史版本数量
     private int History;
     //历史版本列表请求URL字符串
-    private List<String> HistoryUrl;
+    private String HistoryUrl;
     //安装配置对象
-    private SoftInstallInfo softwareInstallInfo;
+    private SoftInstallInfo Install;
     //程序包对象
-    private AppPktPojo softPktInfo;
+    private AppPktPojo AppPkt;
     //截图列表
-    private List<ScreenShotInfo> screenShotInfoList;
+    private List<ScreenShotInfo> ScreenShots;
 
     public String getName() {
         return Name;
@@ -90,36 +90,36 @@ public class CommunicateSoftPojo{
         History = history;
     }
 
-    public List<String> getHistoryUrl() {
+    public String getHistoryUrl() {
         return HistoryUrl;
     }
 
-    public void setHistoryUrl(List<String> historyUrl) {
+    public void setHistoryUrl(String historyUrl) {
         HistoryUrl = historyUrl;
     }
 
-    public SoftInstallInfo getSoftwareInstallInfo() {
-        return softwareInstallInfo;
+    public SoftInstallInfo getInstall() {
+        return Install;
     }
 
-    public void setSoftwareInstallInfo(SoftInstallInfo softwareInstallInfo) {
-        this.softwareInstallInfo = softwareInstallInfo;
+    public void setInstall(SoftInstallInfo install) {
+        Install = install;
     }
 
-    public AppPktPojo getSoftPktInfo() {
-        return softPktInfo;
+    public AppPktPojo getAppPkt() {
+        return AppPkt;
     }
 
-    public void setSoftPktInfo(AppPktPojo softPktInfo) {
-        this.softPktInfo = softPktInfo;
+    public void setAppPkt(AppPktPojo appPkt) {
+        AppPkt = appPkt;
     }
 
-    public List<ScreenShotInfo> getScreenShotInfoList() {
-        return screenShotInfoList;
+    public List<ScreenShotInfo> getScreenShots() {
+        return ScreenShots;
     }
 
-    public void setScreenShotInfoList(List<ScreenShotInfo> screenShotInfoList) {
-        this.screenShotInfoList = screenShotInfoList;
+    public void setScreenShots(List<ScreenShotInfo> screenShots) {
+        ScreenShots = screenShots;
     }
 
     @Override
@@ -129,13 +129,13 @@ public class CommunicateSoftPojo{
                 ", UUID='" + UUID + '\'' +
                 ", Version='" + Version + '\'' +
                 ", Icon='" + Icon + '\'' +
-                ", Type=" + Type +
+                ", Type='" + Type + '\'' +
                 ", Desc='" + Desc + '\'' +
                 ", History=" + History +
                 ", HistoryUrl='" + HistoryUrl + '\'' +
-                ", softwareInstallInfo=" + softwareInstallInfo +
-                ", softPktInfo=" + softPktInfo +
-                ", screenShotInfoList=" + screenShotInfoList +
+                ", Install=" + Install +
+                ", AppPkt=" + AppPkt +
+                ", ScreenShots=" + ScreenShots +
                 '}';
     }
 }

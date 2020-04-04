@@ -1,10 +1,10 @@
 package com.nari.software_tool.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.nari.software_tool.entity.Communicate.CommunicatePojo;
 import com.nari.software_tool.entity.Communicate.CommunicateSoftPojo;
 import com.nari.software_tool.service.CommunicateService;
 import com.nari.software_tool.service.SoftwareService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +30,7 @@ public class CommunicateController
     public JSONObject getSoftList(){
         JSONObject jsonObject = new JSONObject();
         CommunicatePojo communicatePojo = communicateService.softReqCollect(softwareService.querySoftList());
-        jsonObject.put("message","请求软件列表");
+        System.out.println(communicatePojo);
         jsonObject.put("Content",communicatePojo);
         return jsonObject;
     }

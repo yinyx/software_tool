@@ -10,42 +10,42 @@ import java.util.List;
  */
 public class CommunicatePojo {
     //响应数据类型
-    private int  resp;
+    private int  RESP;
     //列表元素数量
-    private int total;
+    private int TOTAL;
     //对象数组
-    private List<Object> lst;
+    private List<Object> Applications;
 
-    public int getResp() {
-        return resp;
+    public int getRESP() {
+        return RESP;
     }
 
-    public void setResp(int resp) {
-        this.resp = resp;
+    public void setRESP(int RESP) {
+        this.RESP = RESP;
     }
 
-    public int getTotal() {
-        return total;
+    public int getTOTAL() {
+        return TOTAL;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setTOTAL(int TOTAL) {
+        this.TOTAL = TOTAL;
     }
 
-    public List<Object> getLst() {
-        return lst;
+    public List<Object> getApplications() {
+        return Applications;
     }
 
-    public void setLst(List<Object> lst) {
-        this.lst = lst;
+    public void setApplications(List<Object> applications) {
+        Applications = applications;
     }
 
     @Override
     public String toString() {
         return "CommunicatePojo{" +
-                "resp=" + resp +
-                ", total=" + total +
-                ", lst=" + lst +
+                "RESP=" + RESP +
+                ", TOTAL=" + TOTAL +
+                ", Applications=" + Applications +
                 '}';
     }
 }

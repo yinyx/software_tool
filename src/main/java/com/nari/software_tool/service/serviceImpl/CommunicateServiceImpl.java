@@ -5,6 +5,7 @@ import com.nari.software_tool.entity.Communicate.*;
 import com.nari.software_tool.entity.SoftHistoryInfo;
 import com.nari.software_tool.entity.SoftInstallInfo;
 import com.nari.software_tool.entity.SoftwareInfo;
+import com.nari.software_tool.entity.UserDetail;
 import com.nari.software_tool.service.CommunicateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class CommunicateServiceImpl implements CommunicateService {
     SoftHistoryInfoMapper softHistoryInfoMapper;
     @Autowired
     SoftwareKindMapper softwareKindMapper;
+    @Autowired
+    UserMapper userMapper;
+
 
 
     @Override
@@ -47,7 +51,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             communicateSoftPojo.setDesc(ech.getBriefIntroduction());
 
             communicateSoftPojo.setHistory(softHistoryInfoMapper.queryHistoryVersionCount(ech.getId()));
-            communicateSoftPojo.setHistoryUrl("software_tool/communicate/getHistoryList");
+            communicateSoftPojo.setHistoryUrl("software_tool/communicate/getHistoryList?"+"ID="+ech.getId());
 
             //安装配置对象
             SoftInstallInfo softInstallInfo = softInstallInfoMapper.queryInstallPktById(ech.getId());
@@ -59,7 +63,7 @@ public class CommunicateServiceImpl implements CommunicateService {
                 AppPktPojo appPktPojo = new AppPktPojo();
                 appPktPojo.setVer(softHistoryInfo.getHistoryVersion());
                 appPktPojo.setNew(softHistoryInfo.getAppPktNew());
-                appPktPojo.setPath(softHistoryInfo.getHistoryPath());
+                appPktPojo.setPath("software_tool/communicate/");
                 appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
                 appPktPojo.setSize(softHistoryInfo.getAppPktSize());
                 appPktPojo.setDate(softHistoryInfo.getAppPktDate());
@@ -102,5 +106,33 @@ public class CommunicateServiceImpl implements CommunicateService {
         communicatePojo.setTOTAL(hisPojoList.size());
         communicatePojo.setApplications(hisPojoList);
         return communicatePojo;
+    }
+
+    @Override
+    public UserPojo userReqCollect(String userName, String password) {
+        UserPojo userPojo = new UserPojo();
+        userPojo.setResp(Result.USER_RESP.getCode());
+        if(userMapper.checkUserIsExist(userName,password)){
+            UserDetail userDetail = userMapper.queryUserDetail(userName,password);
+            userPojo.setType(userDetail.getRole());
+            userPojo.setRslt(Result.SUCCESS.getCode());
+        }
+        if(!userMapper.checkUserIsExist(userName, password)){
+            try{
+            Map<String,Object> userMap = userMapper.findUserByName(userName);
+                if(userMap.get("password") != password){
+                userPojo.setRslt(Result.PASSWORD_WRONG.getCode());
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if(!userMapper.checkUserIsExist(userName,password)) {
+            Map<String,Object> userMap = userMapper.findUserByName(userName);
+            if(userMap == null){
+                userPojo.setRslt(Result.USER_IS_NOT_EXIST.getCode());
+            }
+        }
+        return userPojo;
     }
 }

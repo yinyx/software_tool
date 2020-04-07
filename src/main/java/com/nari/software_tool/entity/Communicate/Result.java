@@ -13,7 +13,13 @@ public enum Result{
 
     PACKET_RESP(2,"程序包信息"),
 
-    USER_RESP(3,"用户信息");
+    USER_RESP(3,"用户信息"),
+
+    SUCCESS(0,"成功"),
+
+    USER_IS_NOT_EXIST(1,"用户不存在"),
+
+    PASSWORD_WRONG(2,"密码错误");
 
     private int code;
     private String description;

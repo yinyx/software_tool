@@ -225,7 +225,7 @@
         FROM
             software_history
         LEFT JOIN software_branch on software_history.branch_id = software_branch.branch_id
-        LEFT JOIN server_software ON server_software.latest_version = software_history.history_version and server_software.id = software_history.soft_id
+        RIGHT JOIN server_software ON server_software.latest_version = software_history.history_version and server_software.id = software_history.soft_id
         WHERE
             software_history.soft_id =  #{softId,jdbcType=VARCHAR}
         and software_branch.branch = "master"

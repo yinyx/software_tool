@@ -1,4 +1,5 @@
 package com.nari.software_tool.dao;
+import com.nari.software_tool.entity.UserDetail;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
+@Repository
 public interface UserMapper {
     //根据id查询用户
     Map<String, Object> findUserByName(String name);
@@ -32,4 +34,8 @@ public interface UserMapper {
     void deleteUser(String userId);
 
     int queryUserNameIsRepeat(String name);
+
+    boolean checkUserIsExist(String userName, String password);
+
+    UserDetail queryUserDetail(String userName,String password);
 }

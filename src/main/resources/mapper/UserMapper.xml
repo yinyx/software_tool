@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nari.software_tool.dao.UserMapper">
+	<resultMap id="UserDetailResultMap" type="com.nari.software_tool.entity.UserDetail">
+		<result property="Id" column="id" jdbcType="VARCHAR"/>
+		<result property="phone" column="phone" jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+		<result property="hasDel" column="has_del" jdbcType="INTEGER"/>
+		<result property="role" column="role" jdbcType="INTEGER"/>
+		<result property="operateAuth" column="operate_authority" jdbcType="INTEGER"/>
+	</resultMap>
+
 	<select id="findUserByName" parameterType="String" resultType="java.util.HashMap">
 		SELECT
 		*
@@ -111,5 +125,35 @@
 			sys_user T
 		WHERE
 			T.phone = #{userName}
+	</select>
+
+	<select id="checkUserIsExist" parameterType="java.lang.String" resultType="java.lang.Boolean">
+	   SELECT
+			COUNT(1)
+		FROM
+			sys_user
+		WHERE
+			phone = #{userName,jdbcType=VARCHAR} AND
+			password = #{password,jdbcType=VARCHAR}
+	</select>
+
+	<select id="queryUserDetail" parameterType="java.lang.String" resultMap="UserDetailResultMap">
+	   SELECT
+			id,
+			phone,
+			password,
+			user_name,
+			create_time,
+			create_by,
+			update_time,
+			update_by,
+			has_del,
+			role,
+			operate_authority
+		FROM
+			sys_user
+		WHERE
+			phone = #{userName,jdbcType=VARCHAR} AND
+			password = #{password,jdbcType=VARCHAR}
 	</select>
 </mapper>

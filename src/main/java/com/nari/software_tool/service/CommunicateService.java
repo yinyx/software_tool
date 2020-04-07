@@ -1,9 +1,11 @@
 package com.nari.software_tool.service;
 
 import com.nari.software_tool.entity.Communicate.CommunicatePojo;
+import com.nari.software_tool.entity.Communicate.UserPojo;
 import com.nari.software_tool.entity.SoftHistoryInfo;
 import com.nari.software_tool.entity.SoftInstallInfo;
 import com.nari.software_tool.entity.SoftwareInfo;
+import com.nari.software_tool.entity.User;
 
 import java.util.List;
 
@@ -26,5 +28,13 @@ public interface CommunicateService {
      * @return
      */
     CommunicatePojo hisReqCollect(List<SoftHistoryInfo> softHistoryInfoList);
+
+    /**
+     * 封装客户端请求用户校验
+     * @param userName
+     * @param password
+     * @return
+     */
+    UserPojo userReqCollect(String userName, String password);
 
 }

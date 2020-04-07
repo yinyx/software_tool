@@ -15,9 +15,7 @@ public class CommunicatePacketPojo {
     private String UUID;
 
     //程序包对象
-    private AppPktPojo softPktInfo;
-    //截图列表
-    private List<ScreenShotInfo> screenShotInfoList;
+    private AppPktPojo AppPkt;
 
     public String getUUID() {
         return UUID;
@@ -27,28 +25,19 @@ public class CommunicatePacketPojo {
         this.UUID = UUID;
     }
 
-    public AppPktPojo getSoftPktInfo() {
-        return softPktInfo;
+    public AppPktPojo getAppPkt() {
+        return AppPkt;
     }
 
-    public void setSoftPktInfo(AppPktPojo softPktInfo) {
-        this.softPktInfo = softPktInfo;
-    }
-
-    public List<ScreenShotInfo> getScreenShotInfoList() {
-        return screenShotInfoList;
-    }
-
-    public void setScreenShotInfoList(List<ScreenShotInfo> screenShotInfoList) {
-        this.screenShotInfoList = screenShotInfoList;
+    public void setAppPkt(AppPktPojo appPkt) {
+        AppPkt = appPkt;
     }
 
     @Override
     public String toString() {
         return "CommunicatePacketPojo{" +
                 "UUID='" + UUID + '\'' +
-                ", softPktInfo=" + softPktInfo +
-                ", screenShotInfoList=" + screenShotInfoList +
+                ", AppPkt=" + AppPkt +
                 '}';
     }
 }

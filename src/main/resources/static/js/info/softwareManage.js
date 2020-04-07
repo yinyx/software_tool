@@ -610,7 +610,8 @@ function ScreenShotConfig(softwareId){
     });
     $('#screenShots_edit').on('hide.bs.modal', function () {
         document.getElementById("screenShots_list").value = "";
-        $('#fileDiv').empty();
+        fileList = null;
+        $("#fileDiv").empty();
         document.getElementById("screenShotsForm").reset();
     });
     sendFile = function () {

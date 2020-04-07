@@ -325,10 +325,11 @@ function updateVersion(historyId){
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
-        window.location.reload();
+        $("#versionModal_edit").modal('hide');
     });
     $("#versionModal_edit").on('hide.bs.modal', function () {
         document.getElementById("up_soft").value = "";
+        upsoft = null;
         document.getElementById("updateVersionForm").reset();
     });
     sendFile = function () {
@@ -354,21 +355,14 @@ function querySchoolUser()
 {
     branchTable.draw();
 };
-//新增软件按钮
-function addVersion(){
-	var kindName = $("#cronKind  option:checked").text();
-	$("#kindName").val(kindName).attr("disabled",true);
-    var softwareName = $("#cronSoftware  option:checked").text();
-    $("#softwareName").val(softwareName).attr("disabled",true);
-    var branchName = $("#cronBranch  option:checked").text();
-    $("#branchName").val(branchName).attr("disabled",true);
 
+function uploadVersion(){
     var fileCatcher = document.getElementById("versionForm");
     var soft = document.getElementById("soft");
-
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
+        schoolUserTable.draw();
     });
 
     $('#versionModal_add').on('hide.bs.modal', function () {
@@ -378,19 +372,19 @@ function addVersion(){
         var formData = new FormData();
         formData.append("soft",soft.files[0]);
         var kindId = $("#cronKind").val();
-		var softwareId = $("#cronSoftware").val();
-		var branchId = $("#cronBranch").val();
-		var appPktNew = $("#description").val();
-		var historyVersion = $("#version").val();
-		var versionObj = {
-			"kindId":kindId,
+        var softwareId = $("#cronSoftware").val();
+        var branchId = $("#cronBranch").val();
+        var appPktNew = $("#description").val();
+        var historyVersion = $("#version").val();
+        var versionObj = {
+            "kindId":kindId,
             "softwareId":softwareId,
             "branchId":branchId,
             "appPktNew":appPktNew,
             "historyVersion":historyVersion,
-			"userId":userId
-		};
-		formData.append("versionObj",JSON.stringify(versionObj));
+            "userId":userId
+        };
+        formData.append("versionObj",JSON.stringify(versionObj));
         $.ajax({
             url:"history/addVersionInfo",
             type:"post",
@@ -415,6 +409,15 @@ function addVersion(){
         });
     };
 }
+//新增软件按钮
+function addVersion(){
+        var kindName = $("#cronKind  option:checked").text();
+        $("#kindName").val(kindName).attr("disabled",true);
+        var softwareName = $("#cronSoftware  option:checked").text();
+        $("#softwareName").val(softwareName).attr("disabled",true);
+        var branchName = $("#cronBranch  option:checked").text();
+        $("#branchName").val(branchName).attr("disabled",true);
+}
 
 //删除软件
 function deleteVersion(historyId){
@@ -434,8 +437,7 @@ function deleteVersion(historyId){
 			    }         
 			},
 			error:function(e) {
-				
-			    showSuccessOrErrorModal("删除软件请求出错了","error"); 
+			    showSuccessOrErrorModal("删除软件请求出错了","error");
 			}
 		});
 	});
@@ -616,7 +618,8 @@ $(document).ready(function(){
 	initSoftware();
     initBranch();
 	initSchoolUserTable();
-	// 表单验证(点击submit触发该方法)
+    uploadVersion();
+    // 表单验证(点击submit触发该方法)
 	$("#editAttributeForm").html5Validate(function() {
 		// TODO 验证成功之后的操作
 		var data = $("#editAttributeForm").serialize();

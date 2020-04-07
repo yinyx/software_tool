@@ -445,41 +445,6 @@ public class SoftwareController {
         return jsonObject;
     }
 
-    @PostMapping("/downloadSoftware")
-    @ResponseBody
-    public String downloadSoftware(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        JSONObject jsonObject = new JSONObject();
-        String fileName = (request.getParameter("fileName"));
-        if(fileName != null){
-            File file = new File(request.getParameter("softwareUrl"));
-            if(file.exists()){
-                response.setContentType("application/force-download");
-                response.addHeader("Content-Disposition","attachment;fileName="+fileName);
-                byte[] buffer = new byte[1024];
-                FileInputStream fis = null;
-                BufferedInputStream bis = null;
-                try{
-                    fis = new FileInputStream(file);
-                    bis = new BufferedInputStream(fis);
-                    OutputStream os = response.getOutputStream();
-                    int i = bis.read(buffer);
-                    while(i != -1){
-                        os.write(buffer,0,i);
-                        i = bis.read(buffer);
-                    }
-                    jsonObject.put("result","download success");
-                    return jsonObject.toString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }finally {
-                    bis.close();
-                    fis.close();
-                }
-            }
-        }
-        jsonObject.put("result","failure");
-        return jsonObject.toString();
-    }
 
     @PostMapping("/uploadBatchScreenShots")
     @ResponseBody

@@ -251,4 +251,14 @@
           soft_id = #{softId,jdbcType=VARCHAR}
     </select>
 
+    <!-- 根据软件类别id批量删除版本记录 -->
+    <delete id="deleteVersionsByKind" parameterType="java.lang.String">
+        DELETE FROM
+            software_history
+        WHERE
+            soft_id
+        IN
+            (SELECT id FROM server_software WHERE kind = #{kindId})
+    </delete>
+
 </mapper>

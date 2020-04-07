@@ -97,4 +97,6 @@ public interface SoftwareInfoMapper {
 
 	List<SoftwareInfo> querySoftList();
 
+	void deleteSoftwaresByKind(String kindId);
+
 }

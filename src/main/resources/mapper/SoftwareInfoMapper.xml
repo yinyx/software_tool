@@ -400,4 +400,12 @@
         FROM
              server_software
     </select>
+
+    <!-- 根据软件类别id批量删除软件记录 -->
+    <delete id="deleteSoftwaresByKind" parameterType="java.lang.String">
+        DELETE FROM
+            server_software
+        WHERE
+            kind = #{kindId}
+    </delete>
 </mapper>

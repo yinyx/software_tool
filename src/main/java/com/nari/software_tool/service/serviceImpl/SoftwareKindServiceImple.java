@@ -1,10 +1,8 @@
 package com.nari.software_tool.service.serviceImpl;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.HashMap;
 import java.util.List;
-import java.util.LinkedList;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,18 +10,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nari.software_tool.service.SoftwareKindService;
 import com.nari.software_tool.dao.SoftwareKindMapper;
+import com.nari.software_tool.dao.ScreenShotsMapper;
+import com.nari.software_tool.dao.SoftwareInstallMapper;
+import com.nari.software_tool.dao.SoftHistoryInfoMapper;
+import com.nari.software_tool.dao.SoftwareBranchMapper;
+import com.nari.software_tool.dao.SoftwareInfoMapper;
 import com.nari.software_tool.entity.DataTableModel;
-import com.nari.software_tool.entity.Page;
 
-import util.aes.PaginationUtil;
 import util.aes.StringUtils;
 
 @Service
 @Transactional(rollbackFor = { Exception.class })
 public class SoftwareKindServiceImple implements SoftwareKindService{
-    // 注入软件类别Mapper
+
     @Autowired
     private SoftwareKindMapper softwareKindMapper;
+
+    @Autowired
+    private ScreenShotsMapper screenShotsMapper;
+
+    @Autowired
+    private SoftwareInstallMapper softwareInstallMapper;
+
+    @Autowired
+    private SoftHistoryInfoMapper softHistoryInfoMapper;
+
+    @Autowired
+    private SoftwareBranchMapper softwareBranchMapper;
+
+    @Autowired
+    private SoftwareInfoMapper softwareInfoMapper;
 
     @Override
     public List<Map<String,Object>> queryAllKinds()
@@ -77,6 +93,17 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
     @Override
     public boolean deleteKind(String kindId) {
         softwareKindMapper.deleteKind(kindId);
+        //删除软件截图
+        screenShotsMapper.deleteScreenShotsByKind(kindId);
+        //删除软件安装配置
+        softwareInstallMapper.deleteInstallsByKind(kindId);
+        //删除软件版本
+        softHistoryInfoMapper.deleteVersionsByKind(kindId);
+        //删除软件分支
+        softwareBranchMapper.deleteBranchsByKind(kindId);
+        //删除软件
+        softwareInfoMapper.deleteSoftwaresByKind(kindId);
+        //删除文件，包括安装文件，图标文件，截图文件
         return true;
     }
 	

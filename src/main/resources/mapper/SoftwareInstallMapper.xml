@@ -48,4 +48,14 @@
 	<delete id="deleteInstall">
         DELETE FROM software_install WHERE soft_id = #{SoftwareId}
     </delete>
+
+	<!-- 根据软件类别id批量删除软件对应的安装配置记录 -->
+	<delete id="deleteInstallsByKind" parameterType="java.lang.String">
+        DELETE FROM
+            software_install
+        WHERE
+            soft_id
+        IN
+            (SELECT id FROM server_software WHERE kind = #{kindId})
+    </delete>
 </mapper>

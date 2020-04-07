@@ -58,4 +58,14 @@
             #{screenShots.createTime,jdbcType=TIMESTAMP})
         </foreach>
     </insert>
+
+    <!-- 根据软件类别id批量删除截图记录 -->
+    <delete id="deleteScreenShotsByKind" parameterType="java.lang.String">
+        DELETE FROM
+            software_screen
+        WHERE
+            soft_name
+        IN
+            (SELECT name FROM server_software WHERE kind = #{kindId})
+    </delete>
 </mapper>

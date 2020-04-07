@@ -18,4 +18,6 @@ public interface SoftwareInstallMapper {
     void updateInstall(Map<String, Object> paramMap);
 
     void deleteInstall(String SoftwareId);
+
+    void deleteInstallsByKind(String kindId);
 }

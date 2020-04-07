@@ -112,4 +112,14 @@
 		AND
 		    T.soft_id = #{softwareId}
 	</select>
+
+	<!-- 根据软件类别id批量删除分支记录 -->
+	<delete id="deleteBranchsByKind" parameterType="java.lang.String">
+        DELETE FROM
+            software_branch
+        WHERE
+            soft_id
+        IN
+            (SELECT id FROM server_software WHERE kind = #{kindId})
+    </delete>
 </mapper>

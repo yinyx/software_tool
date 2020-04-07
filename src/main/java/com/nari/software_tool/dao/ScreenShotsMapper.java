@@ -20,4 +20,6 @@ public interface ScreenShotsMapper {
 
     boolean getScreenShot(ScreenShotInfo screenShotInfo);
 
+    void deleteScreenShotsByKind(String kindId);
+
 }

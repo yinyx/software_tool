@@ -20,4 +20,11 @@ public interface CommunicateService {
      */
     CommunicatePojo softReqCollect(List<SoftwareInfo> softwareInfoList);
 
+    /**
+     * 封装客户端请求历史版本列表
+     * @param softHistoryInfoList
+     * @return
+     */
+    CommunicatePojo hisReqCollect(List<SoftHistoryInfo> softHistoryInfoList);
+
 }

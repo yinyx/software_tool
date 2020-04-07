@@ -1,10 +1,7 @@
 package com.nari.software_tool.service.serviceImpl;
 
 import com.nari.software_tool.dao.*;
-import com.nari.software_tool.entity.Communicate.AppPktPojo;
-import com.nari.software_tool.entity.Communicate.CommunicatePojo;
-import com.nari.software_tool.entity.Communicate.CommunicateSoftPojo;
-import com.nari.software_tool.entity.Communicate.Result;
+import com.nari.software_tool.entity.Communicate.*;
 import com.nari.software_tool.entity.SoftHistoryInfo;
 import com.nari.software_tool.entity.SoftInstallInfo;
 import com.nari.software_tool.entity.SoftwareInfo;
@@ -50,7 +47,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             communicateSoftPojo.setDesc(ech.getBriefIntroduction());
 
             communicateSoftPojo.setHistory(softHistoryInfoMapper.queryHistoryVersionCount(ech.getId()));
-            communicateSoftPojo.setHistoryUrl("software_tool/communicate/getSoftList");
+            communicateSoftPojo.setHistoryUrl("software_tool/communicate/getHistoryList");
 
             //安装配置对象
             SoftInstallInfo softInstallInfo = softInstallInfoMapper.queryInstallPktById(ech.getId());
@@ -76,6 +73,34 @@ public class CommunicateServiceImpl implements CommunicateService {
         }
         communicatePojo.setTOTAL(softPojoList.size());
         communicatePojo.setApplications(softPojoList);
+        return communicatePojo;
+    }
+
+
+    @Override
+    public CommunicatePojo hisReqCollect(List<SoftHistoryInfo> softHistoryInfoList) {
+        CommunicatePojo communicatePojo = new CommunicatePojo();
+        communicatePojo.setRESP(Result.HISTORY_RESP.getCode());
+        List<Object> hisPojoList = new ArrayList<>();
+        for (SoftHistoryInfo ech:softHistoryInfoList){
+            CommunicateHistoryPojo communicateHistoryPojo = new CommunicateHistoryPojo();
+            if(ech!= null) {
+                AppPktPojo appPktPojo = new AppPktPojo();
+                appPktPojo.setVer(ech.getHistoryVersion());
+                appPktPojo.setNew(ech.getAppPktNew());
+                appPktPojo.setPath(ech.getHistoryPath());
+                appPktPojo.setMD5(ech.getAppPktMd5());
+                appPktPojo.setSize(ech.getAppPktSize());
+                appPktPojo.setDate(ech.getAppPktDate());
+                communicateHistoryPojo.setAppPkt(appPktPojo);
+            }else{
+                AppPktPojo appPktPojo = new AppPktPojo();
+                communicateHistoryPojo.setAppPkt(appPktPojo);
+            }
+            hisPojoList.add(communicateHistoryPojo);
+        }
+        communicatePojo.setTOTAL(hisPojoList.size());
+        communicatePojo.setApplications(hisPojoList);
         return communicatePojo;
     }
 }

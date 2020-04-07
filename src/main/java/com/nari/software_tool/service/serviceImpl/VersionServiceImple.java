@@ -2,6 +2,7 @@ package com.nari.software_tool.service.serviceImpl;
 
 import com.nari.software_tool.dao.SoftHistoryInfoMapper;
 import com.nari.software_tool.entity.DataTableModel;
+import com.nari.software_tool.entity.SoftHistoryInfo;
 import com.nari.software_tool.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,11 @@ public class VersionServiceImple implements VersionService {
     @Override
     public int addVersion(Map<String, Object> paramMap) {
         return softHistoryInfoMapper.addVersion(paramMap);
+    }
+
+    @Override
+    public List<SoftHistoryInfo> queryHisList(String softId) {
+        return softHistoryInfoMapper.queryHisList(softId);
     }
 
 

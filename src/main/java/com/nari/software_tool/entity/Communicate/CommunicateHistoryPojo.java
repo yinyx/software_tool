@@ -1,9 +1,5 @@
 package com.nari.software_tool.entity.Communicate;
 
-import com.nari.software_tool.entity.ScreenShotInfo;
-
-import java.util.List;
-
 /**
  * 客户端请求历史版本列表
  * @author yinyx
@@ -11,31 +7,20 @@ import java.util.List;
  */
 public class CommunicateHistoryPojo {
     //程序包对象
-    private AppPktPojo softPktInfo;
-    //截图列表
-    private List<ScreenShotInfo> screenShotInfoList;
+    private AppPktPojo AppPkt;
 
-    public AppPktPojo getSoftPktInfo() {
-        return softPktInfo;
+    public AppPktPojo getAppPkt() {
+        return AppPkt;
     }
 
-    public void setSoftPktInfo(AppPktPojo softPktInfo) {
-        this.softPktInfo = softPktInfo;
-    }
-
-    public List<ScreenShotInfo> getScreenShotInfoList() {
-        return screenShotInfoList;
-    }
-
-    public void setScreenShotInfoList(List<ScreenShotInfo> screenShotInfoList) {
-        this.screenShotInfoList = screenShotInfoList;
+    public void setAppPkt(AppPktPojo appPkt) {
+        AppPkt = appPkt;
     }
 
     @Override
     public String toString() {
         return "CommunicateHistoryPojo{" +
-                "softPktInfo=" + softPktInfo +
-                ", screenShotInfoList=" + screenShotInfoList +
+                "AppPkt=" + AppPkt +
                 '}';
     }
 }

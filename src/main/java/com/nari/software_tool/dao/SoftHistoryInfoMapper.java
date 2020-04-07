@@ -37,4 +37,6 @@ public interface SoftHistoryInfoMapper {
     List<String> queryHistoryVersionUrl(@Param("softId") String softId);
 
     SoftHistoryInfo queryHistoryVersion(@Param("softId") String softId);
+
+    List<SoftHistoryInfo> queryHisList(@Param("softId") String softId);
 }

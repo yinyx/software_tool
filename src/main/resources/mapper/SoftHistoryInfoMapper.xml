@@ -14,7 +14,7 @@
         <result property="appPktNew" column="appPkt_new" jdbcType="VARCHAR"/>
         <result property="appPktPath" column="appPkt_path" jdbcType="VARCHAR"/>
         <result property="appPktSize" column="appPkt_size" jdbcType="INTEGER"/>
-        <result property="appPktMd5" column="appPkt_md5" jdbcType="VARCHAR"/>        <result property="appPktSize" column="operator" jdbcType="VARCHAR"/>
+        <result property="appPktMd5" column="appPkt_md5" jdbcType="VARCHAR"/>
     </resultMap>
     <!-- 根据软件Id获取软件历史版本列表信息  -->
     <select id="queryHistoryListBySoftwareId" resultType="java.util.HashMap">
@@ -229,6 +229,26 @@
         WHERE
             software_history.soft_id =  #{softId,jdbcType=VARCHAR}
         and software_branch.branch = "master"
+    </select>
+
+    <select id="queryHisList" resultMap="SoftHistoryResultMap">
+        SELECT
+               history_id,
+               soft_id,
+               branch_id,
+               history_version,
+               history_path,
+               upload_date,
+               operator,
+               appPkt_date,
+               appPkt_new,
+               appPkt_path,
+               appPkt_size,
+               appPkt_md5
+        FROM
+             software_history
+        where
+          soft_id = #{softId,jdbcType=VARCHAR}
     </select>
 
 </mapper>

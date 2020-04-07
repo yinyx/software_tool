@@ -16,10 +16,7 @@ import util.aes.StringUtils;
 import javax.annotation.Resource;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -134,13 +131,22 @@ public class VersionController {
         String oldVersionpath = (String) versionMap.get("appPkt_path");
         File oldVersionpathDir = new File(oldVersionpath);
         String oldVersionDirAbsolutePath = oldVersionpathDir.getAbsolutePath();
-        if (!StringUtils.isEmpty(oldVersionDirAbsolutePath))
-        {
-            File file = new File(oldVersionDirAbsolutePath+"\\");
-            if (file.isFile()) {
-                file.delete();
-                System.out.println("文件已删除");
+        try {
+            if (!StringUtils.isEmpty(oldVersionDirAbsolutePath)) {
+                File file = new File(oldVersionDirAbsolutePath + "\\");
+                if (file.isDirectory()) {
+                    File[] files = file.listFiles();
+                    for(File key:files){
+                        if(key.isFile()){
+                            key.delete();
+                        }
+                    }
+                    file.delete();
+                    System.out.println("文件已删除");
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         String[] pathArray = oldVersionpath.split("\\\\");
         String upFileName = upFile.getOriginalFilename();
@@ -172,7 +178,11 @@ public class VersionController {
             paramMap.put("appPktSize",0);
             paramMap.put("appPktMd5", MD5Util.getFileMD5String(new File(versionDirAbsolutePath,upFileName)));
             //数据库更新记录
-            versionService.updateVersion(paramMap);
+            if(versionService.updateVersion(paramMap) == 1){
+                jsonObject.put("status","success");
+            }else{
+                jsonObject.put("status","failure");
+            }
         }
         catch (Exception e){
             e.printStackTrace();
@@ -199,7 +209,7 @@ public class VersionController {
     }
 
 
-    @PostMapping("/addVersionInfo")
+    @RequestMapping(value="/addVersionInfo",method=RequestMethod.POST)
     @ResponseBody
     public JSONObject addVersionInfo(@RequestParam("soft") MultipartFile soft, @RequestParam("versionObj") String versionObj){
         JSONObject jsonObject = new JSONObject();

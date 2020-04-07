@@ -326,10 +326,11 @@ function updateVersion(historyId){
         event.preventDefault();
         sendFile();
         $("#versionModal_edit").modal('hide');
+        branchTable.draw();
     });
     $("#versionModal_edit").on('hide.bs.modal', function () {
         document.getElementById("up_soft").value = "";
-        upsoft = null;
+        upSoft = null;
         document.getElementById("updateVersionForm").reset();
     });
     sendFile = function () {
@@ -343,8 +344,29 @@ function updateVersion(historyId){
 			"userId":userId
 		};
         formData.append("versionObj",JSON.stringify(versionObj));
-        request.open("POST","history/updateVersion");
-        request.send(formData);
+        $.ajax({
+            url:"history/updateVersion",
+            type:"post",
+            data:formData,
+            dataType:"json",
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success:function(data) {
+                if(data.status == "success") {
+                    $('#versionModal_add').modal('hide');
+                    branchTable.draw();
+                    stopPageLoading();
+                } else {
+                    stopPageLoading();
+                    showSuccessOrErrorModal("上传版本信息失败","error");
+                }
+
+            },
+            error:function(e) {
+                stopPageLoading();
+                showSuccessOrErrorModal("上传版本信息出错了","error");
+            }
+        });
     };
 }
 function queryVersion() {//条件查询同步日志
@@ -357,12 +379,11 @@ function querySchoolUser()
 };
 
 function uploadVersion(){
-    var fileCatcher = document.getElementById("versionForm");
+    var fileListenrer = document.getElementById("versionForm");
     var soft = document.getElementById("soft");
-    fileCatcher.addEventListener("submit",function (event) {
+    fileListenrer.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
-        schoolUserTable.draw();
     });
 
     $('#versionModal_add').on('hide.bs.modal', function () {
@@ -395,6 +416,7 @@ function uploadVersion(){
             success:function(data) {
                 if(data.status == "success") {
                     $('#versionModal_add').modal('hide');
+                    branchTable.draw();
                     stopPageLoading();
                 } else {
                     stopPageLoading();

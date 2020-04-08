@@ -397,15 +397,37 @@ public class SoftwareController {
     public JSONObject uploadIcon(@RequestParam("icon") MultipartFile icon, @RequestParam("editIconForm") String softwareStr) throws IOException {
         JSONObject jsonObject = new JSONObject();
 		JSONObject software = JSONObject.fromObject(softwareStr);
+
 		Map<String, Object> paramMap = software;
 		System.out.println(paramMap);
 		System.out.println("paramMap");
 		String oldIconpath = (String) paramMap.get("iconpath");		
+		String softwareId = (String) paramMap.get("id");	
+		Map<String, Object> softwareData = new HashMap<String, Object>();
+		softwareData = softwareService.getSoftwareById(softwareId);
+		String kindId = (String) softwareData.get("kind");
+		if (StringUtils.isEmpty(kindId))
+		{
+			jsonObject.put("status","failure");
+			jsonObject.put("msg","获取软件类别id失败");
+            return jsonObject;
+		}
+		Map<String,Object> kindMap = softwareKindService.getKindById(kindId);
+		if (null == kindMap)
+		{
+			jsonObject.put("status","failure");
+			jsonObject.put("msg","获取软件类别map失败");
+            return jsonObject;
+		}
+		String kindName = (String)kindMap.get("name_en");
+		String softwareName = (String)softwareData.get("name_en");
+		
+		
 		oldIconpath = "src/main/resources/static/"+oldIconpath;
 		File oldIconpathDir = new File(oldIconpath);
 		String oldIconDirAbsolutePath = oldIconpathDir.getAbsolutePath();
 		System.out.println(oldIconDirAbsolutePath);
-		
+
 		if (!StringUtils.isEmpty(oldIconDirAbsolutePath))
 		{
 			//删除原来的图标
@@ -415,6 +437,11 @@ public class SoftwareController {
                 System.out.println("文件已删除");
             }
 		}
+		else
+        {
+            jsonObject.put("status","failure");
+            return jsonObject;
+        }
 		
         //存储新图标；
         File iconDir = new File(iconPath);
@@ -423,19 +450,29 @@ public class SoftwareController {
         if(!iconDir.exists()){
             iconDir.mkdir();
         }
+		String iconKindPath = iconDirAbsolutePath+"/"+kindName;
+		File iconKindDir = new File(iconKindPath);
+		if(!iconKindDir.exists()){
+            iconKindDir.mkdir();
+        }
+		
+		String iconSoftPath = iconKindPath+"/"+ softwareName;
+		File iconSoftDir = new File(iconSoftPath);
+		if(!iconSoftDir.exists()){
+            iconSoftDir.mkdir();
+        }
+		
         String iconName = icon.getOriginalFilename();
 		System.out.println("iconName");
 		System.out.println(iconName);
         try {
-            icon.transferTo(new File(iconDirAbsolutePath,iconName));
+            icon.transferTo(new File(iconSoftPath,iconName));
         } catch (Exception e) {
             e.printStackTrace();
         }
 		
 	    //设置图标保存路径
-		String iconPath1 = "images/softIcon/"+iconName;
-		System.out.println("iconPath1");
-		System.out.println(iconPath1);
+		String iconPath1 = "images/softIcon/"+kindName+"/"+ softwareName+"/"+iconName;
 		paramMap.put("iconpath", iconPath1);
 		
 		//数据库更新记录

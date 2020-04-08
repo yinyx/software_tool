@@ -496,18 +496,33 @@ public class SoftwareController {
     public JSONObject uploadBatchScreenShots(@RequestParam("screenShots") MultipartFile[] files,@RequestParam("softwareId") String softwareId) throws IOException {
         JSONObject jsonObject = new JSONObject();
         List<String> nameLst = new ArrayList<>();
+        Map<String,Object> softMap = softwareService.getSoftwareById(softwareId);
+        String type = (String) softMap.get("kind");
+        Map<String,Object> kindMap = softwareKindService.getKindById(type);
+        String typeName = (String) kindMap.get("name_en");
+        String name_en = (String) softMap.get("name_en");
         //批量存储文件至本地file文件夹
         File fileDir = new File(iconPath);
         String path = fileDir.getAbsolutePath();
         if(!fileDir.exists()){
             fileDir.mkdir();
         }
+        String typePath = path+"\\"+typeName;
+        File typeDir = new File(typePath);
+        if(!typeDir.exists()) {
+            typeDir.mkdir();
+        }
+        String namePath = typePath+"\\"+name_en;
+        File nameDir = new File(namePath);
+        if(!nameDir.exists()) {
+            nameDir.mkdir();
+        }
         MultipartFile multipartFile;
         for(int i=0;i<files.length;i++){
             multipartFile = files[i];
             String fileName = multipartFile.getOriginalFilename();
             nameLst.add(fileName);
-            multipartFile.transferTo(new File(path,fileName));
+            multipartFile.transferTo(new File(namePath,fileName));
         }
         List<ScreenShotInfo> lst = new ArrayList<>();
         //设置日期格式
@@ -522,7 +537,7 @@ public class SoftwareController {
                     ss.setCreateTime(df.format(new Date()));
                     ss.setId(softwareId);
                     ss.setShotsName(shotName);
-                    ss.setUrl(path+"\\"+shotName);
+                    ss.setUrl(namePath+"\\"+shotName);
                     ss.setShotId(i);
                 lst.add(ss);
         }

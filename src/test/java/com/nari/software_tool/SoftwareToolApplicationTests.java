@@ -1,6 +1,7 @@
 package com.nari.software_tool;
 
 import com.nari.software_tool.dao.SoftHistoryInfoMapper;
+import com.nari.software_tool.dao.UserMapper;
 import com.nari.software_tool.service.SoftwareKindService;
 import com.nari.software_tool.service.VersionService;
 import org.junit.jupiter.api.Test;
@@ -27,9 +28,13 @@ class SoftwareToolApplicationTests {
     @Autowired
     VersionService versionService;
 
+    @Autowired
+    UserMapper userMapper;
+
     @Test
     void contextLoads() throws IOException {
-        System.out.println(versionService.getHistoryById("f9638b461440457f9d561e38a4c48835"));
+        System.out.println(userMapper.queryUserDetail("admin","e10adc3949ba59abbe56e057f20f883e"));
+
     }
 
 }

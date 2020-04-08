@@ -109,12 +109,11 @@ public class AesUtil {
 	 * @return
 	 */
 	public static JSONObject GetParam(Map<String, Object> map){
-		//System.out.println(map);
+
 		String param = (String) map.get("paramObj");
-		//System.out.println(param);
+
 		String key = "abcd1234abcd1234";
-		//String p = sub(param.toString(),2,param.toString().length()-1);
-		//System.out.println(p);
+
 		String deResult = AesUtil.deCode(param, key);
         JSONObject jsonObject=JSONObject.fromObject(deResult);
         System.out.println(jsonObject);

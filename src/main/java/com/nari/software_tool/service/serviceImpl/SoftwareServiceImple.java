@@ -10,7 +10,6 @@ import java.io.File;
 import com.nari.software_tool.dao.*;
 import com.nari.software_tool.entity.ScreenShotInfo;
 import com.nari.software_tool.entity.SoftwareInfo;
-import com.nari.software_tool.entity.User;
 import com.nari.software_tool.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -168,23 +167,15 @@ public class SoftwareServiceImple implements SoftwareService{
 	@Override
 	public void deleteIcon(String softwareId){
 		Map<String, Object> obj = softwareInfoMapper.querySoftwareById(softwareId);
-
-		String oldIconpath = (String) obj.get("icon");	
+		String kindId = (String) obj.get("kind");
+		String softwareName = (String)obj.get("name_en");
+		Map<String, Object> kindObj =  softwareKindMapper.getKindById(kindId);
+		String kindName = (String) kindObj.get("name_en");
 	
-		oldIconpath = "src/main/resources/static/"+oldIconpath;
-		File oldIconpathDir = new File(oldIconpath);
-		String oldIconDirAbsolutePath = oldIconpathDir.getAbsolutePath();
-	
-		
-		if (!StringUtils.isEmpty(oldIconDirAbsolutePath))
-		{
-			//删除原来的图标
-		    File file = new File(oldIconDirAbsolutePath);
-            if (file.exists()) {
-                file.delete();
-                System.out.println("文件已删除");
-            }
-		}
+		String oldIconPath = "src/main/resources/static/images/softicon/"+kindName+"/"+softwareName;
+		File oldIconPathDir = new File(oldIconPath);
+		String oldIconDirAbsolutePath = oldIconPathDir.getAbsolutePath();
+		TestProperties.deleteFile(oldIconDirAbsolutePath);
 	}
 	
 	@Override

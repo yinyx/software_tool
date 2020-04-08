@@ -264,21 +264,6 @@ public class SoftwareController {
     @ResponseBody
     public JSONObject uploadSoftware(@RequestParam("icon") MultipartFile icon, @RequestParam("soft") MultipartFile soft, @RequestParam("softwareForm") String softwareStr) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        //存储图标；
-        File iconDir = new File(iconPath);
-
-        String iconDirAbsolutePath = iconDir.getAbsolutePath();
-        if(!iconDir.exists()){
-            iconDir.mkdir();
-        }
-        String iconName = icon.getOriginalFilename();
-		System.out.println("iconName");
-		System.out.println(iconName);
-        try {
-            icon.transferTo(new File(iconDirAbsolutePath,iconName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         //根据表单信息创建软件信息对象
         JSONObject software = JSONObject.fromObject(softwareStr);
@@ -286,22 +271,49 @@ public class SoftwareController {
 		System.out.println(paramMap);
         ObjectMapper objectMapper = new ObjectMapper();
         SoftwareInfo softwareInfo = objectMapper.readValue(software.toString(),SoftwareInfo.class);
-		
-		System.out.println("创建软件信息对象对象成功");
-		
-	    //设置图标保存路径
-		String iconPath1 = "images/softIcon/"+iconName;
-		softwareInfo.setIcon(iconPath1);
-		paramMap.put("icon",iconPath1);
-
-        String kindId = softwareInfo.getKind();
+		String kindId = softwareInfo.getKind();
 		int install_type = softwareInfo.getInstallType();
 		if (0==install_type)
         {
             //解压安装包
         }
+		System.out.println("创建软件信息对象对象成功");
+		Map<String,Object> map = softwareKindService.getKindById(kindId);
+		
+		//存储图标；
+        File iconDir = new File(iconPath);
 
-        Map<String,Object> map = softwareKindService.getKindById(kindId);
+        String iconDirAbsolutePath = iconDir.getAbsolutePath();
+        if(!iconDir.exists()){
+            iconDir.mkdir();
+        }
+		
+		String iconKindPath = iconDirAbsolutePath+"/"+map.get("name_en");
+		File iconKindDir = new File(iconKindPath);
+		if(!iconKindDir.exists()){
+            iconKindDir.mkdir();
+        }
+		
+		String iconSoftPath = iconKindPath+"/"+ softwareInfo.getNameEn();
+		File iconSoftDir = new File(iconSoftPath);
+		if(!iconSoftDir.exists()){
+            iconSoftDir.mkdir();
+        }
+		
+        String iconName = icon.getOriginalFilename();
+		System.out.println("iconName");
+		System.out.println(iconName);
+        try {
+            icon.transferTo(new File(iconSoftPath,iconName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+	    //设置图标保存路径
+		String iconPath1 = "images/softIcon/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+iconName;
+		softwareInfo.setIcon(iconPath1);
+		paramMap.put("icon",iconPath1);
+        
         String softPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
         
         String root = rootPath;
@@ -319,10 +331,6 @@ public class SoftwareController {
         String versionPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
         File versionDir = new File(versionPath);
         
-		if(!rootDir.exists()) {
-          rootDir.mkdir();
-		}
-		
 		if(!rootDir.exists()) {
           rootDir.mkdir();
 		}

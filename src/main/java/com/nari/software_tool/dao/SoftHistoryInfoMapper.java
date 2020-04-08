@@ -45,4 +45,6 @@ public interface SoftHistoryInfoMapper {
     void deleteVersionsBySoftware(String softId);
 
     void deleteVersionsByBranchId(String branchId);
+
+    SoftHistoryInfo queryPktInfo(@Param("historyId")String historyId,@Param("appPktMd5")String MD5);
 }

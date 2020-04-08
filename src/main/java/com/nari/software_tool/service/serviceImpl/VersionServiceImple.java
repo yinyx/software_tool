@@ -105,6 +105,11 @@ public class VersionServiceImple implements VersionService {
         return softHistoryInfoMapper.queryHisList(softId);
     }
 
+    @Override
+    public SoftHistoryInfo queryPktInfo(String historyId, String MD5) {
+        return softHistoryInfoMapper.queryPktInfo(historyId,MD5);
+    }
+
 
 }
 

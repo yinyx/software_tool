@@ -31,4 +31,6 @@ public interface VersionService {
 	int addVersion(Map<String,Object> paramMap);
 
 	List<SoftHistoryInfo> queryHisList(String softId);
+
+	SoftHistoryInfo queryPktInfo(String historyId,String MD5);
 }

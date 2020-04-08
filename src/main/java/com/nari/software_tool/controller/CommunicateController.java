@@ -1,6 +1,7 @@
 package com.nari.software_tool.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.nari.software_tool.entity.Communicate.CommunicatePacketPojo;
 import com.nari.software_tool.entity.Communicate.CommunicatePojo;
 import com.nari.software_tool.entity.Communicate.CommunicateSoftPojo;
 import com.nari.software_tool.entity.Communicate.UserPojo;
@@ -60,10 +61,20 @@ public class CommunicateController
         return jsonObject;
     }
 
-    @PostMapping("/downloadSoftware")
+    @RequestMapping(value="getPkt",method= RequestMethod.POST)
     @ResponseBody
-    public String downloadSoftware(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        net.sf.json.JSONObject jsonObject = new net.sf.json.JSONObject();
+    public JSONObject getPkt(@RequestParam("UUID") String historyId ,@RequestParam("MD5") String MD5){
+        JSONObject jsonObject = new JSONObject();
+        CommunicatePacketPojo communicatePacketPojo = communicateService.pktReqCollect(versionService.queryPktInfo(historyId,MD5));
+        jsonObject.put("Content",communicatePacketPojo);
+        return jsonObject;
+    }
+
+
+    @PostMapping("/downloadPkt")
+    @ResponseBody
+    public String downloadPkt(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        JSONObject jsonObject = new JSONObject();
         String fileName = (request.getParameter("fileName"));
         if(fileName != null){
             File file = new File(request.getParameter("softwareUrl"));

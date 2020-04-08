@@ -63,7 +63,7 @@ public class CommunicateServiceImpl implements CommunicateService {
                 AppPktPojo appPktPojo = new AppPktPojo();
                 appPktPojo.setVer(softHistoryInfo.getHistoryVersion());
                 appPktPojo.setNew(softHistoryInfo.getAppPktNew());
-                appPktPojo.setPath("software_tool/communicate/");
+                appPktPojo.setPath("software_tool/communicate/getPkt?"+"UUID="+softHistoryInfo.getHistoryId()+"&MD5="+softHistoryInfo.getAppPktMd5());
                 appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
                 appPktPojo.setSize(softHistoryInfo.getAppPktSize());
                 appPktPojo.setDate(softHistoryInfo.getAppPktDate());
@@ -106,6 +106,27 @@ public class CommunicateServiceImpl implements CommunicateService {
         communicatePojo.setTOTAL(hisPojoList.size());
         communicatePojo.setApplications(hisPojoList);
         return communicatePojo;
+    }
+
+    @Override
+    public CommunicatePacketPojo pktReqCollect(SoftHistoryInfo softHistoryInfo) {
+        CommunicatePacketPojo communicatePacketPojo = new CommunicatePacketPojo();
+        communicatePacketPojo.setRESP(Result.PACKET_RESP.getCode());
+        if(softHistoryInfo != null){
+            communicatePacketPojo.setRslt(Result.SUCCESS.getCode());
+            AppPktPojo appPktPojo = new AppPktPojo();
+            appPktPojo.setVer(softHistoryInfo.getHistoryVersion());
+            appPktPojo.setDate(softHistoryInfo.getAppPktDate());
+            appPktPojo.setNew(softHistoryInfo.getAppPktNew());
+            appPktPojo.setSize(softHistoryInfo.getAppPktSize());
+            appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
+            appPktPojo.setPath(softHistoryInfo.getHistoryPath());
+            communicatePacketPojo.setAppPkt(appPktPojo);
+            communicatePacketPojo.setUUID(softHistoryInfo.getHistoryId());
+        }else{
+            communicatePacketPojo.setRslt(Result.NOT_FIND.getCode());
+        }
+        return communicatePacketPojo;
     }
 
     @Override

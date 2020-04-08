@@ -187,7 +187,7 @@ public class SoftwareController {
 
         try {
 			//删除文件和图标
-			softwareService.deleteIcon(softwareId);
+			softwareService.deleteIcon(iconPath, softwareId);
 			softwareService.deleteDir(rootPath, softwareId);
             boolean flag = softwareService.deleteSoftware(softwareId);
 

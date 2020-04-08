@@ -165,14 +165,14 @@ public class SoftwareServiceImple implements SoftwareService{
 	}
 	
 	@Override
-	public void deleteIcon(String softwareId){
+	public void deleteIcon(String iconPath, String softwareId){
 		Map<String, Object> obj = softwareInfoMapper.querySoftwareById(softwareId);
 		String kindId = (String) obj.get("kind");
 		String softwareName = (String)obj.get("name_en");
 		Map<String, Object> kindObj =  softwareKindMapper.getKindById(kindId);
 		String kindName = (String) kindObj.get("name_en");
 	
-		String oldIconPath = "src/main/resources/static/images/softicon/"+kindName+"/"+softwareName;
+		String oldIconPath = iconPath+"/"+kindName+"/"+softwareName;
 		File oldIconPathDir = new File(oldIconPath);
 		String oldIconDirAbsolutePath = oldIconPathDir.getAbsolutePath();
 		TestProperties.deleteFile(oldIconDirAbsolutePath);

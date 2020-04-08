@@ -21,7 +21,7 @@ public interface SoftwareService {
 	
 	void updateSoftwareIcon(Map<String, Object> paramMap);
 	
-	void deleteIcon(String softwareId);
+	void deleteIcon(String iconPath, String softwareId);
 	
 	void deleteDir(String rootPath, String softwareId);
 

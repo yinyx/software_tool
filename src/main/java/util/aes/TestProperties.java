@@ -212,6 +212,24 @@ public class TestProperties {
             return false;
         }
     }
+
+    /**
+     * 删除目录及目录下所有文件
+     * @return
+     */
+    public static void deleteFile(String path)
+    {
+        File file = new File(path);
+        if (file.isDirectory())
+        {
+            File[] ff = file.listFiles();
+            for (int i = 0; i < ff.length; i++)
+            {
+                deleteFile(ff[i].getPath());
+            }
+        }
+        file.delete();
+    }
     
     public static void main(String[] args) {
         // 注意路径问题

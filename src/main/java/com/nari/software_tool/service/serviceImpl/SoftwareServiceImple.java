@@ -20,6 +20,7 @@ import com.nari.software_tool.service.SoftwareService;
 import com.nari.software_tool.entity.DataTableModel;
 
 import util.aes.StringUtils;
+import util.aes.TestProperties;
 
 @Service
 @Transactional(rollbackFor = { Exception.class })
@@ -222,7 +223,8 @@ public class SoftwareServiceImple implements SoftwareService{
 		String softPath = rootPath+"/"+map.get("name_en")+"/"+ en_name;
 		File softDir = new File(softPath);
         String softDirAbsolutePath = softDir.getAbsolutePath();
-        deleteFile(softDirAbsolutePath);
+
+		TestProperties.deleteFile(softDirAbsolutePath);
     }
 	
 	@Override

@@ -271,6 +271,11 @@ public class SoftwareServiceImple implements SoftwareService{
 	}
 
 	@Override
+	public String getIdBySoftId(String softId) {
+		return softwareInfoMapper.getIdBySoftId(softId);
+	}
+
+	@Override
 	public List<ScreenShotInfo> queryScreenShotListById(String id) {
 		return softwareInfoMapper.queryScreenShotListById(id);
 	}

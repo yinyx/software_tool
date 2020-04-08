@@ -99,4 +99,6 @@ public interface SoftwareInfoMapper {
 
 	void deleteSoftwaresByKind(String kindId);
 
+	String getIdBySoftId(String softId);
+
 }

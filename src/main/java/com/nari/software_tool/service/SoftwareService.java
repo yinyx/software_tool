@@ -57,4 +57,6 @@ public interface SoftwareService {
 	 */
 	boolean querySoftwareEnNameIsRepeat(Map<String, Object> paramMap);
 
+	String getIdBySoftId(String softId);
+
 }

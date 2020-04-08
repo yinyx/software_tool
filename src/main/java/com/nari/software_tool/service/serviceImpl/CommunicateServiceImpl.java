@@ -51,7 +51,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             communicateSoftPojo.setDesc(ech.getBriefIntroduction());
 
             communicateSoftPojo.setHistory(softHistoryInfoMapper.queryHistoryVersionCount(ech.getId()));
-            communicateSoftPojo.setHistoryUrl("software_tool/communicate/getHistoryList?"+"ID="+ech.getId());
+            communicateSoftPojo.setHistoryUrl("software_tool/communicate/getHistoryList?"+"UUID="+ech.getSoftId());
 
             //安装配置对象
             SoftInstallInfo softInstallInfo = softInstallInfoMapper.queryInstallPktById(ech.getId());

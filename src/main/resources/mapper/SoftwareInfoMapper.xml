@@ -408,4 +408,13 @@
         WHERE
             kind = #{kindId}
     </delete>
+
+    <select id="getIdBySoftId" resultType="java.lang.String">
+        SELECT
+               id
+        FROM
+             server_software
+        WHERE
+                soft_id=#{softId,jdbcType=VARCHAR}
+    </select>
 </mapper>

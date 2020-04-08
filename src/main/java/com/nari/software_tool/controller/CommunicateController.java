@@ -42,8 +42,9 @@ public class CommunicateController
 
     @RequestMapping(value="getHistoryList",method= RequestMethod.POST)
     @ResponseBody
-    public JSONObject getHistoryList(@RequestParam("ID") String id){
+    public JSONObject getHistoryList(@RequestParam("UUID") String softId){
         JSONObject jsonObject = new JSONObject();
+        String id = softwareService.getIdBySoftId(softId);
         CommunicatePojo communicatePojo = communicateService.hisReqCollect(versionService.queryHisList(id));
         System.out.println(communicatePojo);
         jsonObject.put("Content",communicatePojo);

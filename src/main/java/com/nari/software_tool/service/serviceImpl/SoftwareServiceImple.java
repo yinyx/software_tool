@@ -139,12 +139,18 @@ public class SoftwareServiceImple implements SoftwareService{
 	
     @Override
 	public boolean deleteSoftware(String softwareId) {
-        softwareInfoMapper.deleteSoftware(softwareId);
 		//删除软件相关的其他表的记录
+		    //删除软件截图
+		screenShotsMapper.deleteScreenShotsBySoftware(softwareId);
 			//删除安装配置属性记录
 		softwareInstallMapper.deleteInstall(softwareId);
-		    //删除分支记录
+
 			//删除版本记录
+		softHistoryInfoMapper.deleteVersionsBySoftware(softwareId);
+		    //删除分支记录
+		softwareBranchMapper.deleteBranchBySoftwareId(softwareId);
+		//删除软件记录
+		softwareInfoMapper.deleteSoftware(softwareId);
         return true;
     }
 

@@ -64,8 +64,16 @@
         DELETE FROM
             software_screen
         WHERE
-            soft_name
+            id
         IN
-            (SELECT name FROM server_software WHERE kind = #{kindId})
+            (SELECT id FROM server_software WHERE kind = #{kindId})
+    </delete>
+
+    <!-- 根据软件id批量删除截图记录 -->
+    <delete id="deleteScreenShotsBySoftware" parameterType="java.lang.String">
+        DELETE FROM
+            software_screen
+        WHERE
+            id = #{softwareId}
     </delete>
 </mapper>

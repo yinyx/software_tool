@@ -22,4 +22,6 @@ public interface ScreenShotsMapper {
 
     void deleteScreenShotsByKind(String kindId);
 
+    void deleteScreenShotsBySoftware(String softwareId);
+
 }

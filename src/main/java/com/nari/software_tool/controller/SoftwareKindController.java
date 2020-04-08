@@ -3,6 +3,7 @@ package com.nari.software_tool.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +27,12 @@ import util.aes.DatatableUtil;
 @RestController
 @RequestMapping(value = "/softwareKind")
 public class SoftwareKindController {
+    @Value("${iconPath}")
+    private String iconPath;
 
-    // 注入软件类别Service
+    @Value("${rootPath}")
+    private String rootPath;
+
     @Resource
     private SoftwareKindService softwareKindService;
 
@@ -112,17 +117,20 @@ public class SoftwareKindController {
         String kindId = request.getParameter("kindId");
 
         try {
+            //删除文件和图标
+            softwareKindService.deleteIcon(iconPath, kindId);
+            softwareKindService.deleteDir(rootPath, kindId);
             boolean flag = softwareKindService.deleteKind(kindId);
             if(flag){
                 resultMap.put("status", "success");
-                resultMap.put("msg", "删除成功!");
+                resultMap.put("msg", "删除软件类别成功!");
             }else{
                 resultMap.put("status", "error");
-                resultMap.put("msg", "删除失败!");
+                resultMap.put("msg", "删除软件类别失败!");
             }
         } catch(Exception e) {
             resultMap.put("status", "error");
-            resultMap.put("msg", "删除失败!");
+            resultMap.put("msg", "删除软件类别失败!");
         }
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());

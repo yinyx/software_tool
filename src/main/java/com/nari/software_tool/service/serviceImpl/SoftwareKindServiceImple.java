@@ -1,5 +1,6 @@
 package com.nari.software_tool.service.serviceImpl;
 
+import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import com.nari.software_tool.dao.SoftwareInfoMapper;
 import com.nari.software_tool.entity.DataTableModel;
 
 import util.aes.StringUtils;
+import util.aes.TestProperties;
 
 @Service
 @Transactional(rollbackFor = { Exception.class })
@@ -88,6 +90,32 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
         } else {
             softwareKindMapper.updateKind(paramMap);
         }
+    }
+
+    @Override
+    public void deleteIcon(String iconPath, String KindId){
+        Map<String, Object> kindObj =  softwareKindMapper.getKindById(KindId);
+        String kindName = (String) kindObj.get("name_en");
+
+        String oldIconPath = iconPath+"/"+kindName;
+        File oldIconPathDir = new File(oldIconPath);
+        String oldIconDirAbsolutePath = oldIconPathDir.getAbsolutePath();
+        TestProperties.deleteFile(oldIconDirAbsolutePath);
+    }
+
+    @Override
+    public void deleteDir(String rootPath, String KindId)
+    {
+        Map<String,Object> map = softwareKindMapper.getKindById(KindId);
+        if (map == null)
+        {
+            return;
+        }
+        String softPath = rootPath+"/"+map.get("name_en");
+        File softDir = new File(softPath);
+        String softDirAbsolutePath = softDir.getAbsolutePath();
+
+        TestProperties.deleteFile(softDirAbsolutePath);
     }
 
     @Override

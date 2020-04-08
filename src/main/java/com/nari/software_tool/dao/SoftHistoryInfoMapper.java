@@ -43,4 +43,6 @@ public interface SoftHistoryInfoMapper {
     void deleteVersionsByKind(String kindId);
 
     void deleteVersionsBySoftware(String softId);
+
+    void deleteVersionsByBranchId(String branchId);
 }

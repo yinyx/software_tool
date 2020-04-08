@@ -269,4 +269,12 @@
             soft_id = #{softId}
     </delete>
 
+    <!-- 根据软件分支id批量删除版本记录 -->
+    <delete id="deleteVersionsByBranchId" parameterType="java.lang.String">
+        DELETE FROM
+            software_history
+        WHERE
+            branch_id = #{branchId}
+    </delete>
+
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nari.software_tool.service.BranchService;
 import com.nari.software_tool.dao.SoftwareBranchMapper;
+import com.nari.software_tool.dao.SoftHistoryInfoMapper;
 import com.nari.software_tool.entity.DataTableModel;
 import com.nari.software_tool.entity.Page;
 
@@ -21,9 +22,12 @@ import util.aes.StringUtils;
 @Service
 @Transactional
 public class BranchServiceImple implements BranchService{
-    // 注入软件分支Mapper
+
     @Autowired
     private SoftwareBranchMapper branchMapper;
+
+    @Autowired
+    private SoftHistoryInfoMapper softHistoryInfoMapper;
 
     @Override
     public List<Map<String,Object>> queryAllBranchs(Map<String, Object> paramMap)
@@ -79,6 +83,9 @@ public class BranchServiceImple implements BranchService{
 
     @Override
     public boolean deleteBranch(String branchId) {
+        //删除分支下的所有版本
+        softHistoryInfoMapper.deleteVersionsByBranchId(branchId);
+        //删除分支
         branchMapper.deleteBranchByBranchId(branchId);
         return true;
     }

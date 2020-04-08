@@ -28,4 +28,5 @@ public interface SoftwareBranchMapper {
 	int queryBranchNameIsRepeat(Map<String, Object> paramMap);
 
 	void deleteBranchsByKind(String kindId);
+
 }

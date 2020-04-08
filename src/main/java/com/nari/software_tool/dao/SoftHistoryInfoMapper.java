@@ -41,4 +41,6 @@ public interface SoftHistoryInfoMapper {
     List<SoftHistoryInfo> queryHisList(@Param("softId") String softId);
 
     void deleteVersionsByKind(String kindId);
+
+    void deleteVersionsBySoftware(String softId);
 }

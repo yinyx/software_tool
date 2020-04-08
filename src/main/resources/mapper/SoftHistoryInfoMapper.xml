@@ -261,4 +261,12 @@
             (SELECT id FROM server_software WHERE kind = #{kindId})
     </delete>
 
+    <!-- 根据软件id批量删除版本记录 -->
+    <delete id="deleteVersionsBySoftware" parameterType="java.lang.String">
+        DELETE FROM
+            software_history
+        WHERE
+            soft_id = #{softId}
+    </delete>
+
 </mapper>

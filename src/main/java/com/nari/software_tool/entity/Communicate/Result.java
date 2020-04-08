@@ -17,6 +17,8 @@ public enum Result{
 
     SUCCESS(0,"成功"),
 
+    NOT_FIND(1,"未找到"),
+
     USER_IS_NOT_EXIST(1,"用户不存在"),
 
     PASSWORD_WRONG(2,"密码错误");

@@ -28,7 +28,7 @@ public class AppPktPojo {
         Ver = ver;
     }
 
-    public void setDate(java.util.Date date) {
+    public void setDate(Date date) {
         Date = date;
     }
 

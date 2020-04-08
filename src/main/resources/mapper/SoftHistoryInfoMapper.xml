@@ -277,4 +277,25 @@
             branch_id = #{branchId}
     </delete>
 
+    <select id="queryPktInfo" resultMap="SoftHistoryResultMap">
+        SELECT
+               history_id,
+               soft_id,
+               branch_id,
+               history_version,
+               history_path,
+               upload_date,
+               operator,
+               appPkt_date,
+               appPkt_new,
+               appPkt_path,
+               appPkt_size,
+               appPkt_md5
+        FROM
+             software_history
+        WHERE
+              history_id =  #{historyId,jdbcType=VARCHAR} AND
+              appPkt_md5 = #{appPktMd5,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

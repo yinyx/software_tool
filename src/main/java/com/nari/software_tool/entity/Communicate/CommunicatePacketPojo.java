@@ -10,12 +10,31 @@ import java.util.List;
  * @version 1.0 2020/3/25
  */
 public class CommunicatePacketPojo {
-
+    //响应数据类型
+    private int RESP;
     //程序包UUID
     private String UUID;
+    //结果
+    private int Rslt;
 
     //程序包对象
     private AppPktPojo AppPkt;
+
+    public int getRESP() {
+        return RESP;
+    }
+
+    public void setRESP(int RESP) {
+        this.RESP = RESP;
+    }
+
+    public int getRslt() {
+        return Rslt;
+    }
+
+    public void setRslt(int rslt) {
+        Rslt = rslt;
+    }
 
     public String getUUID() {
         return UUID;
@@ -36,7 +55,9 @@ public class CommunicatePacketPojo {
     @Override
     public String toString() {
         return "CommunicatePacketPojo{" +
-                "UUID='" + UUID + '\'' +
+                "RESP='" + RESP + '\'' +
+                ", UUID='" + UUID + '\'' +
+                ", Rslt=" + Rslt +
                 ", AppPkt=" + AppPkt +
                 '}';
     }

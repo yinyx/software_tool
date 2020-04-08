@@ -37,11 +37,11 @@ public class SoftHistoryInfo implements Serializable {
 
     private String appPktMd5;
 
-    public String getId() {
+    public String getHistoryId() {
         return historyId;
     }
 
-    public void setId(String historyId) {
+    public void setHistoryId(String historyId) {
         this.historyId = historyId;
     }
 

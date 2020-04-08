@@ -7,6 +7,8 @@ import com.nari.software_tool.entity.SoftInstallInfo;
 import com.nari.software_tool.entity.SoftwareInfo;
 import com.nari.software_tool.entity.UserDetail;
 import com.nari.software_tool.service.CommunicateService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +65,7 @@ public class CommunicateServiceImpl implements CommunicateService {
                 AppPktPojo appPktPojo = new AppPktPojo();
                 appPktPojo.setVer(softHistoryInfo.getHistoryVersion());
                 appPktPojo.setNew(softHistoryInfo.getAppPktNew());
-                appPktPojo.setPath("software_tool/communicate/getPkt?"+"UUID="+softHistoryInfo.getHistoryId()+"&MD5="+softHistoryInfo.getAppPktMd5());
+                appPktPojo.setPath("software_tool/communicate/downloadPkt?"+"fileName="+ech.getName()+"&softwareUrl="+softHistoryInfo.getAppPktPath());
                 appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
                 appPktPojo.setSize(softHistoryInfo.getAppPktSize());
                 appPktPojo.setDate(softHistoryInfo.getAppPktDate());

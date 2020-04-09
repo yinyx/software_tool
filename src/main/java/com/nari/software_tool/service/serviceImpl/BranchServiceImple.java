@@ -1,10 +1,9 @@
 package com.nari.software_tool.service.serviceImpl;
 
+import java.io.File;
 import java.util.Map;
-import java.util.UUID;
 import java.util.HashMap;
 import java.util.List;
-import java.util.LinkedList;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nari.software_tool.service.BranchService;
 import com.nari.software_tool.dao.SoftwareBranchMapper;
 import com.nari.software_tool.dao.SoftHistoryInfoMapper;
+import com.nari.software_tool.dao.SoftwareInfoMapper;
+import com.nari.software_tool.dao.SoftwareKindMapper;
 import com.nari.software_tool.entity.DataTableModel;
-import com.nari.software_tool.entity.Page;
 
-import util.aes.PaginationUtil;
 import util.aes.StringUtils;
+import util.aes.TestProperties;
 
 @Service
 @Transactional
@@ -28,6 +28,12 @@ public class BranchServiceImple implements BranchService{
 
     @Autowired
     private SoftHistoryInfoMapper softHistoryInfoMapper;
+
+    @Autowired
+    private SoftwareInfoMapper softwareInfoMapper;
+
+    @Autowired
+    private SoftwareKindMapper softwareKindMapper;
 
     @Override
     public List<Map<String,Object>> queryAllBranchs(Map<String, Object> paramMap)
@@ -79,6 +85,46 @@ public class BranchServiceImple implements BranchService{
         } else {
             branchMapper.updateBranch(paramMap);
         }
+    }
+
+    @Override
+    public void deleteDir(String rootPath, String branchId)
+    {
+        //查分支名称
+        Map<String, Object> branchObj = branchMapper.getBranchById(branchId);
+        if (branchObj == null)
+        {
+            return;
+        }
+        String softIdId = (String) branchObj.get("soft_id");
+        String branchName = (String) branchObj.get("branch");
+        if ((StringUtils.isEmpty(softIdId))||(StringUtils.isEmpty(branchName))){
+            return;
+        }
+
+        //查软件名称
+        Map<String, Object> softObj = softwareInfoMapper.querySoftwareById(softIdId);
+        if (softObj == null)
+        {
+            return;
+        }
+        String kindId = (String) softObj.get("kind");
+        String en_name = (String) softObj.get("name_en");
+        if ((StringUtils.isEmpty(kindId))||(StringUtils.isEmpty(en_name))){
+            return;
+        }
+
+        //查软件类别名称
+        Map<String,Object> map = softwareKindMapper.getKindById(kindId);
+        if (map == null)
+        {
+            return;
+        }
+        String softPath = rootPath+"/"+map.get("name_en")+"/"+ en_name+"/"+ branchName;
+        File softDir = new File(softPath);
+        String softDirAbsolutePath = softDir.getAbsolutePath();
+
+        TestProperties.deleteFile(softDirAbsolutePath);
     }
 
     @Override

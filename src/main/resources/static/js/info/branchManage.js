@@ -152,7 +152,7 @@ function deleteBranch(branchId){
 				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 			    if(data.status=="success") {
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error"); 
+			        showSuccessOrErrorModal(data.msg,"warning"); 
 					return;
 			    }         
 			},
@@ -172,7 +172,7 @@ function deleteBranch(branchId){
 			        showSuccessOrErrorModal(data.msg,"success"); 
 			        branchTable.draw(); //刷新表格
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error"); 
+			        showSuccessOrErrorModal(data.msg,"warning"); 
 			    }         
 			},
 			error:function(e) {

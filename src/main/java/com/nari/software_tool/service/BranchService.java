@@ -22,4 +22,6 @@ public interface BranchService {
 	boolean queryBranchNameIsRepeat(Map<String, Object> paramMap);
 
     List<Map<String,Object>> queryBranchList(String softId);
+
+    void deleteDir(String rootPath, String branchId);
 }

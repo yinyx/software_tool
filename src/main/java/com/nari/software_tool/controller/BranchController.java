@@ -3,6 +3,7 @@ package com.nari.software_tool.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +27,9 @@ import util.aes.DatatableUtil;
 @RestController
 @RequestMapping(value = "/branch")
 public class BranchController {
+    @Value("${rootPath}")
+    private String rootPath;
 
-    // 注入软件类别Service
     @Resource
     private BranchService branchService;
 
@@ -132,6 +134,7 @@ public class BranchController {
         else
         {
             try {
+                branchService.deleteDir(rootPath, branchId);
                 boolean flag = branchService.deleteBranch(branchId);
                 if(flag){
                     resultMap.put("status", "success");

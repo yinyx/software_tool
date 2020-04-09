@@ -143,6 +143,25 @@ function editBranch(branchId){
 function deleteBranch(branchId){
 	showConfirmModal("是否确定删除！",function(){
 		$.ajax({
+			url:"branch/checkBranchName",
+			type:"post",
+			data:{"branchId":branchId},
+			dataType:"text",
+			async:false,
+			success:function(data) {
+				data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
+			    if(data.status=="success") {
+			    } else {
+			        showSuccessOrErrorModal(data.msg,"error"); 
+					return;
+			    }         
+			},
+			error:function(e) {
+			    showSuccessOrErrorModal("检查分支是否为主分支请求出错了","error"); 
+				return;
+			}
+		});
+		$.ajax({
 			url:"branch/deleteBranch",
 			type:"post",
 			data:{"branchId":branchId},
@@ -153,11 +172,10 @@ function deleteBranch(branchId){
 			        showSuccessOrErrorModal(data.msg,"success"); 
 			        branchTable.draw(); //刷新表格
 			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
+			        showSuccessOrErrorModal(data.msg,"error"); 
 			    }         
 			},
 			error:function(e) {
-				
 			    showSuccessOrErrorModal("删除分支请求出错了","error"); 
 			}
 		});

@@ -91,25 +91,59 @@ public class BranchController {
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
     }
-	
+
+    @RequestMapping(value="/checkBranchName",method=RequestMethod.POST)
+    public Object checkBranchName(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        String branchId = request.getParameter("branchId");
+        Map<String, Object> branchMap = new HashMap<String, Object>();
+        branchMap = branchService.getBranchById(branchId);
+        String branchName = (String)branchMap.get("branch");
+        String masterStr = "master";
+        if (masterStr.equals(branchName))
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "不可删除软件的默认分支");
+        }
+        else
+        {
+            resultMap.put("status", "success");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+
 	@RequestMapping(value="/deleteBranch",method=RequestMethod.POST)
     public Object deleteBranch(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
         String branchId = request.getParameter("branchId");
-
-        try {
-            boolean flag = branchService.deleteBranch(branchId);
-            if(flag){
-                resultMap.put("status", "success");
-                resultMap.put("msg", "删除分支成功!");
-            }else{
+        Map<String, Object> branchMap = new HashMap<String, Object>();
+        branchMap = branchService.getBranchById(branchId);
+        String branchName = (String)branchMap.get("branch");
+        String masterStr = "master";
+        if (masterStr.equals(branchName))
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "不可删除软件的默认分支");
+        }
+        else
+        {
+            try {
+                boolean flag = branchService.deleteBranch(branchId);
+                if(flag){
+                    resultMap.put("status", "success");
+                    resultMap.put("msg", "删除分支成功!");
+                }else{
+                    resultMap.put("status", "error");
+                    resultMap.put("msg", "删除分支失败!");
+                }
+            } catch(Exception e) {
                 resultMap.put("status", "error");
                 resultMap.put("msg", "删除分支失败!");
             }
-        } catch(Exception e) {
-            resultMap.put("status", "error");
-            resultMap.put("msg", "删除分支失败!");
         }
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());

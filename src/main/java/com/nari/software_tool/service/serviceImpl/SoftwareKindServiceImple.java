@@ -145,5 +145,16 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
         }
 
     }
+
+    @Override
+    public boolean queryKindNameEnIsRepeat(String KindName) {
+        Integer count = softwareKindMapper.queryKindNameEnIsRepeat(KindName);
+        if (count == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }
 

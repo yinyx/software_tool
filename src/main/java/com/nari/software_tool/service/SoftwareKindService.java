@@ -18,6 +18,8 @@ public interface SoftwareKindService {
 	
 	boolean queryKindNameIsRepeat(String KindName);
 
+    boolean queryKindNameEnIsRepeat(String KindName);
+
     void deleteIcon(String iconPath, String KindId);
 
     void deleteDir(String rootPath, String KindId);

@@ -83,4 +83,14 @@
 		WHERE
 			T.kind_name = #{kindName}
 	</select>
+
+	<!-- 判断软件种类英文名是否重复 -->
+	<select id="queryKindNameEnIsRepeat" parameterType="java.lang.String" resultType="java.lang.Integer">
+	   SELECT
+			COUNT(1)
+		FROM
+			server_software_kind T
+		WHERE
+			T.name_en = #{kindName}
+	</select>
 </mapper>

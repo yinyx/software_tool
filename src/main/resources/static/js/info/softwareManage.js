@@ -782,33 +782,56 @@ $(document).ready(function(){
 	//检测新增软件的英文名是否重复
 	$("#softwareName_en").on('change blur',function(e){
 		    var softwareName_en = this.value;
-			var kind = $("#cronKind").val();
+			var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
 			var self = this;
-		    $.ajax({
-			url:"software/querySoftwareEnNameIsRepeat",
-			type:"post",
-			data:{
-				   softwareName_en:softwareName_en,
-				   kind:kind
-				 },
-			dataType:"json",
-			success:function(data) {
-				console.log(data)
-			    if(data.status=="success") {
-			    	if(!data.flag){
-			    		console.log(self)
-		 		        if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
-		 		            $(self).testRemind("当前类别的该软件英文名已存在，请确认"); 
-		 		            $(self).focus();
-		 		        }    
-			    	}
-			    } else {
-			        showSuccessOrErrorModal(data.msg,"error");	
-			    }         
-			},
-			error:function(e) {
-			    showSuccessOrErrorModal("请求查询当前类别的软件英文名是否重名出错了","error"); 
+			if (reg.test(softwareName_en))
+            {
+				if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
+				  $(self).testRemind("不能包含中文！"); 
+				  $(self).focus();
+				}
+		    }
+            else
+			{
+				var kind = $("#cronKind").val();
+				$.ajax({
+					url:"software/querySoftwareEnNameIsRepeat",
+					type:"post",
+					data:{
+						   softwareName_en:softwareName_en,
+						   kind:kind
+						 },
+					dataType:"json",
+					success:function(data) {
+						console.log(data)
+						if(data.status=="success") {
+							if(!data.flag){
+								console.log(self)
+								if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
+									$(self).testRemind("当前类别的该软件英文名已存在，请确认"); 
+									$(self).focus();
+								}    
+							}
+						} else {
+							showSuccessOrErrorModal(data.msg,"error");	
+						}         
+					},
+					error:function(e) {
+						showSuccessOrErrorModal("请求查询当前类别的软件英文名是否重名出错了","error"); 
+					}
+			   });
 			}
-		});
+	});
+	
+	//检查版本名是否含有中文
+	$("#version").on('change blur',function(e){
+		var versionName = this.value;
+		var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+		var self = this;
+　　    if (reg.test(versionName))
+          {
+			$(self).testRemind("不能包含中文！"); 
+		 	$(self).focus();
+		  }
 	});
 });

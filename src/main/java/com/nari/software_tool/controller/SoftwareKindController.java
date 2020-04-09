@@ -152,4 +152,20 @@ public class SoftwareKindController {
         }
         return resultMap;
     }
+
+    @RequestMapping(value="/queryKindNameEnIsRepeat",method=RequestMethod.POST)
+    public Object  queryKindNameEnIsRepeat(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> resultMap=new HashMap<String,Object>();
+        String kindNameEn = request.getParameter("kindNameEn");
+        boolean flag = false;
+        try {
+            flag = softwareKindService.queryKindNameEnIsRepeat(kindNameEn);
+            resultMap.put("status", "success");
+            resultMap.put("flag",flag);
+        } catch (Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "获取软件种类英文名是否重复失败!");
+        }
+        return resultMap;
+    }
 }

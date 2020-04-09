@@ -215,8 +215,17 @@ $(document).ready(function(){
 			}
 		});
 		
-	}
-	);
+	}, {
+		validate : function() {
+			var self = $("#name_en_m").val();
+			var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+			if (reg.test(self)) {
+				$("#name_en_m").testRemind("软件英文名中不能含有中文!");
+				return false;
+			}
+			return true;
+		}
+	});
 	$("#kindName_m").on('change blur',function(e){
 		var kindName = this.value;
 		var self = this;
@@ -242,6 +251,44 @@ $(document).ready(function(){
 			    showSuccessOrErrorModal("查询软件种类名请求出错了","error"); 
 			}
 		});
+	});
+	
+	$("#name_en_m").on('change blur',function(e){
+		var kindNameEn = this.value;
+		var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+		var self = this;
+　　    if (reg.test(kindNameEn))
+          {
+			if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
+				$(self).testRemind("软件英文名中不能含有中文!"); 
+				$(self).focus();
+			} 
+		  } 
+		$.ajax({
+			url:"softwareKind/queryKindNameEnIsRepeat",
+			type:"post",
+			data:{
+				        kindNameEn:kindNameEn
+						},
+			dataType:"json",
+			success:function(data) {
+				console.log(data)
+			    if(data.status=="success") {
+			    	if(!data.flag){		
+						if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
+		 		            $(self).testRemind("该软件类别英文名已存在"); 
+		 		            $(self).focus();
+		 		        } 							
+			    	}
+			    } else {
+			        showSuccessOrErrorModal(data.msg,"error");	
+			    }         
+			},
+			error:function(e) {
+			    showSuccessOrErrorModal("查询软件种类英文名请求出错了","error"); 
+			}
+		});
+		
 	});
 	
 });

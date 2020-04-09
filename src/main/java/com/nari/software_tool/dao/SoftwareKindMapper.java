@@ -28,4 +28,6 @@ public interface SoftwareKindMapper {
 	
 	int queryKindNameIsRepeat(String name);
 
+    int queryKindNameEnIsRepeat(String name);
+
 }

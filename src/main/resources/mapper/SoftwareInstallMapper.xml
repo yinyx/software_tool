@@ -20,11 +20,13 @@
 		  Is_multi,
 		  installer,
 		  uninstaller,
-		  KeyFile
+		  KeyFile,
+		  ExecPath
       	) VALUES (
       		#{id},
 			#{installType},
 			0,
+			"",
 			"",
 			"",
 			""
@@ -39,7 +41,8 @@
 			Is_multi=#{multiFlag},
 			installer=#{Installer_installAttribute},
 			uninstaller=#{Uninstaller_installAttribute},
-			KeyFile=#{KeyFile_installAttribute}
+			KeyFile=#{KeyFile_installAttribute},
+			ExecPath=#{ExecPath_installAttribute}
 		   WHERE
 		   	soft_id = #{softwareId_attribute}
 	</update>

@@ -176,6 +176,7 @@ function InstallConfig(softwareId){
 			   $("#Installer_installAttribute").val(InstallConfig.installer);
                $("#Uninstaller_installAttribute").val(InstallConfig.uninstaller);			
                $("#KeyFile_installAttribute").val(InstallConfig.KeyFile);
+			   $("#ExecPath_installAttribute").val(InstallConfig.ExecPath);
    			   
                $('#installAttributeModal_edit').modal('show');
                stopPageLoading()

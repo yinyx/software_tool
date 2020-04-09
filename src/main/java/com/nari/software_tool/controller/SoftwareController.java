@@ -246,6 +246,7 @@ public class SoftwareController {
 		paramMap.put("Uninstaller_installAttribute", request.getParameter("Uninstaller_installAttribute"));
         paramMap.put("KeyFile_installAttribute", request.getParameter("KeyFile_installAttribute"));
 		paramMap.put("softwareId_attribute", request.getParameter("softwareId_attribute"));
+        paramMap.put("ExecPath_installAttribute", request.getParameter("ExecPath_installAttribute"));
 		
 		System.out.println(paramMap);
 		

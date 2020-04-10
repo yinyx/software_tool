@@ -35,4 +35,6 @@ public interface VersionService {
 	List<SoftHistoryInfo> queryHisList(String softId);
 
 	SoftHistoryInfo queryPktInfo(String historyId,String MD5);
+
+	boolean queryVersionNameIsRepeat(Map<String, Object> paramMap);
 }

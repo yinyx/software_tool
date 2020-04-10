@@ -320,4 +320,16 @@
             </if>
     </select>
 
+    <!-- 查询软件版本是否重名-->
+    <select id="queryVersionNameIsRepeat" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	   SELECT
+			COUNT(1)
+		FROM
+			software_history T
+		WHERE
+			T.history_version = #{versionName}
+		AND
+		    T.branch_id = #{branchId}
+	</select>
+
 </mapper>

@@ -419,7 +419,11 @@ function uploadVersion(){
 					showSuccessOrErrorModal(data.msg,"success");
                     branchTable.draw();
                     stopPageLoading();
-                } else {
+                }
+				else if(data.status=="warn") {
+			    	showSuccessOrErrorModal(data.msg,"warning"); 
+			    } 					
+				else {
                     stopPageLoading();
                     showSuccessOrErrorModal("上传版本信息失败","error");
                 }

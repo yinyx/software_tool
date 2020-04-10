@@ -115,6 +115,16 @@ public class VersionServiceImple implements VersionService {
         return softHistoryInfoMapper.queryPktInfo(historyId,MD5);
     }
 
+    @Override
+    public boolean queryVersionNameIsRepeat(Map<String, Object> paramMap) {
+        Integer count = softHistoryInfoMapper.queryVersionNameIsRepeat(paramMap);
+        if (count == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
 }
 

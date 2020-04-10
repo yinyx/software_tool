@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/history")
@@ -216,91 +218,112 @@ public class VersionController {
         Map<String,Object> paramMap = JSONObject.fromObject(versionObj);
         System.out.println(paramMap+"----------");
 
-        if((paramMap.get("kindId") == "0")&&(paramMap.get("softwareId")=="0")&&
-        (paramMap.get("branchId") == "0")){
-            jsonObject.put("status","failure");
-        }
+        String versionName = (String)paramMap.get("historyVersion");
+		String branchId = (String)paramMap.get("branchId");
+		Map<String, Object> checkversionNameMap = new HashMap<String, Object>();
 
-        Map<String,Object> typeMap = softwareKindService.getKindById((String) paramMap.get("kindId"));
-        Map<String,Object> softMap = softwareService.getSoftwareById((String) paramMap.get("softwareId"));
-        Map<String,Object> branchMap = branchService.getBranchById((String) paramMap.get("branchId"));
-        Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
+        checkversionNameMap.put("versionName", versionName);
+        checkversionNameMap.put("branchId", branchId);
+		
+		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+		Matcher m1 = p.matcher(versionName);
+        if (m1.find())
+		{
+				jsonObject.put("status", "warn");
+                jsonObject.put("msg", "软件版本号中不能包含中文!");
+		}
+		else if (!versionService.queryVersionNameIsRepeat(checkversionNameMap))
+		{
+			    jsonObject.put("status", "warn");
+                jsonObject.put("msg", "软件版本号重名!");
+		}
+		else
+		{
+			if((paramMap.get("kindId") == "0")&&(paramMap.get("softwareId")=="0")&&
+			(paramMap.get("branchId") == "0")){
+				jsonObject.put("status","failure");
+			}
 
-        String root = rootPath;
-        File rootDir = new File(root);
+			Map<String,Object> typeMap = softwareKindService.getKindById((String) paramMap.get("kindId"));
+			Map<String,Object> softMap = softwareService.getSoftwareById((String) paramMap.get("softwareId"));
+			Map<String,Object> branchMap = branchService.getBranchById((String) paramMap.get("branchId"));
+			Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
 
-        String typePath = rootPath+"/"+typeMap.get("name_en");
-        File typeDir = new File(typePath);
+			String root = rootPath;
+			File rootDir = new File(root);
 
-        String namePath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en");
-        File nameDir = new File(namePath);
+			String typePath = rootPath+"/"+typeMap.get("name_en");
+			File typeDir = new File(typePath);
 
-        String branchPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch");
-        File branchDir = new File(branchPath);
+			String namePath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en");
+			File nameDir = new File(namePath);
 
-        String versionPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+paramMap.get("historyVersion");
-        File versionDir = new File(versionPath);
+			String branchPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch");
+			File branchDir = new File(branchPath);
 
-        if(!rootDir.exists()) {
-            rootDir.mkdir();
-        }
+			String versionPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+paramMap.get("historyVersion");
+			File versionDir = new File(versionPath);
 
-        if(!typeDir.exists()) {
-            typeDir.mkdir();
-        }
+			if(!rootDir.exists()) {
+				rootDir.mkdir();
+			}
 
-        if(!nameDir.exists()) {
-            nameDir.mkdir();
-        }
+			if(!typeDir.exists()) {
+				typeDir.mkdir();
+			}
 
-        if(!branchDir.exists()) {
-            branchDir.mkdir();
-        }
+			if(!nameDir.exists()) {
+				nameDir.mkdir();
+			}
 
-        if(!versionDir.exists()) {
-            versionDir.mkdir();
-        }
+			if(!branchDir.exists()) {
+				branchDir.mkdir();
+			}
 
-        //存储文件；
-        File softDir = new File(versionPath);
-        String softDirAbsolutePath = softDir.getAbsolutePath();
-        if(!softDir.exists()){
-            softDir.mkdir();
-        }
-        String softName = soft.getOriginalFilename();
-        try {
-            soft.transferTo(new File(softDirAbsolutePath,softName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			if(!versionDir.exists()) {
+				versionDir.mkdir();
+			}
 
-        try{
-            Map<String,Object> versionMap = new HashMap<>();
-            versionMap.put("historyId",StringUtils.getUUId());
-            versionMap.put("softId",paramMap.get("softwareId"));
-            versionMap.put("branchId",paramMap.get("branchId"));
-            versionMap.put("historyVersion",paramMap.get("historyVersion"));
-            versionMap.put("historyPath",softDirAbsolutePath);
-            versionMap.put("uploadDate"," ");
-            versionMap.put("operator",userMap.get("user_name"));
-            versionMap.put("appPktNew",paramMap.get("appPktNew"));
-            versionMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
-            versionMap.put("appPktSize",soft.getSize());
-            versionMap.put("appPktPath",versionPath);
-            SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
-            versionMap.put("appPktDate",sdf.format(new Date()));
+			//存储文件；
+			File softDir = new File(versionPath);
+			String softDirAbsolutePath = softDir.getAbsolutePath();
+			if(!softDir.exists()){
+				softDir.mkdir();
+			}
+			String softName = soft.getOriginalFilename();
+			try {
+				soft.transferTo(new File(softDirAbsolutePath,softName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-            if(versionService.addVersion(versionMap) ==1){
-                jsonObject.put("status","success");
-                jsonObject.put("msg","增加软件版本成功！");
-            }else{
-                jsonObject.put("status","failure");
-            }
+			try{
+				Map<String,Object> versionMap = new HashMap<>();
+				versionMap.put("historyId",StringUtils.getUUId());
+				versionMap.put("softId",paramMap.get("softwareId"));
+				versionMap.put("branchId",paramMap.get("branchId"));
+				versionMap.put("historyVersion",paramMap.get("historyVersion"));
+				versionMap.put("historyPath",softDirAbsolutePath);
+				versionMap.put("operator",userMap.get("user_name"));
+				versionMap.put("appPktNew",paramMap.get("appPktNew"));
+				versionMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
+				versionMap.put("appPktSize",soft.getSize());
+				versionMap.put("appPktPath",versionPath);
+				versionMap.put("appPktDate"," ");
+				SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
+				versionMap.put("uploadDate",sdf.format(new Date()));
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+				if(versionService.addVersion(versionMap) ==1){
+					jsonObject.put("status","success");
+					jsonObject.put("msg","增加软件版本成功！");
+				}else{
+					jsonObject.put("status","failure");
+				}
 
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
         return jsonObject;
     }
 

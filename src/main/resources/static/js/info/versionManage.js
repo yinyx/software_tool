@@ -416,6 +416,7 @@ function uploadVersion(){
             success:function(data) {
                 if(data.status == "success") {
                     $('#versionModal_add').modal('hide');
+					showSuccessOrErrorModal(data.msg,"success");
                     branchTable.draw();
                     stopPageLoading();
                 } else {

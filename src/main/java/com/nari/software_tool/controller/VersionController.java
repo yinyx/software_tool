@@ -292,6 +292,7 @@ public class VersionController {
 
             if(versionService.addVersion(versionMap) ==1){
                 jsonObject.put("status","success");
+                jsonObject.put("msg","增加软件版本成功！");
             }else{
                 jsonObject.put("status","failure");
             }

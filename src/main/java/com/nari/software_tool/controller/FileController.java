@@ -47,4 +47,9 @@ public class FileController {
     public String toVersionInfo(){
         return "Info_VersionInfo";
     }
+
+    @GetMapping(value="/Info_PluginInfo")
+    public String toPluginInfo(){
+        return "Info_PluginInfo";
+    }
 }

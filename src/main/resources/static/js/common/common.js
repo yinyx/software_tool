@@ -94,7 +94,9 @@ function loadMenu(){
 		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_BranchInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"images/common/sb.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;分支信息</span><span class=\"selected\"></span></a>"+
 		"</li>"+
 		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_VersionInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" src=\"images/common/version.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;版本信息</span><span class=\"selected\"></span></a>"+
-		"</li>"+		
+		"</li>"+
+        "<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_PluginInfo\" onclick=\"onLoadContent(this)\"><img alt=\"\" class=\"img-circle\" width=\"10%\" height=\"10%\" src=\"images/common/plugin.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;插件信息</span><span class=\"selected\"></span></a>"+
+        "</li>"+
 		"<li class=\"nav-item\"><a href=\"javascript:;\" class=\"nav-link nav-toggle\" data-url=\"Info_UserInfo\" onclick=\"onLoadContent(this)\"> <img alt=\"\" class=\"img-circle\" src=\"images/common/user.png\"/><span class=\"title\">&nbsp;&nbsp;&nbsp;用户信息</span><span class=\"selected\"></span></a>"+
 		"</li>";
 	locache.set("200",leftMenuHtml200);

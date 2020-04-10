@@ -339,7 +339,11 @@ $(document).ready(function(){
 			    	showSuccessOrErrorModal(data.msg,"success"); 
 			    	branchTable.draw();
 			    	$("#branchModal_add").modal("hide");
-			    } else {
+			    }
+				else if(data.status=="warn") {
+			    	showSuccessOrErrorModal(data.msg,"warning"); 
+			    }  				
+				else {
 			        showSuccessOrErrorModal(data.msg,"error");	
 			    }         
 			},
@@ -347,6 +351,16 @@ $(document).ready(function(){
 			    showSuccessOrErrorModal("保存软件分支出错了","error"); 
 			}
 		});	
+	}, {
+		validate : function() {
+			var self = $("#branchName").val();
+			var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+			if (reg.test(self)) {
+				$("#branchName").testRemind("分支名中不能含有中文!");
+				return false;
+			}
+			return true;
+		}
 	});
 	
 	$("#branchName").on('change blur',function(e){
@@ -367,7 +381,7 @@ $(document).ready(function(){
 		 		        if ($.testRemind.display == false && $.html5Validate.isRegex(self)) {
 		 		            $(self).testRemind("当前软件的该分支名已存在，请确认"); 
 		 		            $(self).focus();
-		 		        }    
+		 		        } 
 			    	}
 			    } else {
 			        showSuccessOrErrorModal(data.msg,"error");	

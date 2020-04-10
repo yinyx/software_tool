@@ -213,6 +213,7 @@ function EditAttribute(softwareId){
                var softwareData = data.softwareData;
 			   $("#softwareName_attribute").val(softwareData.name);	
                $("#softwareName_enattribute").val(softwareData.name_en);
+			   $("#softwareName_enattribute").attr("disabled", true);
                $("#uuid_text_attribute").val(softwareData.soft_id);
 			   $("#uuid_text_attribute").attr("disabled", true);
 			   $("#description_attribute").val(softwareData.brief_introduction);

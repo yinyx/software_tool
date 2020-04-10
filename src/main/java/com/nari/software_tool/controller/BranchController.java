@@ -61,11 +61,25 @@ public class BranchController {
         paramMap.put("branchName", request.getParameter("branchName"));
         paramMap.put("branchDescription", request.getParameter("branchDescription"));
 		paramMap.put("userId", request.getParameter("userId"));
-		
+
+        Map<String, Object> cheackNameMap = new HashMap<String, Object>();
+
+        cheackNameMap.put("branchName", request.getParameter("branchName"));
+        cheackNameMap.put("softwareId", request.getParameter("softwareId"));
+
         try {
-            branchService.saveBranch(paramMap);
-            resultMap.put("status", "success");
-            resultMap.put("msg", "软件分支保存成功!");
+
+            if (!branchService.queryBranchNameIsRepeat(cheackNameMap))
+            {
+                resultMap.put("status", "warn");
+                resultMap.put("msg", "软件分支重名!");
+            }
+            else
+            {
+                branchService.saveBranch(paramMap);
+                resultMap.put("status", "success");
+                resultMap.put("msg", "软件分支保存成功!");
+            }
         } catch(Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "软件分支保存失败!");

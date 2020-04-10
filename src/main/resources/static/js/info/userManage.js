@@ -77,9 +77,15 @@ function initSchoolUserTable() {
 			 "width": "10%",
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
-		            var content ="管理员";
-		            if(data == 0){
-		            	content = "app用户";
+		            var content ="访客";
+		            if(data == 1){
+		            	content = "普通用户";
+		            }
+					else if(data == 2){
+		            	content = "高级用户";
+		            }
+					else if(data == 3){
+		            	content = "管理员";
 		            }
 		            return content;
 		      }   
@@ -156,10 +162,14 @@ function showUserEditModal(userId){
        		   } else {
        			   $("#r_read").prop("checked",true); 
        		   }
-			   if(usersData.role == '1') {
+			   if(usersData.role == '0') {
+       			   $("#r_vistor").prop("checked",true); 
+       		   }else if(usersData.role == '1'){
+       			   $("#r_common").prop("checked",true); 
+       		   }else if(usersData.role == '2'){
+       			   $("#r_advance").prop("checked",true); 
+       		   }else if(usersData.role == '3'){
        			   $("#r_admin").prop("checked",true); 
-       		   } else {
-       			   $("#r_app").prop("checked",true); 
        		   }
                $('#userModal_add').modal('show');
                stopPageLoading()

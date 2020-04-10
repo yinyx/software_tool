@@ -22,6 +22,8 @@ public interface SoftHistoryInfoMapper {
 
     List<Map<String, Object>> queryHistoryListBySoftwareId(String softId);
 
+    List<Map<String, Object>> queryVersionByHistoryId(String historyId);
+
     List<Map<String, Object>> queryHistoryList(Map<String, Object> paramMap);
 
     int queryHistoryCount(Map<String, Object> paramMap);

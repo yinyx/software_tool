@@ -1,0 +1,51 @@
+package com.nari.software_tool.service.serviceImpl;
+
+import com.nari.software_tool.dao.SoftPluginMapper;
+import com.nari.software_tool.entity.DataTableModel;
+import com.nari.software_tool.service.PluginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author yinyx
+ * @version 1.0 2020/4/10
+ */
+@Service
+public class PluginServiceImpl implements PluginService {
+
+    @Autowired
+    SoftPluginMapper softPluginMapper;
+
+
+    @Override
+    public DataTableModel queryPluginList(Map<String, String> dataTableMap) {
+        DataTableModel<Map<String, Object>> dataTableModel = new DataTableModel<>();
+        Map<String,Object> paramMap = new HashMap<>();
+        String sEcho = dataTableMap.get("sEcho");
+        int start = Integer.parseInt(dataTableMap.get("iDisplayStart"));
+        int length = Integer.parseInt(dataTableMap.get("iDisplayLength"));
+        String type = dataTableMap.get("Kind");
+        String softId = dataTableMap.get("softId");
+        String branch = dataTableMap.get("branchId");
+        String version = dataTableMap.get("versionId");
+
+        paramMap.put("start", start);
+        paramMap.put("length", length);
+        paramMap.put("type",type);
+        paramMap.put("softId",softId);
+        paramMap.put("branch",branch);
+        paramMap.put("version",version);
+
+        List<Map<String, Object>> resList = softPluginMapper.queryPluginList(paramMap);
+        int count = softPluginMapper.queryPluginCount(paramMap);
+        dataTableModel.setiTotalDisplayRecords(count);
+        dataTableModel.setiTotalRecords(count);
+        dataTableModel.setsEcho(Integer.valueOf(sEcho));
+        dataTableModel.setAaData(resList);
+        return dataTableModel;
+    }
+}

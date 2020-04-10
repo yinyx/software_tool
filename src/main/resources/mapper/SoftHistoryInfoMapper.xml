@@ -298,4 +298,26 @@
               appPkt_md5 = #{appPktMd5,jdbcType=VARCHAR}
     </select>
 
+    <select id="queryVersionByHistoryId" resultMap="SoftHistoryResultMap">
+        SELECT
+               history_id,
+               soft_id,
+               branch_id,
+               history_version,
+               history_path,
+               upload_date,
+               operator,
+               appPkt_date,
+               appPkt_new,
+               appPkt_path,
+               appPkt_size,
+               appPkt_md5
+        FROM
+             software_history
+        where
+            <if test="historyId!= null and historyId!='0'">
+                history_id = #{historyId,jdbcType=VARCHAR}
+            </if>
+    </select>
+
 </mapper>

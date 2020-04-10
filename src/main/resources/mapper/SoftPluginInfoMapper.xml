@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nari.software_tool.dao.SoftPluginMapper">
+    <resultMap id="SoftPluginResultMap" type="com.nari.software_tool.entity.SoftPluginInfo">
+        <result property="pluginId" column="plugin_id" jdbcType="VARCHAR"/>
+        <result property="Type" column="type" jdbcType="VARCHAR"/>
+        <result property="softId" column="soft_id" jdbcType="VARCHAR"/>
+        <result property="Branch" column="branch" jdbcType="VARCHAR"/>
+        <result property="Version" column="version" jdbcType="VARCHAR"/>
+        <result property="pluginName" column="plugin_name" jdbcType="VARCHAR"/>
+        <result property="pluginMD5" column="plugin_MD5" jdbcType="VARCHAR"/>
+        <result property="uploadTime" column="upload_time" jdbcType="TIMESTAMP"/>
+        <result property="relativePath" column="relative_path" jdbcType="VARCHAR"/>
+        <result property="absolutePath" column="absolute_path" jdbcType="VARCHAR"/>
+        <result property="operator" column="operator" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="size" column="size" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- 根据软件Id获取软件历史版本列表信息  -->
+    <select id="queryPluginList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+               plugin_id,
+        software_plugin.type,
+        software_plugin.soft_id,
+        server_software.name,
+        software_branch.branch,
+        software_history.history_version,
+               plugin_name,
+        software_plugin.plugin_MD5,
+        software_plugin.upload_time,
+               relative_path,
+               absolute_path,
+        software_plugin.operator,
+        software_plugin.description,
+        software_plugin.size
+        FROM
+             software_plugin
+        LEFT JOIN server_software on server_software.soft_id = software_plugin.soft_id
+        LEFT JOIN software_branch on software_branch.branch_id = software_plugin.branch
+        LEFT JOIN software_history on software_history.history_id = software_plugin.version
+       <where>
+           <if test="Type !=null and Type !='0'">
+               and type =  #{Type,jdbcType=VARCHAR}
+           </if>
+           <if test="softId !=null and softId !='0'">
+               and software_plugin.soft_id = #{softId,jdbcType=VARCHAR}
+           </if>
+           <if test="Branch !=null and Branch !='0'">
+               and software_plugin.branch =  #{Branch,jdbcType=VARCHAR}
+           </if>
+           <if test="Version !=null and Version !='0'">
+               and software_plugin.version =  #{Version,jdbcType=VARCHAR}
+           </if>
+       </where>
+        limit
+            #{start},#{length}
+    </select>
+
+    <select id="queryPluginCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        software_plugin left join server_software on software_plugin.soft_id = server_software.id
+        left join software_branch on software_plugin.branch = software_branch.branch_id
+        left join software_history on software_history.history_id = software_plugin.version
+        <where>
+            <if test="Type !=null and Type !='0'">
+                and type =  #{Type,jdbcType=VARCHAR}
+            </if>
+            <if test="softId !=null and softId !='0'">
+                and software_plugin.soft_id = #{softId,jdbcType=VARCHAR}
+            </if>
+            <if test="Branch !=null and Branch !='0'">
+                and software_plugin.branch =  #{Branch,jdbcType=VARCHAR}
+            </if>
+            <if test="Version !=null and Version !='0'">
+                and software_plugin.version =  #{Version,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+</mapper>

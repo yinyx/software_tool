@@ -10,6 +10,8 @@ public interface VersionService {
 
     List<Map<String,Object>> queryAllBranchs(Map<String, Object> paramMap);
 
+	List<Map<String,Object>> queryVersionByHistoryId(String historyId);
+
     DataTableModel queryHistoryList(Map<String, String> dataTableMap);
 
     Map<String, Object> getBranchById(String BranchId);

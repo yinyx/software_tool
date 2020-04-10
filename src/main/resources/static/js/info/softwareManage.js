@@ -432,7 +432,11 @@ function initListenAddSoftware(){
                     querySchoolUser();
                     showSuccessOrErrorModal(data.msg,"success");
                     stopPageLoading();
-                } else {
+                }
+				else if(data.status=="warn") {
+			    	showSuccessOrErrorModal(data.msg,"warning"); 
+			    } 				
+				else {
                     stopPageLoading();
                     showSuccessOrErrorModal(data.msg,"error");
                 }

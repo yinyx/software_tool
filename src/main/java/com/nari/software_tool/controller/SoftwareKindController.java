@@ -103,12 +103,12 @@ public class SoftwareKindController {
             if (!softwareKindService.queryKindNameIsRepeat(request.getParameter("kindName")))
             {
                 resultMap.put("status", "warn");
-                resultMap.put("msg", "软件中文重名!");
+                resultMap.put("msg", "软件类别中文重名!");
             }
             else  if (!softwareKindService.queryKindNameEnIsRepeat(request.getParameter("name_en")))
             {
                 resultMap.put("status", "warn");
-                resultMap.put("msg", "软件英文重名!");
+                resultMap.put("msg", "软件类别英文重名!");
             }
             else
             {

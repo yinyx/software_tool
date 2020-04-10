@@ -28,6 +28,8 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -272,124 +274,163 @@ public class SoftwareController {
 		System.out.println(paramMap);
         ObjectMapper objectMapper = new ObjectMapper();
         SoftwareInfo softwareInfo = objectMapper.readValue(software.toString(),SoftwareInfo.class);
-		String kindId = softwareInfo.getKind();
-		int install_type = softwareInfo.getInstallType();
-		if (0==install_type)
-        {
-            //解压安装包
-        }
-		System.out.println("创建软件信息对象对象成功");
-		Map<String,Object> map = softwareKindService.getKindById(kindId);
-		
-		//存储图标；
-        File iconDir = new File(iconPath);
+		String softwareName = softwareInfo.getName();
+		String softwareNameEn = softwareInfo.getNameEn();
+		String LatestVersion = softwareInfo.getLatestVersion();
+		String KindId = softwareInfo.getKind();
+        Map<String, Object> checkNameMap = new HashMap<String, Object>();
 
-        String iconDirAbsolutePath = iconDir.getAbsolutePath();
-        if(!iconDir.exists()){
-            iconDir.mkdir();
-        }
-		
-		String iconKindPath = iconDirAbsolutePath+"/"+map.get("name_en");
-		File iconKindDir = new File(iconKindPath);
-		if(!iconKindDir.exists()){
-            iconKindDir.mkdir();
-        }
-		
-		String iconSoftPath = iconKindPath+"/"+ softwareInfo.getNameEn();
-		File iconSoftDir = new File(iconSoftPath);
-		if(!iconSoftDir.exists()){
-            iconSoftDir.mkdir();
-        }
-		
-        String iconName = icon.getOriginalFilename();
-		System.out.println("iconName");
-		System.out.println(iconName);
-        try {
-            icon.transferTo(new File(iconSoftPath,iconName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		
-	    //设置图标保存路径
-		String iconPath1 = "images/softIcon/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+iconName;
-		softwareInfo.setIcon(iconPath1);
-		paramMap.put("icon",iconPath1);
-        
-        String softPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
-        
-        String root = rootPath;
-        File rootDir = new File(root);
-        
-        String typePath = rootPath+"/"+map.get("name_en");
-        File typeDir = new File(typePath);
-        
-        String namePath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn();
-        File nameDir = new File(namePath);
-        
-        String branchPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master";
-        File branchDir = new File(branchPath);
+        checkNameMap.put("softwareName", softwareName);
+        checkNameMap.put("kind", KindId);
 
-        String versionPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
-        File versionDir = new File(versionPath);
-        
-		if(!rootDir.exists()) {
-          rootDir.mkdir();
+        Map<String, Object> checkNameEnMap = new HashMap<String, Object>();
+
+        checkNameEnMap.put("softwareName_en", softwareNameEn);
+        checkNameEnMap.put("kind", KindId);
+		
+		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+		Matcher m1 = p.matcher(softwareNameEn);
+		Matcher m2 = p.matcher(LatestVersion);
+		if (m1.find())
+		{
+			    jsonObject.put("status", "warn");
+                jsonObject.put("msg", "软件英文名中不能包含中文!");
 		}
-		
-		if(!typeDir.exists()) {
-          typeDir.mkdir();
+		else if (m2.find())
+		{
+			    jsonObject.put("status", "warn");
+                jsonObject.put("msg", "软件版本名称中不能包含中文!");
 		}
-		
-		if(!nameDir.exists()) {
-          nameDir.mkdir();
+		else if (!softwareService.querySoftwareNameIsRepeat(checkNameMap))
+		{
+			    jsonObject.put("status", "warn");
+                jsonObject.put("msg", "软件中文重名!");
 		}
-		
-		if(!branchDir.exists()) {
-          branchDir.mkdir();
+		else if (!softwareService.querySoftwareEnNameIsRepeat(checkNameEnMap))
+		{
+			    jsonObject.put("status", "warn");
+                jsonObject.put("msg", "软件英文重名!");
 		}
+		else
+		{
+				String kindId = softwareInfo.getKind();
+				int install_type = softwareInfo.getInstallType();
+				if (0==install_type)
+				{
+					//解压安装包
+				}
+				System.out.println("创建软件信息对象对象成功");
+				Map<String,Object> map = softwareKindService.getKindById(kindId);
+				
+				//存储图标；
+				File iconDir = new File(iconPath);
 
-        if(!versionDir.exists()) {
-            versionDir.mkdir();
+				String iconDirAbsolutePath = iconDir.getAbsolutePath();
+				if(!iconDir.exists()){
+					iconDir.mkdir();
+				}
+				
+				String iconKindPath = iconDirAbsolutePath+"/"+map.get("name_en");
+				File iconKindDir = new File(iconKindPath);
+				if(!iconKindDir.exists()){
+					iconKindDir.mkdir();
+				}
+				
+				String iconSoftPath = iconKindPath+"/"+ softwareInfo.getNameEn();
+				File iconSoftDir = new File(iconSoftPath);
+				if(!iconSoftDir.exists()){
+					iconSoftDir.mkdir();
+				}
+				
+				String iconName = icon.getOriginalFilename();
+				System.out.println("iconName");
+				System.out.println(iconName);
+				try {
+					icon.transferTo(new File(iconSoftPath,iconName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				//设置图标保存路径
+				String iconPath1 = "images/softIcon/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+iconName;
+				softwareInfo.setIcon(iconPath1);
+				paramMap.put("icon",iconPath1);
+				
+				String softPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
+				
+				String root = rootPath;
+				File rootDir = new File(root);
+				
+				String typePath = rootPath+"/"+map.get("name_en");
+				File typeDir = new File(typePath);
+				
+				String namePath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn();
+				File nameDir = new File(namePath);
+				
+				String branchPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master";
+				File branchDir = new File(branchPath);
+
+				String versionPath = rootPath+"/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+"master"+"/"+softwareInfo.getLatestVersion();
+				File versionDir = new File(versionPath);
+				
+				if(!rootDir.exists()) {
+				  rootDir.mkdir();
+				}
+				
+				if(!typeDir.exists()) {
+				  typeDir.mkdir();
+				}
+				
+				if(!nameDir.exists()) {
+				  nameDir.mkdir();
+				}
+				
+				if(!branchDir.exists()) {
+				  branchDir.mkdir();
+				}
+
+				if(!versionDir.exists()) {
+					versionDir.mkdir();
+				}
+				
+				//存储文件；
+				File softDir = new File(softPath);
+				String softDirAbsolutePath = softDir.getAbsolutePath();
+				if(!softDir.exists()){
+					softDir.mkdir();
+				}
+				String softName = soft.getOriginalFilename();
+				try {
+					soft.transferTo(new File(softDirAbsolutePath,softName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				//设置安装文件保存路径
+				String FilePath = softDirAbsolutePath+"\\"+softName;
+				softwareInfo.setFilePath(FilePath);
+				paramMap.put("file_path",FilePath);
+				
+				//设置软件大小，暂时设为0
+				softwareInfo.setSize("0");
+				paramMap.put("size","0");
+
+				//配置历史版本记录
+				paramMap.put("historyVersion",softwareInfo.getLatestVersion());
+				paramMap.put("historyPath",softwareInfo.getFilePath());
+				paramMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
+				//数据库增加记录
+
+				try{
+					softwareService.saveSoftware(paramMap);
+					jsonObject.put("status","success");
+					jsonObject.put("msg","创建软件信息对象成功！");
+
+				}catch (Exception e){
+					jsonObject.put("status","failure");
+					e.printStackTrace();
+				}
         }
-		
-        //存储文件；
-        File softDir = new File(softPath);
-        String softDirAbsolutePath = softDir.getAbsolutePath();
-        if(!softDir.exists()){
-            softDir.mkdir();
-        }
-        String softName = soft.getOriginalFilename();
-        try {
-            soft.transferTo(new File(softDirAbsolutePath,softName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		
-		//设置安装文件保存路径
-		String FilePath = softDirAbsolutePath+"\\"+softName;
-		softwareInfo.setFilePath(FilePath);
-		paramMap.put("file_path",FilePath);
-		
-		//设置软件大小，暂时设为0
-		softwareInfo.setSize("0");
-		paramMap.put("size","0");
-
-		//配置历史版本记录
-        paramMap.put("historyVersion",softwareInfo.getLatestVersion());
-		paramMap.put("historyPath",softwareInfo.getFilePath());
-        paramMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
-		//数据库增加记录
-
-        try{
-            softwareService.saveSoftware(paramMap);
-            jsonObject.put("status","success");
-            jsonObject.put("msg","创建软件信息对象成功！");
-
-        }catch (Exception e){
-            jsonObject.put("status","failure");
-            e.printStackTrace();
-        }
-
         return jsonObject;
     }
 	

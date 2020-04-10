@@ -206,7 +206,12 @@ $(document).ready(function(){
 			    	showSuccessOrErrorModal(data.msg,"success"); 
 			    	schoolUserTable.draw();
 			    	$("#kindModal_add").modal("hide");
-			    } else {
+			    } 
+				else if(data.status=="warn") {
+			    	showSuccessOrErrorModal(data.msg,"warning"); 
+			    }  
+				else 
+				{
 			        showSuccessOrErrorModal(data.msg,"error");	
 			    }         
 			},

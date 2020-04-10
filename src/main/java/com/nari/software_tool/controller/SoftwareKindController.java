@@ -100,9 +100,22 @@ public class SoftwareKindController {
         paramMap.put("kindName", request.getParameter("kindName"));
         paramMap.put("name_en", request.getParameter("name_en"));
         try {
-            softwareKindService.saveKind(paramMap);
-            resultMap.put("status", "success");
-            resultMap.put("msg", "软件种类保存成功!");
+            if (!softwareKindService.queryKindNameIsRepeat(request.getParameter("kindName")))
+            {
+                resultMap.put("status", "warn");
+                resultMap.put("msg", "软件中文重名!");
+            }
+            else  if (!softwareKindService.queryKindNameEnIsRepeat(request.getParameter("name_en")))
+            {
+                resultMap.put("status", "warn");
+                resultMap.put("msg", "软件英文重名!");
+            }
+            else
+            {
+                softwareKindService.saveKind(paramMap);
+                resultMap.put("status", "success");
+                resultMap.put("msg", "软件种类保存成功!");
+            }
         } catch(Exception e) {
             resultMap.put("status", "error");
             resultMap.put("msg", "软件种类保存失败!");

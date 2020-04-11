@@ -308,6 +308,8 @@ public class VersionController {
 				versionMap.put("appPktNew",paramMap.get("appPktNew"));
 				versionMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
 				versionMap.put("appPktSize",soft.getSize());
+                versionMap.put("appPkt_KeyFileMD5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
+                versionMap.put("appPkt_ProductCode","appPkt_ProductCode");
 				versionMap.put("appPktPath",versionPath);
 				versionMap.put("appPktDate"," ");
 				SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );

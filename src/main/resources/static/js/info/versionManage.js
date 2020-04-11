@@ -151,6 +151,10 @@ function configPackage(history_id){
                $("#appPkt_md5").val(versionPkgCfgData.appPkt_md5);
 			   $("#appPkt_size").attr("disabled", true);
 			   $("#appPkt_md5").attr("disabled", true);
+			   $("#appPkt_KeyFileMD5").val(versionPkgCfgData.appPkt_KeyFileMD5);			
+               $("#appPkt_ProductCode").val(versionPkgCfgData.appPkt_ProductCode);
+			   $("#appPkt_KeyFileMD5").attr("disabled", true);
+			   $("#appPkt_ProductCode").attr("disabled", true);
                $('#AppPktModal').modal('show');
                stopPageLoading()
 		   } else {

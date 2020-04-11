@@ -65,7 +65,9 @@
         SELECT
                appPkt_date,
                appPkt_size,
-               appPkt_md5
+               appPkt_md5,
+               appPkt_KeyFileMD5,
+               appPkt_ProductCode
         FROM
                software_history 
         WHERE
@@ -146,7 +148,9 @@
                 appPkt_new,
                 appPkt_path,
                 appPkt_size,
-                appPkt_md5
+                appPkt_md5,
+				appPkt_KeyFileMD5,
+				appPkt_ProductCode
                 )
         VALUES (
                      #{historyId},
@@ -160,7 +164,9 @@
                      #{appPktNew},
                      #{appPktPath},
                      #{appPktSize},
-                     #{appPktMd5}
+                     #{appPktMd5},
+					 #{appPkt_KeyFileMD5},
+                     #{appPkt_ProductCode}
              )
     </insert>
 

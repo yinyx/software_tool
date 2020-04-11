@@ -15,6 +15,8 @@
         <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
         <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
         <result property="install_type" column="install_type" jdbcType="INTEGER"/>
+        <result property="ProductCode" column="ProductCode" jdbcType="VARCHAR"/>
+        <result property="AllowUser" column="AllowUser" jdbcType="INTEGER"/>
     </resultMap>
 
     <insert id="insertSoftwareInfo" parameterType="com.nari.software_tool.entity.SoftwareInfo">
@@ -303,7 +305,9 @@
 		  latest_version,
 		  introduction,
 		  file_path,
-		  install_type
+		  install_type,
+		  AllowUser,
+		  ProductCode
       	) VALUES (
       		#{id},
 			#{soft_id},
@@ -316,7 +320,9 @@
 			#{latestVersion},
 			#{introduction},
 			#{file_path},
-			#{installType}
+			#{installType},
+			#{AllowUser},
+			#{ProductCode}
   		)
 	</insert>
 
@@ -325,10 +331,11 @@
 	   UPDATE server_software
 	   	   SET
 			name=#{name},
-			name_en=#{name_en},
 			brief_introduction=#{brief_introduction},
 			kind=#{kind},
-			install_type=#{install_type}
+			install_type=#{install_type},
+			AllowUser=#{UsePopdom},
+			ProductCode=#{ProductCode}
 		   WHERE
 		   	id = #{id}
 	</update>

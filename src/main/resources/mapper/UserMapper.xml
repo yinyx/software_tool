@@ -24,7 +24,7 @@
 		WHERE
 		phone = #{userName}
 		AND
-		role = '1'
+		role = '3'
 	</select>
 	
 	<!-- 更新密码 -->

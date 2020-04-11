@@ -236,7 +236,20 @@ function EditAttribute(softwareId){
 				       ops[i].selected = true;
 				       break;
 				    }
-				}			   
+				}		
+
+			   	var UsePopdomList = document.getElementById("cronUsePopdom_attribute");
+				var ops1 = UsePopdomList.options;
+				for(var i=0;i<ops1.length; i++){
+				    var tempValue = ops1[i].value;
+				    if(tempValue == softwareData.AllowUser) //这里是你要选的值
+				    {
+				       ops1[i].selected = true;
+				       break;
+				    }
+				}	
+               $("#ProductCode_attribute").val(softwareData.ProductCode);
+				
                $('#attributeModal_edit').modal('show');
                stopPageLoading()
 		   } else {
@@ -404,6 +417,8 @@ function initListenAddSoftware(){
         var installType = $("#cronInstallType").val();
         var briefIntroduction = $("#description").val();
         var recordId = $("#recordId").val();
+		var AllowUser = $("#cronUsePopdom").val();
+        var ProductCode = $("#ProductCode").val();
 
         var data = {
             "id":recordId,
@@ -414,7 +429,9 @@ function initListenAddSoftware(){
             "kind":kind,
             "installType":installType,
             "briefIntroduction":briefIntroduction,
-            "userId":userId
+            "userId":userId,
+			"AllowUser":AllowUser,
+            "ProductCode":ProductCode
         };
         formData.append("softwareForm",JSON.stringify(data));
 
@@ -703,6 +720,7 @@ $(document).ready(function(){
 		var kind = $(":radio[name=\"type_attribute\"]:checked").val();
 		data+="&kind="+kind;
 		data+="&installType="+$("#cronInstallType_attribute").val();
+		data+="&UsePopdom="+$("#cronUsePopdom_attribute").val();
 		$.ajax({
 			url:"software/updateSoftware",
 			type:"post",

@@ -34,6 +34,10 @@ public class SoftwareInfo {
     private int install_type;
     //操作员
     private String userId;
+    //使用权限
+    private int AllowUser;
+    //产品代码
+    private String ProductCode;
 
     public String getId() {
         return id;
@@ -139,6 +143,22 @@ public class SoftwareInfo {
         this.userId = userId;
     }
 
+    public int getAllowUser() {
+        return AllowUser;
+    }
+
+    public void setAllowUser(int AllowUser) {
+        this.AllowUser = AllowUser;
+    }
+
+    public String getProductCode() {
+        return ProductCode;
+    }
+
+    public void setProductCode(String ProductCode) {
+        this.ProductCode = ProductCode;
+    }
+
     @Override
     public String toString() {
         return "SoftPathInfo{" +
@@ -155,6 +175,8 @@ public class SoftwareInfo {
                 ", filePath='" + filePath + '\'' +
                 ", InstallType='" + install_type + '\'' +
                 ", userId='" + userId + '\'' +
+                ", AllowUser='" + AllowUser + '\'' +
+                ", ProductCode='" + ProductCode + '\'' +
                 '}';
     }
 

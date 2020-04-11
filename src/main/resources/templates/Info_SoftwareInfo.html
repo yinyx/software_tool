@@ -64,25 +64,6 @@
                                             <input type="text" id="softwareName_en" name="softwareName_en" class="form-control " placeholder="请输入软件名（英）" required/>
                                         </div>
                                     </div>
-									<!--
-									<div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="uuid" id="uuid_label"><span class="required">*</span>软件UUID：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="uuid_text" name="uuid_m" class="form-control " placeholder="软件UUID"/>
-                                        </div>
-                                    </div>
-									
-									<div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="icon_now" id="icon_now_label"><span class="required">*</span>当前图标：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="icon_now_text" name="icon_now" class="form-control " placeholder="当前图标" />
-                                        </div>
-                                    </div>
-									-->
                                     <div class="col-sm-12">
                                         <div class="col-sm-4"style="text-align:right;">
                                             <label class="control-label" for="icon" id="iconLabel"><span class="required">*</span>图标：</label>
@@ -107,15 +88,6 @@
                                             <input  type="text"   class="form-control " name="version" id="version"   placeholder="请输入版本"/></label>
                                         </div>
                                     </div>
-									<!--
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-4" style="text-align:right;">
-                                            <label class="control-label"><span class="required">*</span>类别：</label>
-                                        </div>
-                                        <div class="col-sm-8" id="type_radio">
-                                        </div>
-                                    </div>
-									-->
 
                                     <div class="col-sm-12">
                                         <div class="col-sm-4"style="text-align:right;">
@@ -125,19 +97,10 @@
                                             <input  type="file" name="soft" id="soft" /></label>
                                         </div>
                                     </div>
-									<!--
+
 									<div class="col-sm-12">
                                         <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="softdir_now" id="softdir_now_label">当前软件目录：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="softdir_now_text" name="icon_now" class="form-control " placeholder="当前软件目录"/>
-                                        </div>
-                                    </div>
-									-->
-									<div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="soft"><span class="required">*</span>安装类型：</label>
+                                            <label class="control-label" for="install"><span class="required">*</span>安装类型：</label>
                                         </div>
                                         <div class="col-sm-8">
                                             <select id="cronInstallType" class="form-control input-inline">
@@ -145,6 +108,28 @@
 												<option value="1">InstallShield</option>
 												<option value="2">InnoSetup</option>
                                             </select>
+                                        </div>
+                                    </div>
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="usePopdom"><span class="required">*</span>使用权限：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="cronUsePopdom" class="form-control input-inline">
+												<option value="0">允许所有用户</option>
+												<option value="1">允许除访客用户外所有用户</option>
+												<option value="2">允许除访客、普通用户外所有用户</option>
+												<option value="3">允许除访客、普通、高级用户外所有用户</option>
+                                            </select>
+                                        </div>
+                                    </div>
+									
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="ProductCode"><span class="required">*</span>产品代码：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input  type="text"   class="form-control " name="ProductCode" id="ProductCode"   placeholder="请输入产品代码"/></label>
                                         </div>
                                     </div>
                                 </div>
@@ -357,6 +342,29 @@
 												<option value="1">InstallShield</option>
 												<option value="2">InnoSetup</option>
                                             </select>
+                                        </div>
+                                    </div>
+									
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="usePopdom"><span class="required">*</span>使用权限：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="cronUsePopdom_attribute" class="form-control input-inline">
+												<option value="0">允许所有用户</option>
+												<option value="1">允许除访客用户外所有用户</option>
+												<option value="2">允许除访客、普通用户外所有用户</option>
+												<option value="3">允许除访客、普通、高级用户外所有用户</option>
+                                            </select>
+                                        </div>
+                                    </div>
+									
+									<div class="col-sm-12">
+                                        <div class="col-sm-4"style="text-align:right;">
+                                            <label class="control-label" for="ProductCode"><span class="required">*</span>产品代码：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input  type="text"   class="form-control " name="ProductCode" id="ProductCode_attribute"   placeholder="请输入产品代码"/></label>
                                         </div>
                                     </div>
                                 </div>

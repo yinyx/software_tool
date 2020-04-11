@@ -32,7 +32,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author yinyx
  * @version 1.0 2020/3/19
@@ -222,6 +223,8 @@ public class SoftwareController {
 		paramMap.put("brief_introduction", request.getParameter("description_attribute"));
         paramMap.put("kind", request.getParameter("kind"));
         paramMap.put("install_type", request.getParameter("installType"));
+        paramMap.put("UsePopdom", request.getParameter("UsePopdom"));
+        paramMap.put("ProductCode", request.getParameter("ProductCode"));
 		
 		System.out.println(paramMap);
 		
@@ -273,6 +276,7 @@ public class SoftwareController {
 		Map<String, Object> paramMap = software;
 		System.out.println(paramMap);
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SoftwareInfo softwareInfo = objectMapper.readValue(software.toString(),SoftwareInfo.class);
 		String softwareName = softwareInfo.getName();
 		String softwareNameEn = softwareInfo.getNameEn();

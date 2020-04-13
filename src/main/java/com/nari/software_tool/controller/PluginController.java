@@ -97,8 +97,9 @@ public class PluginController {
         JSONObject paramObj=AesUtil.GetParam(map);
         String branchId = paramObj.get("branchId").toString();
         Map<String, Object> resultMap=new HashMap<>();
+        logger.info("---插件界面版本列表查询--- branchId:  "+branchId);
         try {
-            List<Map<String,Object>> dataList = versionService.queryVersionByHistoryId(branchId);
+            List<Map<String,Object>> dataList = versionService.queryVersionByBranchId(branchId);
             resultMap.put("status", "success");
             resultMap.put("dataList",dataList);
         } catch (Exception e) {
@@ -182,9 +183,9 @@ public class PluginController {
 
     @RequestMapping(value="/addPlugin",method=RequestMethod.POST)
     @ResponseBody
-    public JSONObject addVersionInfo(@RequestParam("pluginPkt") MultipartFile pluginPkt, @RequestParam("pluginObj") Map<String,Object> pluginObj){
+    public JSONObject addVersionInfo(@RequestParam("pluginPkt") MultipartFile pluginPkt, @RequestParam("pluginObj") String pluginObj){
         JSONObject jsonObject = new JSONObject();
-        logger.info("当前上传插件==========================================================="+pluginObj+"===========================================================");
+        logger.info("当前上传插件======================================================="+pluginObj+"=======================================================");
 
 //        if((pluginObj.get("type") == "0")&&(pluginObj.get("softId")=="0")&&
 //        (pluginObj.get("branchId") == "0")&&(pluginObj.get("versionId")=="0")&&(pluginObj.get("userId")=="0")){

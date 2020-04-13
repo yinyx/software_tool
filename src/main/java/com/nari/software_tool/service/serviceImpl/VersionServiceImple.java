@@ -25,8 +25,8 @@ public class VersionServiceImple implements VersionService {
     }
 
     @Override
-    public List<Map<String, Object>> queryVersionByHistoryId(String historyId) {
-        return softHistoryInfoMapper.queryVersionByHistoryId(historyId);
+    public List<Map<String, Object>> queryVersionByBranchId(String branchId) {
+        return softHistoryInfoMapper.queryVersionByBranchId(branchId);
     }
 
     @Override

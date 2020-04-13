@@ -37,7 +37,7 @@
         FROM
              software_plugin
         LEFT JOIN server_software_kind on software_plugin.type = server_software_kind.id
-        LEFT JOIN server_software on software_plugin.soft_id  = server_software.soft_id
+        LEFT JOIN server_software on software_plugin.soft_id  = server_software.id
         LEFT JOIN software_branch on software_plugin.branch  = software_branch.branch_id
         LEFT JOIN software_history on software_plugin.version = software_history.history_id
        WHERE

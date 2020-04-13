@@ -376,7 +376,7 @@ function addSoftware(){
 	$("#uuid_label").attr("style","display:none;");
 	$("#uuid_text").attr("style","display:none;");
 	$("#softLabel").attr("style","display:;");
-	$("#soft").attr("style","display:;");
+	
 	$("#softwareForm")[0].reset();
 	$("#recordId").val("");
 	var  softwareKind = $("#cronKind option:checked").text();

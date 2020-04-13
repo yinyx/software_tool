@@ -13,4 +13,8 @@ public interface PluginService {
     DataTableModel queryPluginList(Map<String, String> dataTableMap);
 
     int addPlugin(Map<String,Object> paramMap);
+
+    Map<String,Object> getPluginById(String pluginId);
+
+    int updatePlugin(Map<String,Object> paramMap);
 }

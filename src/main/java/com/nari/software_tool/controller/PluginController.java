@@ -71,21 +71,21 @@ public class PluginController {
         }
         return resultMap;
     }
-    @RequestMapping(value="/getVersionById",method=RequestMethod.POST)
-    public Object getVersionById(@RequestParam Map<String, Object> map){
+    @RequestMapping(value="/getPluginById",method=RequestMethod.POST)
+    public Object getPluginById(@RequestParam Map<String, Object> map){
         JSONObject paramObj=AesUtil.GetParam(map);
-        String historyId = paramObj.get("historyId").toString();
-        Map<String, Object> versionData = new HashMap<String, Object>();
+        String pluginId = paramObj.get("pluginId").toString();
+        Map<String, Object> pluginData = new HashMap<String, Object>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            versionData = versionService.getHistoryById(historyId);
+            pluginData = pluginService.getPluginById(pluginId);
             resultMap.put("status", "success");
-            resultMap.put("versionData", versionData);
+            resultMap.put("pluginData", pluginData);
         }
         catch(Exception e)
         {
             resultMap.put("status", "error");
-            resultMap.put("msg", "查询某条版本信息异常!");
+            resultMap.put("msg", "查询某条插件信息异常!");
         }
         JSONObject jsonObject = JSONObject.fromObject(resultMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
@@ -112,20 +112,23 @@ public class PluginController {
         return enResult;
     }
 
-    @PostMapping("/updateVersion")
+    @PostMapping("/updatePlugin")
     @ResponseBody
-    public JSONObject updateVersion(@RequestParam("upFile") MultipartFile upFile, @RequestParam("versionObj") String versionObj){
+    public JSONObject updatePlugin(@RequestParam("upFile") MultipartFile upFile, @RequestParam("pluginStr") String pluginStr){
         JSONObject jsonObject = new JSONObject();
-        JSONObject versionJson = JSONObject.fromObject(versionObj);
-        Map<String, Object> paramMap = versionJson;
-        Map<String,Object> versionMap = versionService.getHistoryById((String) paramMap.get("historyId"));
-        System.out.println(versionMap.toString()+"-------------");
-        String oldVersionpath = (String) versionMap.get("appPkt_path");
-        File oldVersionpathDir = new File(oldVersionpath);
-        String oldVersionDirAbsolutePath = oldVersionpathDir.getAbsolutePath();
+        JSONObject paramMap = JSONObject.fromObject(pluginStr);
+        Map<String,Object> pluginMap = pluginService.getPluginById((String) paramMap.get("pluginId"));
+        String oldPluginPath = (String) pluginMap.get("absolute_path");
+        File oldPluginPathDir = new File(oldPluginPath);
+        String oldPluginDirAbsolutePath = oldPluginPathDir.getAbsolutePath();
+        String[] oldPathArray = oldPluginDirAbsolutePath.split("\\\\");
+        String oldPath = oldPathArray[0];
+        for(int i = 1; i < oldPathArray.length-1; i++) {
+            oldPath = oldPath + "\\" + oldPathArray[i];
+        }
         try {
-            if (!StringUtils.isEmpty(oldVersionDirAbsolutePath)) {
-                File file = new File(oldVersionDirAbsolutePath + "\\");
+            if (!StringUtils.isEmpty(oldPath)) {
+                File file = new File(oldPath + "\\");
                 if (file.isDirectory()) {
                     File[] files = file.listFiles();
                     for(File key:files){
@@ -134,43 +137,53 @@ public class PluginController {
                         }
                     }
                     file.delete();
-                    System.out.println("文件已删除");
+                    logger.info("---插件"+pluginMap.get("plugin_name")+"已更新---");
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        String[] pathArray = oldVersionpath.split("\\\\");
+        String[] pathArray = oldPluginPath.split("\\\\");
         String upFileName = upFile.getOriginalFilename();
-        pathArray[pathArray.length-1] = upFileName;
+        pathArray[pathArray.length-1] = null;
 
         String newPath = pathArray[0];
-        for(int i = 1; i < pathArray.length; i++) {
+        for(int i = 1; i < pathArray.length-1; i++) {
             newPath = newPath + "\\" + pathArray[i];
         }
         //存储版本；
-        File versionDir = new File(newPath);
-        String versionDirAbsolutePath = versionDir.getAbsolutePath();
-        if(!versionDir.exists()){
-            versionDir.mkdir();
+        File newPluginDir = new File(newPath);
+        String pluginDirAbsolutePath = newPluginDir.getAbsolutePath();
+        if(!newPluginDir.exists()){
+            newPluginDir.mkdir();
         }
         try {
-            upFile.transferTo(new File(versionDirAbsolutePath,upFileName));
+            upFile.transferTo(new File(pluginDirAbsolutePath,upFileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
         try{
-            paramMap.put("historyPath",newPath);
-            paramMap.put("appPktPath",newPath);
+        if(pluginMap.get("plugin_id").equals(paramMap.get("pluginId"))){
+            pluginMap.put("pluginId",paramMap.get("pluginId"));
+        }
+        if(!pluginMap.get("plugin_name").equals(paramMap.get("pluginName"))){
+            pluginMap.put("pluginName",paramMap.get("pluginName"));
+        }
+        if(!pluginMap.get("relative_path").equals(paramMap.get("relativePath"))){
+            pluginMap.put("relativePath",paramMap.get("relativePath"));
+        }
+            pluginMap.put("absolutePath",pluginDirAbsolutePath+"\\"+upFileName);
+            pluginMap.put("description",paramMap.get("description"));
             SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
-            paramMap.put("appPktDate",sdf.format(new Date()));
-            paramMap.put("uploadDate",sdf.format(new Date()));
+            pluginMap.put("uploadTime",sdf.format(new Date()));
             Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
-            paramMap.put("operator",userMap.get("user_name"));
-            paramMap.put("appPktSize",0);
-            paramMap.put("appPktMd5", MD5Util.getFileMD5String(new File(versionDirAbsolutePath,upFileName)));
+            pluginMap.put("operator",userMap.get("user_name"));
+            pluginMap.put("size",upFile.getSize());
+            if(!pluginMap.get("plugin_MD5").equals(MD5Util.getFileMD5String(new File(pluginDirAbsolutePath,upFileName)))){
+                pluginMap.put("pluginMD5", MD5Util.getFileMD5String(new File(pluginDirAbsolutePath,upFileName)));
+            }
             //数据库更新记录
-            if(versionService.updateVersion(paramMap) == 1){
+            if(pluginService.updatePlugin(pluginMap) == 1){
                 jsonObject.put("status","success");
             }else{
                 jsonObject.put("status","failure");

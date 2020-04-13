@@ -53,4 +53,16 @@ public class PluginServiceImpl implements PluginService {
     public int addPlugin(Map<String, Object> paramMap) {
         return softPluginMapper.addPlugin(paramMap);
     }
+
+    @Override
+    public Map<String, Object> getPluginById(String pluginId) {
+        return softPluginMapper.queryPluginById(pluginId);
+    }
+
+    @Override
+    public int updatePlugin(Map<String, Object> paramMap) {
+        return softPluginMapper.updatePlugin(paramMap);
+    }
+
+
 }

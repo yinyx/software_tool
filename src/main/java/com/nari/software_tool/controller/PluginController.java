@@ -16,8 +16,6 @@ import util.aes.MD5.MD5Util;
 import util.aes.StringUtils;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +31,9 @@ public class PluginController {
 
     @Value("${rootPath}")
     private String rootPath;
+
+    @Value("${pluginPath}")
+    private String pluginPath;
 
     // 注入软件类别Service
     @Resource
@@ -183,93 +184,99 @@ public class PluginController {
 
     @RequestMapping(value="/addPlugin",method=RequestMethod.POST)
     @ResponseBody
-    public JSONObject addVersionInfo(@RequestParam("pluginPkt") MultipartFile pluginPkt, @RequestParam("pluginObj") String pluginObj){
+    public JSONObject addVersionInfo(@RequestParam("pluginPkt") MultipartFile pluginPkt, @RequestParam("pluginObj") String pluginStr){
         JSONObject jsonObject = new JSONObject();
-        logger.info("当前上传插件======================================================="+pluginObj+"=======================================================");
+        logger.info("当前上传插件 ==============================="+pluginStr+"===============================");
+        JSONObject paramMap = JSONObject.fromObject(pluginStr);
+        if((paramMap.get("type") == "0")&&(paramMap.get("softId")=="0")&&
+        (paramMap.get("branchId") == "0")&&(paramMap.get("versionId")=="0")&&(paramMap.get("userId")=="0")){
+            jsonObject.put("status","failure");
+        }
 
-//        if((pluginObj.get("type") == "0")&&(pluginObj.get("softId")=="0")&&
-//        (pluginObj.get("branchId") == "0")&&(pluginObj.get("versionId")=="0")&&(pluginObj.get("userId")=="0")){
-//            jsonObject.put("status","failure");
-//        }
-//
-//        Map<String,Object> typeMap = softwareKindService.getKindById((String) pluginObj.get("kindId"));
-//        Map<String,Object> softMap = softwareService.getSoftwareById((String) pluginObj.get("softwareId"));
-//        Map<String,Object> branchMap = branchService.getBranchById((String) pluginObj.get("branchId"));
-//        Map<String,Object> userMap = userService.getUserById((String) pluginObj.get("userId"));
-//
-//        String root = rootPath;
-//        File rootDir = new File(root);
-//
-//        String typePath = rootPath+"/"+typeMap.get("name_en");
-//        File typeDir = new File(typePath);
-//
-//        String namePath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en");
-//        File nameDir = new File(namePath);
-//
-//        String branchPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch");
-//        File branchDir = new File(branchPath);
-//
-//        String versionPath = rootPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+pluginObj.get("historyVersion");
-//        File versionDir = new File(versionPath);
-//
-//        if(!rootDir.exists()) {
-//            rootDir.mkdir();
-//        }
-//
-//        if(!typeDir.exists()) {
-//            typeDir.mkdir();
-//        }
-//
-//        if(!nameDir.exists()) {
-//            nameDir.mkdir();
-//        }
-//
-//        if(!branchDir.exists()) {
-//            branchDir.mkdir();
-//        }
-//
-//        if(!versionDir.exists()) {
-//            versionDir.mkdir();
-//        }
-//
-//        //存储文件；
-//        File softDir = new File(versionPath);
-//        String softDirAbsolutePath = softDir.getAbsolutePath();
-//        if(!softDir.exists()){
-//            softDir.mkdir();
-//        }
-//        String softName = pluginPkt.getOriginalFilename();
-//        try {
-//            pluginPkt.transferTo(new File(softDirAbsolutePath,softName));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        try{
-//            Map<String,Object> versionMap = new HashMap<>();
-//            versionMap.put("historyId",StringUtils.getUUId());
-//            versionMap.put("softId",pluginObj.get("softwareId"));
-//            versionMap.put("branchId",pluginObj.get("branchId"));
-//            versionMap.put("historyVersion",pluginObj.get("historyVersion"));
-//            versionMap.put("historyPath",softDirAbsolutePath);
-//            versionMap.put("uploadDate"," ");
-//            versionMap.put("operator",userMap.get("user_name"));
-//            versionMap.put("appPktNew",pluginObj.get("appPktNew"));
-//            versionMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
-//            versionMap.put("appPktSize",pluginPkt.getSize());
-//            versionMap.put("appPktPath",versionPath);
-//            SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
-//            versionMap.put("appPktDate",sdf.format(new Date()));
-//
-//            if(versionService.addVersion(versionMap) ==1){
+        Map<String,Object> typeMap = softwareKindService.getKindById((String) paramMap.get("type"));
+        Map<String,Object> softMap = softwareService.getSoftwareById((String) paramMap.get("softId"));
+        Map<String,Object> branchMap = branchService.getBranchById((String) paramMap.get("branchId"));
+        Map<String,Object> versionMap = versionService.getHistoryById((String) paramMap.get("versionId"));
+        Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
+
+        String root = pluginPath;
+        File rootDir = new File(root);
+
+        String typePath = pluginPath+"/"+typeMap.get("name_en");
+        File typeDir = new File(typePath);
+
+        String namePath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en");
+        File nameDir = new File(namePath);
+
+        String branchPath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch");
+        File branchDir = new File(branchPath);
+
+        String versionPath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version");
+        File versionDir = new File(versionPath);
+
+        if(!rootDir.exists()) {
+            rootDir.mkdir();
+        }
+
+        if(!typeDir.exists()) {
+            typeDir.mkdir();
+        }
+
+        if(!nameDir.exists()) {
+            nameDir.mkdir();
+        }
+
+        if(!branchDir.exists()) {
+            branchDir.mkdir();
+        }
+
+        if(!versionDir.exists()) {
+            versionDir.mkdir();
+        }
+
+        if(!versionDir.exists()) {
+            versionDir.mkdir();
+        }
+
+        //存储文件；
+        File pluginDir = new File(versionPath);
+        String pluginDirAbsolutePath = pluginDir.getAbsolutePath();
+        if(!pluginDir.exists()){
+            pluginDir.mkdir();
+        }
+        String pluginFileName = pluginPkt.getOriginalFilename();
+        try {
+            pluginPkt.transferTo(new File(pluginDirAbsolutePath,pluginFileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try{
+            Map<String,Object> pluginMap = new HashMap<>();
+            pluginMap.put("pluginId",StringUtils.getUUId());
+            pluginMap.put("Type",paramMap.get("type"));
+            pluginMap.put("softId",paramMap.get("softId"));
+            pluginMap.put("Branch",paramMap.get("branchId"));
+            pluginMap.put("Version",paramMap.get("versionId"));
+            pluginMap.put("pluginName",paramMap.get("pluginName"));
+            pluginMap.put("pluginMD5",MD5Util.getFileMD5String(new File(pluginDirAbsolutePath,pluginFileName)));
+            SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
+            pluginMap.put("uploadTime",sdf.format(new Date()));
+            pluginMap.put("relativePath",paramMap.get("relativePath"));
+            pluginMap.put("absolutePath",pluginDirAbsolutePath+"\\"+pluginFileName);
+            pluginMap.put("operator",userMap.get("user_name"));
+            pluginMap.put("description",paramMap.get("description"));
+            pluginMap.put("size",pluginPkt.getSize());
+
+            if(pluginService.addPlugin(pluginMap) ==1){
                 jsonObject.put("status","success");
-//            }else{
-//                jsonObject.put("status","failure");
-//            }
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+            }else{
+                jsonObject.put("status","failure");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         return jsonObject;
     }

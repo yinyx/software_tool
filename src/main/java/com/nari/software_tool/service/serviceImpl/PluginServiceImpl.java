@@ -48,4 +48,9 @@ public class PluginServiceImpl implements PluginService {
         dataTableModel.setAaData(resList);
         return dataTableModel;
     }
+
+    @Override
+    public int addPlugin(Map<String, Object> paramMap) {
+        return softPluginMapper.addPlugin(paramMap);
+    }
 }

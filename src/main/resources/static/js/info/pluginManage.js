@@ -88,7 +88,7 @@ function initSchoolUserTable() {
             ,	 {
 			 "title" : "上传时间",  
 			 "defaultContent" : "", 
-			 "data" :"upload_date",
+			 "data" :"upload_time",
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }  
@@ -107,12 +107,29 @@ function initSchoolUserTable() {
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
 				 var content = "";
-				  content = '<button class="btn btn-xs blue" onclick="updateVersion(\''+row.history_id+'\') " data-toggle="modal" data-target="#"> 更新版本 </button>' ;
+				  content = '<button class="btn btn-xs blue" onclick="updatePlugin(\''+row.plugin_id+'\')" data-toggle="modal" data-target="#"> 更新插件 </button>' ;
 		         return content;
 		      } 
 		 }]
 	});
-}	
+}
+
+function upFileStyle(){
+    $('#up_plugin').click();
+    //file表单选中文件时,让file表单的val展示到showname这个展示框
+    $('#up_plugin').change(function(){
+        $('#showname').val($(this).val())
+    });
+}
+
+function commitFileStyle(){
+    $('#pluginPkt').click();
+    //file表单选中文件时,让file表单的val展示到showname这个展示框
+    $('#pluginPkt').change(function(){
+        $('#show').val($(this).val())
+    });
+}
+
 
 // 点击安装配置按钮
 function InstallConfig(softwareId){
@@ -234,41 +251,43 @@ function EditAttribute(softwareId){
 }
 
 // 点击编辑图标按钮
-function updateVersion(historyId){
-	console.log(historyId);
+function updatePlugin(pluginId){
 	startPageLoading();
-	var data = {"historyId":historyId};
+	var data = {"pluginId":pluginId};
 	var dataObj = {
 			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
 	};
 	$.ajax({
-		url:"history/getVersionById",
+		url:"plugin/getPluginById",
 		type:"post",
 		data:dataObj,
 		dataType:"text",
 		success:function(data) {
 		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
 		   if(data.status=="success") {
-			   $("#recordId_icon").val(historyId);
-               var versionData = data.versionData;
-			   $("#softwareName_icon").val(versionData.name).attr("disabled", true);
-               $("#nowBranch").val(versionData.branch).attr("disabled", true);
-               $("#nowVersion").val(versionData.history_version).attr("disabled", true);
-               $('#versionModal_edit').modal('show');
+			   $("#recordId_icon").val(pluginId);
+               var pluginData = data.pluginData;
+			   $("#softwareName_icon").val(pluginData.name).attr("disabled", true);
+               $("#nowBranch").val(pluginData.branch).attr("disabled", true);
+               $("#nowVersion").val(pluginData.history_version).attr("disabled", true);
+               $("#upPluginName").val(pluginData.plugin_name);
+               $("#upRelativePath").val(pluginData.relative_path);
+               $("#update_description").val(pluginData.description);
+               $('#pluginModal_edit').modal('show');
                stopPageLoading()
 		   } else {
 			   stopPageLoading();
-			   showSuccessOrErrorModal("获取软件信息失败","error");
+			   showSuccessOrErrorModal("获取插件信息失败","error");
 		   }
 		   
 		},
 		error:function(e) {
 			stopPageLoading();
-		   showSuccessOrErrorModal("获取软件信息请求出错了","error"); 
+		   showSuccessOrErrorModal("获取插件信息请求出错了","error");
 		}
 	});
-    var fileCatcher = document.getElementById("updateVersionForm");
-    var upSoft = document.getElementById("up_soft");
+    var fileCatcher = document.getElementById("updatePluginForm");
+    var upSoft = document.getElementById("up_plugin");
 
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
@@ -277,23 +296,26 @@ function updateVersion(historyId){
         pluginTable.draw();
     });
     $("#versionModal_edit").on('hide.bs.modal', function () {
-        document.getElementById("up_soft").value = "";
+        document.getElementById("up_plugin").value = "";
         upSoft = null;
-        document.getElementById("updateVersionForm").reset();
+        document.getElementById("updatePluginForm").reset();
     });
     sendFile = function () {
         var formData = new FormData();
-        var request = new XMLHttpRequest();
         formData.append("upFile",upSoft.files[0]);
-        var appPktNew =  $("#update_description").val();
-		var versionObj  = {
-			"historyId":historyId,
-			"appPktNew":appPktNew,
+        var pluginName =  $("#upPluginName").val();
+        var relativePath =  $("#upRelativePath").val();
+        var description =  $("#update_description").val();
+		var pluginObj  = {
+			"pluginId":pluginId,
+			"pluginName":pluginName,
+			"relativePath": relativePath,
+			"description":description,
 			"userId":userId
 		};
-        formData.append("versionObj",JSON.stringify(versionObj));
+        formData.append("pluginStr",JSON.stringify(pluginObj));
         $.ajax({
-            url:"history/updateVersion",
+            url:"plugin/updatePlugin",
             type:"post",
             data:formData,
             dataType:"json",
@@ -301,18 +323,18 @@ function updateVersion(historyId){
             contentType : false, // 不要设置Content-Type请求头
             success:function(data) {
                 if(data.status == "success") {
-                    $('#pluginModal_add').modal('hide');
+                    $('#pluginModal_edit').modal('hide');
                     pluginTable.draw();
                     stopPageLoading();
                 } else {
                     stopPageLoading();
-                    showSuccessOrErrorModal("上传版本信息失败","error");
+                    showSuccessOrErrorModal("更新插件信息失败","error");
                 }
 
             },
             error:function(e) {
                 stopPageLoading();
-                showSuccessOrErrorModal("上传版本信息出错了","error");
+                showSuccessOrErrorModal("更新插件信息出错了","error");
             }
         });
     };
@@ -346,11 +368,13 @@ function uploadPlugin(){
         var versionId = $("#cronVersion").val();
         var description = $("#description").val();
         var relativePath = $("#relativePath").val();
+        var pluginName = $("#pluginName").val();
         var pluginObj = {
             "type":kindId,
             "softId":softwareId,
             "branchId":branchId,
 			"versionId":versionId,
+			"pluginName":pluginName,
             "description":description,
             "relativePath":relativePath,
             "userId":userId

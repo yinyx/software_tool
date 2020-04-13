@@ -38,7 +38,7 @@
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">版本信息</h4>
+                        <h4 class="modal-title">新增插件</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row ">
@@ -79,6 +79,14 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4" style="text-align:right;">
+                                        <label class="control-label" for="pluginName"><span class="required">*</span>插件名：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input  type="text"  class="form-control" name="pluginName" id="pluginName"   placeholder="请输入插件名："/></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4" style="text-align:right;">
                                         <label class="control-label" for="relativePath"><span class="required">*</span>插件相对路径：</label>
                                     </div>
                                     <div class="col-sm-8">
@@ -99,7 +107,11 @@
                                         <label class="control-label" for="pluginPkt" id="pluginLabel"><span class="required">*</span>上传插件：</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input  type="file" name="pluginPkt" id="pluginPkt" />
+                                        <!-- 用于展示上传文件名的表单 -->
+                                        <input id="show" class="input-large" type="text" style="height:25px;">
+                                        <!-- 点击触发按钮 -->
+                                        <a class="btn" onclick="commitFileStyle()" style="order:1px solid #ccc;padding:4px;border-radius:4px;background-color:#2c9a8a;color:#fff;">浏览</a>
+                                        <input style="display: none" type="file" name="pluginPkt" id="pluginPkt" />
                                     </div>
                                 </div>
                                 </div>
@@ -118,17 +130,17 @@
 </div>
 
 <!--更新版本模态框-->
-    <div class="modal fade bs-example-modal-lg" id="versionModal_edit" tabindex="-1" role="dialog"
+    <div class="modal fade bs-example-modal-lg" id="pluginModal_edit" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form id="updateVersionForm" enctype="multipart/form-data">
+                <form id="updatePluginForm" enctype="multipart/form-data">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">更新版本</h4>
+                        <h4 class="modal-title">更新插件</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row ">
@@ -161,7 +173,22 @@
                                             <input type="text" id="nowVersion" name="nowVersion" class="form-control " placeholder="当前版本" />
                                         </div>
                                     </div>
-
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4" style="text-align:right;">
+                                            <label class="control-label" for="upPluginName" ><span class="required">*</span>插件名：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="upPluginName" name="upPluginName" class="form-control " placeholder="插件名" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4" style="text-align:right;">
+                                            <label class="control-label" for="upRelativePath" ><span class="required">*</span>相对路径：</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="upRelativePath" name="upRelativePath" class="form-control "  />
+                                        </div>
+                                    </div>
                                     <div class="col-sm-12">
                                         <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label" for="update_description"><span class="required">*</span>更新内容：</label>
@@ -173,10 +200,14 @@
 
                                     <div class="col-sm-12">
                                         <div class="col-sm-4" style="text-align:right;">
-                                            <label class="control-label" for="up_soft" ><span class="required">*</span>修改版本：</label>
+                                            <label class="control-label" for="up_plugin" ><span class="required">*</span>修改插件：</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            <input type="file" id="up_soft" name="up_soft"/>
+                                            <!-- 用于展示上传文件名的表单 -->
+                                            <input id="showname" class="input-large" type="text" style="height:25px;">
+                                            <!-- 点击触发按钮 -->
+                                            <a class="btn" onclick="upFileStyle()" style="order:1px solid #ccc;padding:4px;border-radius:4px;background-color:#2c9a8a;color:#fff;">浏览</a>
+                                            <input style="display: none" type="file" id="up_plugin" name="up_plugin"/>
                                         </div>
                                     </div>
 									
@@ -316,7 +347,7 @@
 									</div>	
 									
 									<div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
+                                        <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label" for="appPkt_size">大小：</label>
                                         </div>
 										<div class="col-sm-4">  

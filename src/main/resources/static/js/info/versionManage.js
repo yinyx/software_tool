@@ -632,7 +632,18 @@ $("select#cronBranch").change(function(){
 	$("#version_name").val("");
     queryVersion();
 });
-
+function softFileStyle(){
+    $('#soft').click();
+    $('#soft').change(function(){
+        $('#soft_showName').val($(this).val())
+    });
+}
+function upSoftFileStyle(){
+    $('#up_soft').click();
+    $('#up_soft').change(function(){
+        $('#up_soft_showName').val($(this).val())
+    });
+}
 $(document).ready(function(){
 	//判断是否登录
 	userMap = isLogined();

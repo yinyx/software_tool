@@ -90,7 +90,11 @@
                                         <label class="control-label" for="soft" id="softLabel"><span class="required">*</span>上传软件：</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input  type="file" name="soft" id="soft" />
+                                        <!-- 用于展示上传文件名的表单 -->
+                                        <input id="soft_showName" class="input-large" type="text" style="height:25px;">
+                                        <!-- 点击触发按钮 -->
+                                        <a class="btn" onclick="softFileStyle()" style="order:1px solid #ccc;padding:4px;border-radius:4px;background-color:#2c9a8a;color:#fff;">浏览</a>
+                                        <input style="display: none" type="file" name="soft" id="soft" />
                                     </div>
                                 </div>
                                 </div>
@@ -167,7 +171,11 @@
                                             <label class="control-label" for="up_soft" ><span class="required">*</span>修改版本：</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            <input type="file" id="up_soft" name="up_soft"/>
+                                            <!-- 用于展示上传文件名的表单 -->
+                                            <input id="up_soft_showName" class="input-large" type="text" style="height:25px;">
+                                            <!-- 点击触发按钮 -->
+                                            <a class="btn" onclick="upSoftFileStyle()" style="order:1px solid #ccc;padding:4px;border-radius:4px;background-color:#2c9a8a;color:#fff;">浏览</a>
+                                            <input style="display: none" type="file" id="up_soft" name="up_soft"/>
                                         </div>
                                     </div>
 									

@@ -689,6 +689,30 @@ function ScreenShotConfig(softwareId){
     };
 }
 
+function iconFileStyle(){
+    $('#icon').click();
+    $('#icon').change(function(){
+        $('#icon_showName').val($(this).val())
+    });
+}
+function softFileStyle(){
+    $('#soft').click();
+    $('#soft').change(function(){
+        $('#soft_showName').val($(this).val())
+    });
+}
+function shotFileStyle(){
+    $('#screenShots_list').click();
+    $('#screenShots_list').change(function(){
+        $('#shots_showName').val($(this).val())
+    });
+}
+function upIconFileStyle(){
+    $('#icon_icon').click();
+    $('#icon_icon').change(function(){
+        $('#upIcon_showName').val($(this).val())
+    });
+}
 $("select#cronKind").change(function(){
 	$("#software_name").val("");	
     schoolUserTable.draw();

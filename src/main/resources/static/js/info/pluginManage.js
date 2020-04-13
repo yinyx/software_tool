@@ -292,10 +292,10 @@ function updatePlugin(pluginId){
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
-        $("#versionModal_edit").modal('hide');
+        $("#pluginModal_edit").modal('hide');
         pluginTable.draw();
     });
-    $("#versionModal_edit").on('hide.bs.modal', function () {
+    $("#pluginModal_edit").on('hide.bs.modal', function () {
         document.getElementById("up_plugin").value = "";
         upSoft = null;
         document.getElementById("updatePluginForm").reset();

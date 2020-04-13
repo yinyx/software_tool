@@ -23,6 +23,7 @@ import com.nari.software_tool.entity.DataTableParam;
 import net.sf.json.JSONObject;
 import util.aes.AesUtil;
 import util.aes.DatatableUtil;
+import util.aes.StringUtils;
 
 @RestController
 @RequestMapping(value = "/branch")
@@ -67,9 +68,11 @@ public class BranchController {
         cheackNameMap.put("branchName", request.getParameter("branchName"));
         cheackNameMap.put("softwareId", request.getParameter("softwareId"));
 
+        String branchId = (String) paramMap.get("branchId");
+
         try {
 
-            if (!branchService.queryBranchNameIsRepeat(cheackNameMap))
+            if ((StringUtils.isEmpty(branchId))&&(!branchService.queryBranchNameIsRepeat(cheackNameMap)))
             {
                 resultMap.put("status", "warn");
                 resultMap.put("msg", "软件分支重名!");

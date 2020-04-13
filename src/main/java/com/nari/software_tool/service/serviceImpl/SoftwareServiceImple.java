@@ -113,7 +113,6 @@ public class SoftwareServiceImple implements SoftwareService{
 			SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
 			paramMap.put("uploadDate",sdf.format(new Date()));
 			paramMap.put("appPktDate",sdf.format(new Date()));
-			paramMap.put("appPktNew","");
 			paramMap.put("appPktPath",paramMap.get("file_path"));
 			paramMap.put("appPktSize",paramMap.get("size"));
 			softHistoryInfoMapper.addVersion(paramMap);

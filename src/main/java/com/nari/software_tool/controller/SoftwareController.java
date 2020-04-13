@@ -423,6 +423,9 @@ public class SoftwareController {
 				paramMap.put("historyVersion",softwareInfo.getLatestVersion());
 				paramMap.put("historyPath",softwareInfo.getFilePath());
 				paramMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
+                paramMap.put("appPkt_KeyFileMD5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
+                paramMap.put("appPkt_ProductCode","appPkt_ProductCode");
+                paramMap.put("appPktNew",softwareInfo.getBriefIntroduction());
 				//数据库增加记录
 
 				try{

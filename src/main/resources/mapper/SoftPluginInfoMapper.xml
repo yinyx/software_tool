@@ -36,23 +36,24 @@
         software_plugin.size
         FROM
              software_plugin
-        LEFT JOIN server_software on server_software.soft_id = software_plugin.soft_id
-        LEFT JOIN software_branch on software_branch.branch_id = software_plugin.branch
-        LEFT JOIN software_history on software_history.history_id = software_plugin.version
-       <where>
-           <if test="Type !=null and Type !='0'">
-               and type =  #{Type,jdbcType=VARCHAR}
+        LEFT JOIN server_software_kind on software_plugin.type = server_software_kind.id
+        LEFT JOIN server_software on software_plugin.soft_id  = server_software.soft_id
+        LEFT JOIN software_branch on software_plugin.branch  = software_branch.branch_id
+        LEFT JOIN software_history on software_plugin.version = software_history.history_id
+       WHERE
+           1=1
+           <if test='type !=null and type !="0"'>
+               and software_plugin.type =  #{type,jdbcType=VARCHAR}
            </if>
-           <if test="softId !=null and softId !='0'">
+           <if test='softId !=null and softId !="0"'>
                and software_plugin.soft_id = #{softId,jdbcType=VARCHAR}
            </if>
-           <if test="Branch !=null and Branch !='0'">
-               and software_plugin.branch =  #{Branch,jdbcType=VARCHAR}
+           <if test='branch !=null and branch !="0"'>
+               and software_plugin.branch =  #{branch,jdbcType=VARCHAR}
            </if>
-           <if test="Version !=null and Version !='0'">
-               and software_plugin.version =  #{Version,jdbcType=VARCHAR}
+           <if test='version !=null and version !="0"'>
+               and software_plugin.version =  #{version,jdbcType=VARCHAR}
            </if>
-       </where>
         limit
             #{start},#{length}
     </select>
@@ -61,23 +62,119 @@
         SELECT
         COUNT(1)
         FROM
-        software_plugin left join server_software on software_plugin.soft_id = server_software.id
+        software_plugin
+        LEFT JOIN server_software_kind on software_plugin.type = server_software_kind.id
+        left join server_software on software_plugin.soft_id = server_software.id
         left join software_branch on software_plugin.branch = software_branch.branch_id
-        left join software_history on software_history.history_id = software_plugin.version
-        <where>
-            <if test="Type !=null and Type !='0'">
-                and type =  #{Type,jdbcType=VARCHAR}
+        left join software_history on software_plugin.version =  software_history.history_id
+        WHERE
+            1=1
+            <if test='type !=null and type !="0"'>
+                and software_plugin.type =  #{type,jdbcType=VARCHAR}
             </if>
-            <if test="softId !=null and softId !='0'">
+            <if test='softId !=null and softId !="0"'>
                 and software_plugin.soft_id = #{softId,jdbcType=VARCHAR}
             </if>
-            <if test="Branch !=null and Branch !='0'">
-                and software_plugin.branch =  #{Branch,jdbcType=VARCHAR}
+            <if test='branch !=null and branch !="0"'>
+                and software_plugin.branch =  #{branch,jdbcType=VARCHAR}
             </if>
-            <if test="Version !=null and Version !='0'">
-                and software_plugin.version =  #{Version,jdbcType=VARCHAR}
+            <if test='version !=null and version !="0"'>
+                and software_plugin.version =  #{version,jdbcType=VARCHAR}
             </if>
-        </where>
     </select>
+
+    <insert id="addPlugin" parameterType="java.util.HashMap">
+        INSERT software_plugin (
+                plugin_id,
+                type,
+                soft_id,
+                branch,
+                version,
+                plugin_name,
+                plugin_MD5,
+                upload_time,
+                relative_path,
+                absolute_path,
+                operator,
+                description,
+                size
+              )
+        VALUES (
+                 #{pluginId,jdbcType=VARCHAR},
+                 #{Type,jdbcType=VARCHAR},
+                 #{softId,jdbcType=VARCHAR},
+                 #{Branch,jdbcType=VARCHAR},
+                 #{Version,jdbcType=VARCHAR},
+                 #{pluginName,jdbcType=VARCHAR},
+                 #{pluginMD5,jdbcType=VARCHAR},
+                 #{uploadTime,jdbcType=TIMESTAMP},
+                 #{relativePath,jdbcType=VARCHAR},
+                 #{absolutePath,jdbcType=VARCHAR},
+                 #{operator,jdbcType=VARCHAR},
+                 #{description,jdbcType=VARCHAR},
+                 #{size,jdbcType=VARCHAR}
+                 )
+    </insert>
+
+
+
+    <select id="queryPluginById" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT
+        plugin_id,
+        software_plugin.type,
+        software_plugin.soft_id,
+        server_software.name,
+        software_branch.branch,
+        software_history.history_version,
+        plugin_name,
+        software_plugin.plugin_MD5,
+        software_plugin.upload_time,
+        relative_path,
+        absolute_path,
+        software_plugin.operator,
+        software_plugin.description,
+        software_plugin.size
+        FROM
+        software_plugin
+        LEFT JOIN server_software on software_plugin.soft_id  = server_software.soft_id
+        LEFT JOIN software_branch on software_plugin.branch  = software_branch.branch_id
+        LEFT JOIN software_history on software_plugin.version = software_history.history_id
+        WHERE
+        1=1
+        <if test='pluginId !=null and pluginId !="0"'>
+            and software_plugin.plugin_id = #{pluginId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <update id="updatePlugin" parameterType="java.util.HashMap">
+        update software_plugin set
+        <trim  suffixOverrides=",">
+            <if test="pluginName !=null">
+                plugin_name = #{pluginName,jdbcType=VARCHAR},
+            </if>
+            <if test="pluginMD5 !=null">
+                plugin_MD5 = #{pluginMD5,jdbcType=VARCHAR},
+            </if>
+            <if test="uploadTime !=null">
+                upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="relativePath !=null">
+                relative_path = #{relativePath,jdbcType=VARCHAR},
+            </if>
+            <if test="absolutePath !=null">
+                absolute_path = #{absolutePath,jdbcType=VARCHAR},
+            </if>
+            <if test="operator !=null">
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="description !=null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="size !=null">
+                size = #{size,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        WHERE plugin_id =#{pluginId,jdbcType=VARCHAR}
+    </update>
 
 </mapper>

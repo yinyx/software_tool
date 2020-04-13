@@ -17,4 +17,6 @@ public interface SoftPluginMapper {
     List<Map<String, Object>> queryPluginList(Map<String,Object> paramMap);
 
     int queryPluginCount(Map<String, Object> paramMap);
+
+    int addPlugin(Map<String,Object> paramMap);
 }

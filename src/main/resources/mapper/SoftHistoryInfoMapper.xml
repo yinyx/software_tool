@@ -304,7 +304,7 @@
               appPkt_md5 = #{appPktMd5,jdbcType=VARCHAR}
     </select>
 
-    <select id="queryVersionByHistoryId" resultMap="SoftHistoryResultMap">
+    <select id="queryVersionByBranchId" parameterType="java.lang.String" resultType="java.util.HashMap">
         SELECT
                history_id,
                soft_id,
@@ -320,10 +320,11 @@
                appPkt_md5
         FROM
              software_history
-        where
-            <if test="historyId!= null and historyId!='0'">
-                history_id = #{historyId,jdbcType=VARCHAR}
+        <where>
+            <if test='branchId!= null and branchId!="0"'>
+                and branch_id = #{branchId}
             </if>
+        </where>
     </select>
 
     <!-- 查询软件版本是否重名-->

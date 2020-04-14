@@ -21,7 +21,15 @@ public enum Result{
 
     USER_IS_NOT_EXIST(1,"用户不存在"),
 
-    PASSWORD_WRONG(2,"密码错误");
+    PASSWORD_WRONG(2,"密码错误"),
+
+    ALL_USER(0,"所有用户"),
+
+    EXPERT_VISITOR(1,"除访客外用户"),
+
+    EXPERT_VISITOR_COMMON(2,"除访客和普通用户"),
+
+    EXPERT_ALL_USER(3,"除访客、普通、高级用户");
 
     private int code;
     private String description;

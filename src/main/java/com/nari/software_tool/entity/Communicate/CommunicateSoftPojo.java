@@ -21,6 +21,10 @@ public class CommunicateSoftPojo{
     private String Icon;
     //软件分类
     private String Type;
+    //允许按照的最低用户类型
+    private int AllowUser;
+    //MSI安装程序产品代码或InnoSetup 的程序名
+    private String ProductCode;
     //程序描述
     private String Desc;
     //历史版本数量
@@ -82,6 +86,22 @@ public class CommunicateSoftPojo{
         Desc = desc;
     }
 
+    public int getAllowUser() {
+        return AllowUser;
+    }
+
+    public void setAllowUser(int allowUser) {
+        AllowUser = allowUser;
+    }
+
+    public String getProductCode() {
+        return ProductCode;
+    }
+
+    public void setProductCode(String productCode) {
+        ProductCode = productCode;
+    }
+
     public int getHistory() {
         return History;
     }
@@ -130,6 +150,8 @@ public class CommunicateSoftPojo{
                 ", Version='" + Version + '\'' +
                 ", Icon='" + Icon + '\'' +
                 ", Type='" + Type + '\'' +
+                ", AllowUser=" + AllowUser +
+                ", ProductCode='" + ProductCode + '\'' +
                 ", Desc='" + Desc + '\'' +
                 ", History=" + History +
                 ", HistoryUrl='" + HistoryUrl + '\'' +

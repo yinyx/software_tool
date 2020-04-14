@@ -26,6 +26,7 @@ function initSchoolUserTable() {
             aoData.push({"name":"softId","value":$("#cronSoftware").val()});
             aoData.push({"name":"branchId","value":$("#cronBranch").val()});
 			aoData.push({"name":"versionId","value":$("#cronVersion").val()});
+			aoData.push({"name":"pluginName","value":$("#pluginName").val()});
 			$.ajax({
 				type: "POST",
 				url: sSource,

@@ -54,6 +54,9 @@
            <if test='version !=null and version !="0"'>
                and software_plugin.version =  #{version,jdbcType=VARCHAR}
            </if>
+           <if test='pluginName !=null and pluginName !=""'>
+            and software_plugin.plugin_name like concat(concat('%',#{pluginName}),'%')
+           </if>
         limit
             #{start},#{length}
     </select>
@@ -80,6 +83,9 @@
             </if>
             <if test='version !=null and version !="0"'>
                 and software_plugin.version =  #{version,jdbcType=VARCHAR}
+            </if>
+            <if test='pluginName !=null and pluginName !=""'>
+                and software_plugin.plugin_name like concat(concat('%',#{pluginName}),'%')
             </if>
     </select>
 

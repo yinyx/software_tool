@@ -3,7 +3,7 @@
            <marquee onMouseOut=start(); onMouseOver=stop(); scrolldelay=500 scrollamount=5 direction="right" behavior="scroll" id="marqueeTitle"></marquee>
         </div>
 	<div class="row">
-	    <div class="col-md-10">
+	    <div class="col-md-11">
             <label class="control-label">&nbsp;软件类别：</label> 
             <select id="cronKind" class="form-control input-inline">
             </select>
@@ -16,9 +16,12 @@
 			<label class="control-label">&nbsp;版本：</label>
             <select id="cronVersion" class="form-control input-inline">
             </select>
+			<label class="control-label">&nbsp;插件名：</label> 
+            <input type="text" id="pluginName" class="form-control input-inline"  placeholder="插件名" value=""/>
+            <button class='btn green' type="button" style='margin-right:5px;' onclick="queryVersions()" id="queryButton">查询</button>
 		</div>
 		<div class="form-group">
-			<div style="float:right;margin-right:120px;">
+			<div style="float:right;margin-right:35px;">
 				<button class="btn  blue" data-toggle="modal" data-target="#pluginModal_add" onclick="addPlugin()">新增</button>
 			</div>
 		</div>

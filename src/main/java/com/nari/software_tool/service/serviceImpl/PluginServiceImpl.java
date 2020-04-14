@@ -32,6 +32,7 @@ public class PluginServiceImpl implements PluginService {
         String softId = dataTableMap.get("softId");
         String branch = dataTableMap.get("branchId");
         String version = dataTableMap.get("versionId");
+        String pluginName = dataTableMap.get("pluginName");
 
         paramMap.put("start", start);
         paramMap.put("length", length);
@@ -39,6 +40,7 @@ public class PluginServiceImpl implements PluginService {
         paramMap.put("softId",softId);
         paramMap.put("branch",branch);
         paramMap.put("version",version);
+        paramMap.put("pluginName",pluginName);
 
         List<Map<String, Object>> resList = softPluginMapper.queryPluginList(paramMap);
         int count = softPluginMapper.queryPluginCount(paramMap);

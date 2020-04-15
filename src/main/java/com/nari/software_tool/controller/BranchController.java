@@ -30,6 +30,9 @@ import util.aes.StringUtils;
 public class BranchController {
     @Value("${rootPath}")
     private String rootPath;
+	
+	@Value("${pluginPath}")
+    private String pluginPath;
 
     @Resource
     private BranchService branchService;
@@ -152,6 +155,7 @@ public class BranchController {
         {
             try {
                 branchService.deleteDir(rootPath, branchId);
+                branchService.deleteDir(pluginPath, branchId);
                 boolean flag = branchService.deleteBranch(branchId);
                 if(flag){
                     resultMap.put("status", "success");

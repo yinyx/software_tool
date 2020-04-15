@@ -25,15 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author yinyx
  * @version 1.0 2020/3/19
@@ -47,6 +43,9 @@ public class SoftwareController {
 
     @Value("${rootPath}")
     private String rootPath;
+
+    @Value("${pluginPath}")
+    private String pluginPath;
 
     @Autowired
     private SoftwareKindService softwareKindService;
@@ -192,6 +191,7 @@ public class SoftwareController {
 			//删除文件和图标
 			softwareService.deleteIcon(iconPath, softwareId);
 			softwareService.deleteDir(rootPath, softwareId);
+            softwareService.deleteDir(pluginPath, softwareId);
             boolean flag = softwareService.deleteSoftware(softwareId);
 
 			

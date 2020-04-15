@@ -199,4 +199,12 @@
             soft_id = #{softwareId}
     </delete>
 
+    <!-- 根据软件分支id批量删除插件记录 -->
+    <delete id="deletePluginsByBranchId" parameterType="java.lang.String">
+        DELETE FROM
+            software_plugin
+        WHERE
+            branch = #{branchId}
+    </delete>
+
 </mapper>

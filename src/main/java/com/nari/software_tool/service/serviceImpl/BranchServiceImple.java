@@ -14,6 +14,7 @@ import com.nari.software_tool.dao.SoftwareBranchMapper;
 import com.nari.software_tool.dao.SoftHistoryInfoMapper;
 import com.nari.software_tool.dao.SoftwareInfoMapper;
 import com.nari.software_tool.dao.SoftwareKindMapper;
+import com.nari.software_tool.dao.SoftPluginMapper;
 import com.nari.software_tool.entity.DataTableModel;
 
 import util.aes.StringUtils;
@@ -22,6 +23,8 @@ import util.aes.TestProperties;
 @Service
 @Transactional
 public class BranchServiceImple implements BranchService{
+    @Autowired
+    private SoftPluginMapper softPluginMapper;
 
     @Autowired
     private SoftwareBranchMapper branchMapper;
@@ -129,6 +132,8 @@ public class BranchServiceImple implements BranchService{
 
     @Override
     public boolean deleteBranch(String branchId) {
+        //删除分支相关的插件记录
+        softPluginMapper.deletePluginsByBranchId(branchId);
         //删除分支下的所有版本
         softHistoryInfoMapper.deleteVersionsByBranchId(branchId);
         //删除分支

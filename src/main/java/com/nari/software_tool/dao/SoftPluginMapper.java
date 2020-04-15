@@ -27,4 +27,6 @@ public interface SoftPluginMapper {
     void deletePluginsByKind(String kindId);
 
     void deletePluginBySoftwareId(String softwareId);
+
+    void deletePluginsByBranchId(String branchId);
 }

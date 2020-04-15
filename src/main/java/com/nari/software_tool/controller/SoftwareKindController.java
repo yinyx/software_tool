@@ -33,6 +33,9 @@ public class SoftwareKindController {
     @Value("${rootPath}")
     private String rootPath;
 
+    @Value("${pluginPath}")
+    private String pluginPath;
+
     @Resource
     private SoftwareKindService softwareKindService;
 
@@ -133,6 +136,7 @@ public class SoftwareKindController {
             //删除文件和图标
             softwareKindService.deleteIcon(iconPath, kindId);
             softwareKindService.deleteDir(rootPath, kindId);
+            softwareKindService.deleteDir(pluginPath, kindId);
             boolean flag = softwareKindService.deleteKind(kindId);
             if(flag){
                 resultMap.put("status", "success");

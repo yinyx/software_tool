@@ -191,4 +191,12 @@
             type = #{kindId}
     </delete>
 
+    <!-- 根据软件id批量删除插件记录 -->
+    <delete id="deletePluginBySoftwareId" parameterType="java.lang.String">
+        DELETE FROM
+            software_plugin
+        WHERE
+            soft_id = #{softwareId}
+    </delete>
+
 </mapper>

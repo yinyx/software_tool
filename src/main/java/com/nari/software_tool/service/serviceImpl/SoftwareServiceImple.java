@@ -43,6 +43,9 @@ public class SoftwareServiceImple implements SoftwareService{
     @Autowired
     private SoftHistoryInfoMapper softHistoryInfoMapper;
 
+	@Autowired
+	private SoftPluginMapper softPluginMapper;
+
     @Autowired
 	private UserService userService;
 
@@ -143,7 +146,8 @@ public class SoftwareServiceImple implements SoftwareService{
 		screenShotsMapper.deleteScreenShotsBySoftware(softwareId);
 			//删除安装配置属性记录
 		softwareInstallMapper.deleteInstall(softwareId);
-
+	    	//删除插件记录
+		softPluginMapper.deletePluginBySoftwareId(softwareId);
 			//删除版本记录
 		softHistoryInfoMapper.deleteVersionsBySoftware(softwareId);
 		    //删除分支记录

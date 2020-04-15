@@ -16,6 +16,7 @@ import com.nari.software_tool.dao.SoftwareInstallMapper;
 import com.nari.software_tool.dao.SoftHistoryInfoMapper;
 import com.nari.software_tool.dao.SoftwareBranchMapper;
 import com.nari.software_tool.dao.SoftwareInfoMapper;
+import com.nari.software_tool.dao.SoftPluginMapper;
 import com.nari.software_tool.entity.DataTableModel;
 
 import util.aes.StringUtils;
@@ -24,6 +25,8 @@ import util.aes.TestProperties;
 @Service
 @Transactional(rollbackFor = { Exception.class })
 public class SoftwareKindServiceImple implements SoftwareKindService{
+    @Autowired
+    private SoftPluginMapper softPluginMapper;
 
     @Autowired
     private SoftwareKindMapper softwareKindMapper;
@@ -125,6 +128,8 @@ public class SoftwareKindServiceImple implements SoftwareKindService{
         screenShotsMapper.deleteScreenShotsByKind(kindId);
         //删除软件安装配置
         softwareInstallMapper.deleteInstallsByKind(kindId);
+        //删除软件插件
+        softPluginMapper.deletePluginsByKind(kindId);
         //删除软件版本
         softHistoryInfoMapper.deleteVersionsByKind(kindId);
         //删除软件分支

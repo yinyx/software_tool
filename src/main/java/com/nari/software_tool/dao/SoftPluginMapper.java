@@ -23,4 +23,6 @@ public interface SoftPluginMapper {
     Map<String,Object> queryPluginById(String pluginId);
 
     int updatePlugin(Map<String,Object> paramMap);
+
+    void deletePluginsByKind(String kindId);
 }

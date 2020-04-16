@@ -60,7 +60,22 @@
         limit
             #{start},#{length}
     </select>
-
+    <select id="getPluginList" resultMap="SoftPluginResultMap">
+        SELECT
+            plugin_id,
+            type,
+            soft_id,
+            plugin_name,
+            plugin_MD5,
+            upload_time,
+            relative_path,
+            absolute_path,
+            operator,
+            description,
+            size
+        FROM
+        software_plugin
+    </select>
     <select id="queryPluginCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
         SELECT
         COUNT(1)

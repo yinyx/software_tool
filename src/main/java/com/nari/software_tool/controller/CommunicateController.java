@@ -6,11 +6,13 @@ import com.nari.software_tool.entity.Communicate.CommunicatePojo;
 import com.nari.software_tool.entity.Communicate.CommunicateSoftPojo;
 import com.nari.software_tool.entity.Communicate.UserPojo;
 import com.nari.software_tool.service.CommunicateService;
+import com.nari.software_tool.service.PluginService;
 import com.nari.software_tool.service.SoftwareService;
 import com.nari.software_tool.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sun.plugin2.main.server.Plugin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +32,14 @@ public class CommunicateController
     private SoftwareService softwareService;
     @Autowired
     private VersionService versionService;
+    @Autowired
+    private PluginService pluginService;
 
     @RequestMapping(value="getSoftList",method= RequestMethod.POST)
     @ResponseBody
     public JSONObject getSoftList(){
         JSONObject jsonObject = new JSONObject();
-        CommunicatePojo communicatePojo = communicateService.softReqCollect(softwareService.querySoftList());
+        CommunicatePojo communicatePojo = communicateService.softReqCollect(softwareService.querySoftList(),pluginService.getPluginList());
         System.out.println(communicatePojo);
         jsonObject.put("Content",communicatePojo);
         return jsonObject;

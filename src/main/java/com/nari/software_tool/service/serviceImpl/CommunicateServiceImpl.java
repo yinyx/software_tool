@@ -1,11 +1,8 @@
 package com.nari.software_tool.service.serviceImpl;
 
 import com.nari.software_tool.dao.*;
+import com.nari.software_tool.entity.*;
 import com.nari.software_tool.entity.Communicate.*;
-import com.nari.software_tool.entity.SoftHistoryInfo;
-import com.nari.software_tool.entity.SoftInstallInfo;
-import com.nari.software_tool.entity.SoftwareInfo;
-import com.nari.software_tool.entity.UserDetail;
 import com.nari.software_tool.service.CommunicateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +35,7 @@ public class CommunicateServiceImpl implements CommunicateService {
 
 
     @Override
-    public CommunicatePojo softReqCollect(List<SoftwareInfo> softwareInfoList) {
+    public CommunicatePojo softReqCollect(List<SoftwareInfo> softwareInfoList, List<SoftPluginInfo> softPluginInfoList) {
         CommunicatePojo communicatePojo = new CommunicatePojo();
         communicatePojo.setRESP(Result.SOFT_RESP.getCode());
         List<Object> softPojoList = new ArrayList<>();
@@ -75,6 +72,17 @@ public class CommunicateServiceImpl implements CommunicateService {
                 communicateSoftPojo.setAppPkt(appPktPojo);
             }
             communicateSoftPojo.setScreenShots(softwareInfoMapper.queryScreenShotListById(ech.getId()));
+            softPojoList.add(communicateSoftPojo);
+        }
+        for (SoftPluginInfo pch:softPluginInfoList) {
+            CommunicateSoftPojo communicateSoftPojo = new CommunicateSoftPojo();
+            //安装配置对象
+            SoftInstallInfo softInstallInfo = new SoftInstallInfo();
+            softInstallInfo.setType(3);
+            softInstallInfo.setPluginDir(pch.getAbsolutePath());
+            softInstallInfo.setExecPath(pch.getRelativePath());
+            softInstallInfo.setHostAppId(pch.getSoftId());
+            communicateSoftPojo.setInstall(softInstallInfo);
             softPojoList.add(communicateSoftPojo);
         }
         communicatePojo.setTOTAL(softPojoList.size());

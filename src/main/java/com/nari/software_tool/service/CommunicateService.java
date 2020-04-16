@@ -1,12 +1,9 @@
 package com.nari.software_tool.service;
 
+import com.nari.software_tool.entity.*;
 import com.nari.software_tool.entity.Communicate.CommunicatePacketPojo;
 import com.nari.software_tool.entity.Communicate.CommunicatePojo;
 import com.nari.software_tool.entity.Communicate.UserPojo;
-import com.nari.software_tool.entity.SoftHistoryInfo;
-import com.nari.software_tool.entity.SoftInstallInfo;
-import com.nari.software_tool.entity.SoftwareInfo;
-import com.nari.software_tool.entity.User;
 
 import java.util.List;
 
@@ -21,7 +18,7 @@ public interface CommunicateService {
      * @param softwareInfoList
      * @return
      */
-    CommunicatePojo softReqCollect(List<SoftwareInfo> softwareInfoList);
+    CommunicatePojo softReqCollect(List<SoftwareInfo> softwareInfoList, List<SoftPluginInfo> pluginInfoList);
 
     /**
      * 封装客户端请求历史版本列表

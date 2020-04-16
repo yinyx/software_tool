@@ -1,5 +1,6 @@
 package com.nari.software_tool.dao;
 
+import com.nari.software_tool.entity.SoftPluginInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,8 @@ import java.util.Map;
 @Mapper
 @Repository
 public interface SoftPluginMapper {
+
+    List<SoftPluginInfo> getPluginList();
 
     List<Map<String, Object>> queryPluginList(Map<String,Object> paramMap);
 

@@ -1,7 +1,9 @@
 package com.nari.software_tool.service;
 
 import com.nari.software_tool.entity.DataTableModel;
+import com.nari.software_tool.entity.SoftPluginInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +13,8 @@ import java.util.Map;
 public interface PluginService {
 
     DataTableModel queryPluginList(Map<String, String> dataTableMap);
+
+    List<SoftPluginInfo> getPluginList();
 
     int addPlugin(Map<String,Object> paramMap);
 

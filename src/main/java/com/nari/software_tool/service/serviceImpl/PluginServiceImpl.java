@@ -2,6 +2,7 @@ package com.nari.software_tool.service.serviceImpl;
 
 import com.nari.software_tool.dao.SoftPluginMapper;
 import com.nari.software_tool.entity.DataTableModel;
+import com.nari.software_tool.entity.SoftPluginInfo;
 import com.nari.software_tool.service.PluginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,11 @@ public class PluginServiceImpl implements PluginService {
         dataTableModel.setsEcho(Integer.valueOf(sEcho));
         dataTableModel.setAaData(resList);
         return dataTableModel;
+    }
+
+    @Override
+    public List<SoftPluginInfo> getPluginList() {
+        return softPluginMapper.getPluginList();
     }
 
     @Override

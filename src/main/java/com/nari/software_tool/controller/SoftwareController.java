@@ -521,7 +521,7 @@ public class SoftwareController {
         }
 		
 	    //设置图标保存路径
-		String iconPath1 = "images/softIcon/"+kindName+"/"+ softwareName+"/"+iconName;
+		String iconPath1 = kindName+"/"+ softwareName+"/"+iconName;
 		paramMap.put("iconpath", iconPath1);
 		
 		//数据库更新记录

@@ -10,7 +10,7 @@ public class AppPktPojo {
 
     private String Ver;
 
-    private Date Date;
+    private String Date;
 
     private String New;
 
@@ -28,11 +28,11 @@ public class AppPktPojo {
         Ver = ver;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         Date = date;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return Date;
     }
 

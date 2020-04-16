@@ -27,7 +27,7 @@ public class SoftHistoryInfo implements Serializable {
 
     private String operator;
 
-    private Date appPktDate;
+    private String appPktDate;
 
     private String appPktNew;
 
@@ -93,11 +93,11 @@ public class SoftHistoryInfo implements Serializable {
         this.operator = operator;
     }
 
-    public Date getAppPktDate() {
+    public String getAppPktDate() {
         return appPktDate;
     }
 
-    public void setAppPktDate(Date appPktDate) {
+    public void setAppPktDate(String appPktDate) {
         this.appPktDate = appPktDate;
     }
 

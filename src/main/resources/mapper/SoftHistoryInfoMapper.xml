@@ -10,7 +10,7 @@
         <result property="historyPath" column="history_path" jdbcType="VARCHAR"/>
         <result property="uploadDate" column="upload_date" jdbcType="VARCHAR"/>
         <result property="operator" column="operator" jdbcType="VARCHAR"/>
-        <result property="appPktDate" column="appPkt_date" jdbcType="TIMESTAMP"/>
+        <result property="appPktDate" column="appPkt_date" jdbcType="VARCHAR"/>
         <result property="appPktNew" column="appPkt_new" jdbcType="VARCHAR"/>
         <result property="appPktPath" column="appPkt_path" jdbcType="VARCHAR"/>
         <result property="appPktSize" column="appPkt_size" jdbcType="INTEGER"/>
@@ -176,7 +176,7 @@
         SET
             history_path=#{historyPath,jdbcType=VARCHAR},
             operator=#{operator,jdbcType=VARCHAR},
-            upload_date=#{uploadDate,jdbcType=TIMESTAMP},
+            upload_date=#{uploadDate,jdbcType=VARCHAR},
             appPkt_path=#{appPktPath,jdbcType=VARCHAR},
             appPkt_new=#{appPktNew,jdbcType=VARCHAR},
             appPkt_size=#{appPktSize,jdbcType=INTEGER},

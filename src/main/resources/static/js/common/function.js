@@ -52,8 +52,16 @@ function isLogined(){
 }
 //登出
 function logout(){
-	$.cookie('userMap', null);
-	parent.location.href = jQuery.getBasePath() + "/login";
+    $.ajax({
+        type :"post",
+        url : "user/loginOut",
+        dataType : "json",
+        success : function(data) {
+        	console.log(data);
+        }
+    });
+    $.cookie('userMap', null);
+    parent.location.href = jQuery.getBasePath() + "/login";
 }
 function getDropDownData(url,isCode) {
 	//设置默认参数

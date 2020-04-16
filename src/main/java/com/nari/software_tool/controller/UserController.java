@@ -36,10 +36,16 @@ public class UserController {
         String username = (String) paramObj.get("username");
         String password = (String) paramObj.get("password");
         Map<String, Object> userMap = userService.findUserByName(username,password);
-
+        session.setAttribute("userMap", userMap);
         JSONObject jsonObject = JSONObject.fromObject(userMap);
         String enResult = AesUtil.enCodeByKey(jsonObject.toString());
         return enResult;
+    }
+
+    @RequestMapping(value="/loginOut",method=RequestMethod.POST)
+    public String loginOut(HttpSession session) {
+        session.removeAttribute("userMap");
+        return "success";
     }
 
     @RequestMapping(value="/saveNewPassWord",method=RequestMethod.POST)

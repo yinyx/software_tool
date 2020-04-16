@@ -19,7 +19,7 @@ $(document).ready(function(){
 	if(userMap){//成功登录
 		$("#avatarNameId").html(userMap.user_name);
 	}else{
-		parent.location.href = jQuery.getBasePath() + "/login.html";
+		parent.location.href = jQuery.getBasePath() + "/login";
 	}
 	
 	//配置DataTables默认参数

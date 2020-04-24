@@ -50,32 +50,36 @@ public class CommunicateController
     public JSONObject getHistoryList(@RequestParam("UUID") String softId){
         JSONObject jsonObject = new JSONObject();
         String id = softwareService.getIdBySoftId(softId);
-        CommunicatePojo communicatePojo = communicateService.hisReqCollect(versionService.queryHisList(id));
+        CommunicatePojo communicatePojo = communicateService.hisReqCollect(versionService.queryHisList(id),softId);
         System.out.println(communicatePojo);
         jsonObject.put("Content",communicatePojo);
         return jsonObject;
     }
 
-    @RequestMapping(value="checkUserAuth",method= RequestMethod.POST)
+    @RequestMapping(value="checkUserAuth",method= RequestMethod.POST,produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public JSONObject checkUserAuth(@RequestParam("Username") String userName ,@RequestParam("Pwd") String password){
+    public JSONObject checkUserAuth(@RequestBody JSONObject jsonStr){
         JSONObject jsonObject = new JSONObject();
+        String userName = (String) jsonStr.get("Username");
+        String password = (String) jsonStr.get("Pwd");
         UserPojo userPojo = communicateService.userReqCollect(userName,password);
         jsonObject.put("Content",userPojo);
         return jsonObject;
     }
 
-    @RequestMapping(value="getPkt",method= RequestMethod.POST)
+    @RequestMapping(value="getPkt",method= RequestMethod.POST,produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public JSONObject getPkt(@RequestParam("UUID") String historyId ,@RequestParam("MD5") String MD5){
+    public JSONObject getPkt(@RequestBody JSONObject jsonStr){
         JSONObject jsonObject = new JSONObject();
+        String historyId = (String) jsonStr.get("UUID");
+        String MD5 = (String) jsonStr.get("MD5");
         CommunicatePacketPojo communicatePacketPojo = communicateService.pktReqCollect(versionService.queryPktInfo(historyId,MD5));
         jsonObject.put("Content",communicatePacketPojo);
         return jsonObject;
     }
 
 
-    @PostMapping("/downloadPkt")
+    @RequestMapping(value = "downloadPkt",method= RequestMethod.POST,produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String downloadPkt(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JSONObject jsonObject = new JSONObject();

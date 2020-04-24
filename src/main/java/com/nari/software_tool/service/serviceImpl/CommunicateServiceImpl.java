@@ -7,6 +7,7 @@ import com.nari.software_tool.service.CommunicateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.util.Map;
 @Service
 public class CommunicateServiceImpl implements CommunicateService {
 
+    @Value("${iconPath}")
+    private String iconPath;
     @Autowired
     SoftwareInfoMapper softwareInfoMapper;
     @Autowired
@@ -45,7 +48,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             communicateSoftPojo.setUUID(ech.getSoftId());
             communicateSoftPojo.setName(ech.getName());
             communicateSoftPojo.setVersion(ech.getLatestVersion());
-            communicateSoftPojo.setIcon(ech.getIcon());
+            communicateSoftPojo.setIcon(iconPath+'/'+ech.getIcon());
             communicateSoftPojo.setType(ech.getKind());
             communicateSoftPojo.setDesc(ech.getBriefIntroduction());
 
@@ -92,9 +95,10 @@ public class CommunicateServiceImpl implements CommunicateService {
 
 
     @Override
-    public CommunicatePojo hisReqCollect(List<SoftHistoryInfo> softHistoryInfoList) {
+    public CommunicatePojo hisReqCollect(List<SoftHistoryInfo> softHistoryInfoList,String UUID) {
         CommunicatePojo communicatePojo = new CommunicatePojo();
         communicatePojo.setRESP(Result.HISTORY_RESP.getCode());
+        communicatePojo.setUUID(UUID);
         List<Object> hisPojoList = new ArrayList<>();
         for (SoftHistoryInfo ech:softHistoryInfoList){
             CommunicateHistoryPojo communicateHistoryPojo = new CommunicateHistoryPojo();

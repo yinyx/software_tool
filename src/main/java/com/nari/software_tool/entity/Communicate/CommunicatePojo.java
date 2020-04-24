@@ -9,6 +9,8 @@ import java.util.List;
  * @version 1.0 2020/3/25
  */
 public class CommunicatePojo {
+
+    private String UUID;
     //响应数据类型
     private int  RESP;
     //列表元素数量
@@ -32,6 +34,14 @@ public class CommunicatePojo {
         this.TOTAL = TOTAL;
     }
 
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
+
     public List<Object> getApplications() {
         return Applications;
     }
@@ -43,7 +53,8 @@ public class CommunicatePojo {
     @Override
     public String toString() {
         return "CommunicatePojo{" +
-                "RESP=" + RESP +
+                "UUID='" + UUID + '\'' +
+                ", RESP=" + RESP +
                 ", TOTAL=" + TOTAL +
                 ", Applications=" + Applications +
                 '}';

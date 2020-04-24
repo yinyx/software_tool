@@ -25,7 +25,7 @@ public interface CommunicateService {
      * @param softHistoryInfoList
      * @return
      */
-    CommunicatePojo hisReqCollect(List<SoftHistoryInfo> softHistoryInfoList);
+    CommunicatePojo hisReqCollect(List<SoftHistoryInfo> softHistoryInfoList,String UUID);
 
     /**
      * 封装客户端请求程序包信息

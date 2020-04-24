@@ -79,40 +79,56 @@ public class CommunicateController
     }
 
 
-    @RequestMapping(value = "downloadPkt",method= RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public String downloadPkt(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        JSONObject jsonObject = new JSONObject();
-        String fileName = (request.getParameter("fileName"));
+    @RequestMapping(value = "downloadPkt")
+    public String downloadPkt(HttpServletRequest request, HttpServletResponse response){
+        String softwareUrl = (request.getParameter("softwareUrl"));
+        String[] pathArray = softwareUrl.split("/");
+        String newPath = pathArray[0];
+        for(int i = 1; i < pathArray.length-1; i++) {
+            newPath = newPath + "/" + pathArray[i];
+        }
+        newPath += "/";
+        String fileName = pathArray[pathArray.length-1];
         if(fileName != null){
-            File file = new File(request.getParameter("softwareUrl"));
-            if(file.exists()){
-                response.setContentType("application/force-download");
-                response.addHeader("Content-Disposition","attachment;fileName="+fileName);
+            File file = new File(newPath,fileName);
+            if (file.exists()) {
+                response.setContentType("application/force-download");// 设置强制下载不打开
+                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
                 byte[] buffer = new byte[1024];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;
-                try{
+                try {
                     fis = new FileInputStream(file);
                     bis = new BufferedInputStream(fis);
                     OutputStream os = response.getOutputStream();
                     int i = bis.read(buffer);
-                    while(i != -1){
-                        os.write(buffer,0,i);
+                    while (i != -1) {
+                        os.write(buffer, 0, i);
                         i = bis.read(buffer);
                     }
-                    jsonObject.put("result","download success");
-                    return jsonObject.toString();
+                    System.out.println("success");
                 } catch (Exception e) {
                     e.printStackTrace();
-                }finally {
-                    bis.close();
-                    fis.close();
+                } finally {
+                    if (bis != null) {
+                        try {
+                            bis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
-        jsonObject.put("result","failure");
-        return jsonObject.toString();
+        return null;
     }
+
 
 }

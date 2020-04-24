@@ -135,7 +135,7 @@ public class VersionController {
         String oldVersionDirAbsolutePath = oldVersionpathDir.getAbsolutePath();
         try {
             if (!StringUtils.isEmpty(oldVersionDirAbsolutePath)) {
-                File file = new File(oldVersionDirAbsolutePath + "\\");
+                File file = new File(oldVersionDirAbsolutePath + "/");
                 if (file.isDirectory()) {
                     File[] files = file.listFiles();
                     for(File key:files){
@@ -150,13 +150,17 @@ public class VersionController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        String[] pathArray = oldVersionpath.split("\\\\");
+        String[] pathArray = oldVersionpath.split("/");
         String upFileName = upFile.getOriginalFilename();
         pathArray[pathArray.length-1] = upFileName;
 
         String newPath = pathArray[0];
+        for(int i = 1; i < pathArray.length-1; i++) {
+            newPath = newPath + "/" + pathArray[i];
+        }
+        String absolutePath = pathArray[0];
         for(int i = 1; i < pathArray.length; i++) {
-            newPath = newPath + "\\" + pathArray[i];
+            absolutePath = absolutePath + "/" + pathArray[i];
         }
         //存储版本；
         File versionDir = new File(newPath);
@@ -170,8 +174,8 @@ public class VersionController {
             e.printStackTrace();
         }
         try{
-            paramMap.put("historyPath",newPath);
-            paramMap.put("appPktPath",newPath);
+            paramMap.put("historyPath",absolutePath);
+            paramMap.put("appPktPath",absolutePath);
             SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
             paramMap.put("appPktDate",sdf.format(new Date()));
             paramMap.put("uploadDate",sdf.format(new Date()));
@@ -303,14 +307,14 @@ public class VersionController {
 				versionMap.put("softId",paramMap.get("softwareId"));
 				versionMap.put("branchId",paramMap.get("branchId"));
 				versionMap.put("historyVersion",paramMap.get("historyVersion"));
-				versionMap.put("historyPath",softDirAbsolutePath);
+				versionMap.put("historyPath",versionPath+"/"+softName);
 				versionMap.put("operator",userMap.get("user_name"));
 				versionMap.put("appPktNew",paramMap.get("appPktNew"));
 				versionMap.put("appPktMd5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
 				versionMap.put("appPktSize",soft.getSize());
                 versionMap.put("appPkt_KeyFileMD5",MD5Util.getFileMD5String(new File(softDirAbsolutePath,softName)));
                 versionMap.put("appPkt_ProductCode","appPkt_ProductCode");
-				versionMap.put("appPktPath",versionPath);
+				versionMap.put("appPktPath",versionPath+"/"+softName);
 				versionMap.put("appPktDate"," ");
 				SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
 				versionMap.put("uploadDate",sdf.format(new Date()));

@@ -48,7 +48,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             communicateSoftPojo.setUUID(ech.getSoftId());
             communicateSoftPojo.setName(ech.getName());
             communicateSoftPojo.setVersion(ech.getLatestVersion());
-            communicateSoftPojo.setIcon(iconPath+'/'+ech.getIcon());
+            communicateSoftPojo.setIcon("software_tool/communicate/downloadPkt?softwareUrl="+iconPath+'/'+ech.getIcon());
             communicateSoftPojo.setType(ech.getKind());
             communicateSoftPojo.setDesc(ech.getBriefIntroduction());
 
@@ -65,7 +65,7 @@ public class CommunicateServiceImpl implements CommunicateService {
                 AppPktPojo appPktPojo = new AppPktPojo();
                 appPktPojo.setVer(softHistoryInfo.getHistoryVersion());
                 appPktPojo.setNew(softHistoryInfo.getAppPktNew());
-                appPktPojo.setPath("software_tool/communicate/downloadPkt?"+"fileName="+ech.getName()+"&softwareUrl="+softHistoryInfo.getAppPktPath());
+                appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+softHistoryInfo.getAppPktPath());
                 appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
                 appPktPojo.setSize(softHistoryInfo.getAppPktSize());
                 appPktPojo.setDate(softHistoryInfo.getAppPktDate());
@@ -106,7 +106,7 @@ public class CommunicateServiceImpl implements CommunicateService {
                 AppPktPojo appPktPojo = new AppPktPojo();
                 appPktPojo.setVer(ech.getHistoryVersion());
                 appPktPojo.setNew(ech.getAppPktNew());
-                appPktPojo.setPath(ech.getHistoryPath());
+                appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+ech.getHistoryPath());
                 appPktPojo.setMD5(ech.getAppPktMd5());
                 appPktPojo.setSize(ech.getAppPktSize());
                 appPktPojo.setDate(ech.getAppPktDate());
@@ -134,7 +134,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             appPktPojo.setNew(softHistoryInfo.getAppPktNew());
             appPktPojo.setSize(softHistoryInfo.getAppPktSize());
             appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
-            appPktPojo.setPath(softHistoryInfo.getHistoryPath());
+            appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+softHistoryInfo.getHistoryPath());
             communicatePacketPojo.setAppPkt(appPktPojo);
             communicatePacketPojo.setUUID(softHistoryInfo.getHistoryId());
         }else{

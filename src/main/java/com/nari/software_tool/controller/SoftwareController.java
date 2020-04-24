@@ -416,8 +416,8 @@ public class SoftwareController {
 				paramMap.put("file_path",FilePath);
 				
 				//设置软件大小，暂时设为0
-				softwareInfo.setSize("0");
-				paramMap.put("size","0");
+				softwareInfo.setSize(0);
+				paramMap.put("size",soft.getSize());
 
 				//配置历史版本记录
 				paramMap.put("historyVersion",softwareInfo.getLatestVersion());

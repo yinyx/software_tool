@@ -23,7 +23,7 @@ public class SoftwareInfo {
     //简介
     private String briefIntroduction;
     //大小
-    private String size;
+    private int size;
     //最新版本
     private String latestVersion;
     //软件介绍
@@ -95,11 +95,11 @@ public class SoftwareInfo {
         this.briefIntroduction = briefIntroduction;
     }
 
-    public String getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 

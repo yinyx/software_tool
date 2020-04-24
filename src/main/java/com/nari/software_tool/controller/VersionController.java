@@ -181,7 +181,7 @@ public class VersionController {
             paramMap.put("uploadDate",sdf.format(new Date()));
             Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
             paramMap.put("operator",userMap.get("user_name"));
-            paramMap.put("appPktSize",0);
+            paramMap.put("appPktSize",upFile.getSize());
             paramMap.put("appPktMd5", MD5Util.getFileMD5String(new File(versionDirAbsolutePath,upFileName)));
             //数据库更新记录
             if(versionService.updateVersion(paramMap) == 1){

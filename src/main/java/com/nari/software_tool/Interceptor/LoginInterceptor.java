@@ -25,6 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         if(request.getSession().getAttribute("userMap") == null){
             log.info("尚未登陆");
+            response.sendRedirect("/software_tool/login");
             return false;
         }else{
             return true;

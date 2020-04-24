@@ -21,6 +21,7 @@ public class WebApplicationConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login",
+                "/software_tool/login",
                 "/user/login",
                 "/user/loginOut",
                 "/communicate/getSoftList",

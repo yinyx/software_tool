@@ -279,7 +279,7 @@ public class SoftwareServiceImple implements SoftwareService{
 
 	@Override
 	public List<ScreenShotInfo> queryScreenShotListById(String id) {
-		return softwareInfoMapper.queryScreenShotListById(id);
+		return screenShotsMapper.queryScreenShotListById(id);
 	}
 
 	@Override

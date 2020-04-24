@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,8 @@ public class CommunicateServiceImpl implements CommunicateService {
     SoftHistoryInfoMapper softHistoryInfoMapper;
     @Autowired
     SoftwareKindMapper softwareKindMapper;
+    @Autowired
+    ScreenShotsMapper screenShotsMapper;
     @Autowired
     UserMapper userMapper;
 
@@ -74,7 +77,14 @@ public class CommunicateServiceImpl implements CommunicateService {
                 AppPktPojo appPktPojo = new AppPktPojo();
                 communicateSoftPojo.setAppPkt(appPktPojo);
             }
-            communicateSoftPojo.setScreenShots(softwareInfoMapper.queryScreenShotListById(ech.getId()));
+            List<Map<String,Object>> urlList = new ArrayList<>();
+            List<ScreenShotInfo> screenShotList= screenShotsMapper.queryScreenShotListById(ech.getId());
+            for (ScreenShotInfo sc:screenShotList){
+                Map<String,Object> map = new HashMap<>();
+                map.put("url","software_tool/communicate/downloadPkt?softwareUrl="+sc.getUrl());
+                urlList.add(map);
+            }
+            communicateSoftPojo.setScreenShots(urlList);
             softPojoList.add(communicateSoftPojo);
         }
         for (SoftPluginInfo pch:softPluginInfoList) {

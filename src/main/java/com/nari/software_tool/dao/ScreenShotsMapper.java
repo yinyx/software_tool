@@ -24,4 +24,6 @@ public interface ScreenShotsMapper {
 
     void deleteScreenShotsBySoftware(String softwareId);
 
+    List<ScreenShotInfo> queryScreenShotListById(String id);
+
 }

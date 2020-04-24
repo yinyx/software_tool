@@ -93,7 +93,6 @@ public interface SoftwareInfoMapper {
      */
     int querySoftwareEnNameIsRepeat(Map<String, Object> paramMap);
 
-	List<ScreenShotInfo> queryScreenShotListById(String id);
 
 	List<SoftwareInfo> querySoftList();
 

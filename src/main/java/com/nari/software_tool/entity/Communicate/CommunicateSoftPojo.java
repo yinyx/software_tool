@@ -4,6 +4,7 @@ import com.nari.software_tool.entity.ScreenShotInfo;
 import com.nari.software_tool.entity.SoftInstallInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客户端请求软件列表
@@ -36,7 +37,7 @@ public class CommunicateSoftPojo{
     //程序包对象
     private AppPktPojo AppPkt;
     //截图列表
-    private List<ScreenShotInfo> ScreenShots;
+    private List<Map<String,Object>> ScreenShots;
 
     public String getName() {
         return Name;
@@ -134,11 +135,11 @@ public class CommunicateSoftPojo{
         AppPkt = appPkt;
     }
 
-    public List<ScreenShotInfo> getScreenShots() {
+    public List<Map<String, Object>> getScreenShots() {
         return ScreenShots;
     }
 
-    public void setScreenShots(List<ScreenShotInfo> screenShots) {
+    public void setScreenShots(List<Map<String, Object>> screenShots) {
         ScreenShots = screenShots;
     }
 

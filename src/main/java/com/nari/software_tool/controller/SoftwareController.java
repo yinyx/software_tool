@@ -556,12 +556,12 @@ public class SoftwareController {
         if(!fileDir.exists()){
             fileDir.mkdir();
         }
-        String typePath = path+"\\"+typeName;
+        String typePath = path+"/"+typeName;
         File typeDir = new File(typePath);
         if(!typeDir.exists()) {
             typeDir.mkdir();
         }
-        String namePath = typePath+"\\"+name_en;
+        String namePath = typePath+"/"+name_en;
         File nameDir = new File(namePath);
         if(!nameDir.exists()) {
             nameDir.mkdir();
@@ -586,7 +586,7 @@ public class SoftwareController {
                     ss.setCreateTime(df.format(new Date()));
                     ss.setId(softwareId);
                     ss.setShotsName(shotName);
-                    ss.setUrl(namePath+"\\"+shotName);
+                    ss.setUrl(namePath+"/"+shotName);
                     ss.setShotId(i);
                 lst.add(ss);
         }

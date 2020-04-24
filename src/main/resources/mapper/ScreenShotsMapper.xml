@@ -12,6 +12,18 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <!-- 根据软件种类获取软件列表 -->
+    <select id="queryScreenShotListById" resultMap="ScreenShotsResultMap">
+        SELECT
+               shot_id,
+               shots_name,
+               url
+        FROM
+             software_screen
+        WHERE
+                id=#{Id}
+    </select>
+
     <select id="getScreenShotsList" resultMap="ScreenShotsResultMap">
         SELECT
                id,

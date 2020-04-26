@@ -297,6 +297,7 @@ public class SoftwareController {
 		Matcher m2 = p.matcher(LatestVersion);
 
         String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
+        //String regEx = "[|':;',\\[\\]<>/?~！@#￥%……&*+|{}‘；：”“’？]|\"";
         Pattern specialPattern = Pattern.compile(regEx);
         Matcher m11 = specialPattern.matcher(softwareNameEn);
         Matcher m12 = specialPattern.matcher(LatestVersion);
@@ -378,7 +379,7 @@ public class SoftwareController {
 				}
 				
 				//设置图标保存路径
-				String iconPath1 = "images/softIcon/"+map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+iconName;
+				String iconPath1 = map.get("name_en")+"/"+ softwareInfo.getNameEn()+"/"+iconName;
 				softwareInfo.setIcon(iconPath1);
 				paramMap.put("icon",iconPath1);
 				
@@ -494,7 +495,7 @@ public class SoftwareController {
 		String softwareName = (String)softwareData.get("name_en");
 		
 		
-		oldIconpath = "src/main/resources/static/"+oldIconpath;
+		oldIconpath = iconPath+"/"+oldIconpath;
 		File oldIconpathDir = new File(oldIconpath);
 		String oldIconDirAbsolutePath = oldIconpathDir.getAbsolutePath();
 		System.out.println(oldIconDirAbsolutePath);

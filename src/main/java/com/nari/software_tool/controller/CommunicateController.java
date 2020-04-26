@@ -9,6 +9,8 @@ import com.nari.software_tool.service.CommunicateService;
 import com.nari.software_tool.service.PluginService;
 import com.nari.software_tool.service.SoftwareService;
 import com.nari.software_tool.service.VersionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ import java.io.*;
 @RequestMapping(value="/communicate")
 public class CommunicateController
 {
+    Logger logger =  LoggerFactory.getLogger(getClass());
+
     @Autowired
     private CommunicateService communicateService;
     @Autowired
@@ -80,7 +84,8 @@ public class CommunicateController
 
 
     @RequestMapping(value = "downloadPkt")
-    public String downloadPkt(HttpServletRequest request, HttpServletResponse response){
+    public String downloadPkt(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        logger.info("开始文件下载 ===============");
         String softwareUrl = (request.getParameter("softwareUrl"));
         String[] pathArray = softwareUrl.split("/");
         String newPath = pathArray[0];
@@ -93,7 +98,7 @@ public class CommunicateController
             File file = new File(newPath,fileName);
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
-                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+                response.addHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("utf-8"),"ISO-8859-1"));// 设置文件名
                 byte[] buffer = new byte[1024];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;
@@ -105,8 +110,9 @@ public class CommunicateController
                     while (i != -1) {
                         os.write(buffer, 0, i);
                         i = bis.read(buffer);
+                        logger.info("下载中 ===============");
                     }
-                    System.out.println("success");
+                    logger.info("文件下载完成 ===============");
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

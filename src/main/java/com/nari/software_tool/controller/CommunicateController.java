@@ -43,8 +43,9 @@ public class CommunicateController
     @ResponseBody
     public JSONObject getSoftList(){
         JSONObject jsonObject = new JSONObject();
+        logger.info("开始请求软件列表 ===============");
         CommunicatePojo communicatePojo = communicateService.softReqCollect(softwareService.querySoftList(),pluginService.getPluginList());
-        System.out.println(communicatePojo);
+        logger.info("列表内容："+communicatePojo.toString());
         jsonObject.put("Content",communicatePojo);
         return jsonObject;
     }
@@ -53,9 +54,10 @@ public class CommunicateController
     @ResponseBody
     public JSONObject getHistoryList(@RequestParam("UUID") String softId){
         JSONObject jsonObject = new JSONObject();
+        logger.info("开始请求历史列表 ===============");
         String id = softwareService.getIdBySoftId(softId);
         CommunicatePojo communicatePojo = communicateService.hisReqCollect(versionService.queryHisList(id),softId);
-        System.out.println(communicatePojo);
+        logger.info("列表内容："+communicatePojo.toString());
         jsonObject.put("Content",communicatePojo);
         return jsonObject;
     }
@@ -64,10 +66,12 @@ public class CommunicateController
     @ResponseBody
     public JSONObject checkUserAuth(@RequestBody JSONObject jsonStr){
         JSONObject jsonObject = new JSONObject();
+        logger.info("++++++++++ 开始校验客户端用户权限 ++++++++++");
         String userName = (String) jsonStr.get("Username");
         String password = (String) jsonStr.get("Pwd");
         UserPojo userPojo = communicateService.userReqCollect(userName,password);
         jsonObject.put("Content",userPojo);
+        logger.info("++++++++++ 返回校验结果 ++++++++++");
         return jsonObject;
     }
 
@@ -75,9 +79,11 @@ public class CommunicateController
     @ResponseBody
     public JSONObject getPkt(@RequestBody JSONObject jsonStr){
         JSONObject jsonObject = new JSONObject();
+        logger.info("查询程序包信息 ===============");
         String historyId = (String) jsonStr.get("UUID");
         String MD5 = (String) jsonStr.get("MD5");
         CommunicatePacketPojo communicatePacketPojo = communicateService.pktReqCollect(versionService.queryPktInfo(historyId,MD5));
+        logger.info("程序包信息内容："+communicatePacketPojo.toString());
         jsonObject.put("Content",communicatePacketPojo);
         return jsonObject;
     }

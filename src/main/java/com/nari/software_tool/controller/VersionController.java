@@ -232,7 +232,7 @@ public class VersionController {
 		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
 		Matcher m1 = p.matcher(versionName);
 
-        String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
+        String regEx = "[ `~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
         Pattern specialPattern = Pattern.compile(regEx);
         Matcher m11 = specialPattern.matcher(versionName);
 

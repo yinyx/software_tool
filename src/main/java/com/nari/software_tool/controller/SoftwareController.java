@@ -295,6 +295,13 @@ public class SoftwareController {
 		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
 		Matcher m1 = p.matcher(softwareNameEn);
 		Matcher m2 = p.matcher(LatestVersion);
+
+        String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
+        Pattern specialPattern = Pattern.compile(regEx);
+        Matcher m11 = specialPattern.matcher(softwareNameEn);
+        Matcher m12 = specialPattern.matcher(LatestVersion);
+        Matcher m13 = specialPattern.matcher(softwareName);
+
 		if (m1.find())
 		{
 			    jsonObject.put("status", "warn");
@@ -305,6 +312,21 @@ public class SoftwareController {
 			    jsonObject.put("status", "warn");
                 jsonObject.put("msg", "软件版本名称中不能包含中文!");
 		}
+        else if (m13.find())
+        {
+            jsonObject.put("status", "warn");
+            jsonObject.put("msg", "软件中文名中不能包含特殊字符如下"+regEx);
+        }
+        else if (m11.find())
+        {
+            jsonObject.put("status", "warn");
+            jsonObject.put("msg", "软件英文名中不能包含特殊字符如下"+regEx);
+        }
+        else if (m12.find())
+        {
+            jsonObject.put("status", "warn");
+            jsonObject.put("msg", "软件版本名中不能包含特殊字符如下"+regEx);
+        }
 		else if (!softwareService.querySoftwareNameIsRepeat(checkNameMap))
 		{
 			    jsonObject.put("status", "warn");

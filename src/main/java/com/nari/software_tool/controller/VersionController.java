@@ -231,11 +231,21 @@ public class VersionController {
 		
 		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
 		Matcher m1 = p.matcher(versionName);
+
+        String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
+        Pattern specialPattern = Pattern.compile(regEx);
+        Matcher m11 = specialPattern.matcher(versionName);
+
         if (m1.find())
 		{
 				jsonObject.put("status", "warn");
                 jsonObject.put("msg", "软件版本号中不能包含中文!");
 		}
+        else if (m11.find())
+        {
+            jsonObject.put("status", "warn");
+            jsonObject.put("msg", "软件版本号中不能包含特殊字符如下"+regEx);
+        }
 		else if (!versionService.queryVersionNameIsRepeat(checkversionNameMap))
 		{
 			    jsonObject.put("status", "warn");

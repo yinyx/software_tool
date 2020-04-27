@@ -296,7 +296,7 @@ public class SoftwareController {
 		Matcher m1 = p.matcher(softwareNameEn);
 		Matcher m2 = p.matcher(LatestVersion);
 
-        String regEx = "[ `~!@#$%^&*()+=|{}':;',\\[\\]<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
+        String regEx = "[ `~!@#$%^&*()+=|{}':;',[\\]<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
         //String regEx = "[|':;',\\[\\]<>/?~！@#￥%……&*+|{}‘；：”“’？]|\"";
         Pattern specialPattern = Pattern.compile(regEx);
         Matcher m11 = specialPattern.matcher(softwareNameEn);
@@ -434,7 +434,7 @@ public class SoftwareController {
 				}
 				
 				//设置安装文件保存路径
-				String FilePath = softDirAbsolutePath+"\\"+softName;
+				String FilePath = softDirAbsolutePath+"/"+softName;
 				softwareInfo.setFilePath(FilePath);
 				paramMap.put("file_path",FilePath);
 				

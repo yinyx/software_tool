@@ -296,8 +296,8 @@ public class SoftwareController {
 		Matcher m1 = p.matcher(softwareNameEn);
 		Matcher m2 = p.matcher(LatestVersion);
 
-        String regEx = "[ `~!@#$%^&*()+=|{}':;',[\\]<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
-        //String regEx = "[|':;',\\[\\]<>/?~！@#￥%……&*+|{}‘；：”“’？]|\"";
+//        String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\"|\n|\r|\t";
+        String regEx = "[|':;',\\[\\]<>/?~！@#￥%……&*+|{}‘；：”“’？]|\"";
         Pattern specialPattern = Pattern.compile(regEx);
         Matcher m11 = specialPattern.matcher(softwareNameEn);
         Matcher m12 = specialPattern.matcher(LatestVersion);

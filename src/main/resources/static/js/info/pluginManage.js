@@ -369,7 +369,7 @@ function uploadPlugin(){
         var versionId = $("#cronVersion").val();
         var description = $("#description").val();
         var relativePath = $("#relativePath").val();
-        var pluginName = $("#pluginName").val();
+        var pluginName = $("#cronPluginName").val();
         var pluginObj = {
             "type":kindId,
             "softId":softwareId,

@@ -3,7 +3,6 @@ package com.nari.software_tool.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.nari.software_tool.entity.Communicate.CommunicatePacketPojo;
 import com.nari.software_tool.entity.Communicate.CommunicatePojo;
-import com.nari.software_tool.entity.Communicate.CommunicateSoftPojo;
 import com.nari.software_tool.entity.Communicate.UserPojo;
 import com.nari.software_tool.service.CommunicateService;
 import com.nari.software_tool.service.PluginService;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import sun.plugin2.main.server.Plugin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

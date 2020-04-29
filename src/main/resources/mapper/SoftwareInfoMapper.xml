@@ -390,20 +390,21 @@
 
     <select id="querySoftList" resultMap="SoftwareResultMap">
         SELECT
-               id,
-               soft_id,
-               name,
-               name_en,
-               kind,
-               icon,
-               brief_introduction,
-               size,
-               latest_version,
-               introduction,
-               file_path,
-               install_type
+               server_software.id,
+               server_software.soft_id,
+               server_software.name,
+               server_software.name_en,
+               server_software.kind,
+               server_software.icon,
+               server_software.brief_introduction,
+               server_software.size,
+               software_history.history_version as latest_version,
+               server_software.introduction,
+               server_software.file_path,
+               server_software.install_type
         FROM
              server_software
+        LEFT JOIN software_history on server_software.latest_version = software_history.history_id
     </select>
 
     <!-- 根据软件类别id批量删除软件记录 -->

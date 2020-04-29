@@ -401,13 +401,18 @@ function uploadVersion(){
         var branchId = $("#cronBranch").val();
         var appPktNew = $("#description").val();
         var historyVersion = $("#version").val();
+		var isLatestVersion = 0;
+		$("input[type='checkbox']:checked").each(function(){
+			isLatestVersion = 1;
+		});
         var versionObj = {
             "kindId":kindId,
             "softwareId":softwareId,
             "branchId":branchId,
             "appPktNew":appPktNew,
             "historyVersion":historyVersion,
-            "userId":userId
+            "userId":userId,
+			"isLatestVersion":isLatestVersion
         };
         formData.append("versionObj",JSON.stringify(versionObj));
         $.ajax({
@@ -448,6 +453,7 @@ function addVersion(){
         $("#softwareName").val(softwareName).attr("disabled",true);
         var branchName = $("#cronBranch  option:checked").text();
         $("#branchName").val(branchName).attr("disabled",true);
+		$("#isLatestVersion").prop("checked",true); 
 }
 
 //删除软件

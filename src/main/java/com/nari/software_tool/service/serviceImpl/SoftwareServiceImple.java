@@ -300,5 +300,10 @@ public class SoftwareServiceImple implements SoftwareService{
 	public List<SoftwareInfo> querySoftList() {
 		return softwareInfoMapper.querySoftList();
 	}
+
+    @Override
+    public void updateVer(Map<String, Object> paramMap){
+        softwareInfoMapper.updateVer(paramMap);
+    }
 }
 

@@ -45,6 +45,13 @@ public interface SoftwareInfoMapper {
     int updateSoftwareInfo(SoftwareInfo softwareInfo);
 
     /**
+     * 根据Id 更新软件版本
+     * @param paramMap
+     * @return
+     */
+    int updateVer(Map<String, Object> paramMap);
+
+    /**
      * 录入信息
      * @param softwareInfo
      * @return

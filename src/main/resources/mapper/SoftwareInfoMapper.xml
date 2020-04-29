@@ -339,6 +339,15 @@
 		   WHERE
 		   	id = #{id}
 	</update>
+
+    <!-- 更新软件版本信息 -->
+    <update id="updateVer" parameterType="java.util.HashMap">
+	   UPDATE server_software
+	   	   SET
+			latest_version=#{historyId}
+		   WHERE
+		   	id = #{softId}
+	</update>
 	
 	<!-- 更新软件图标信息 -->
 	<update id="updateSoftwareIcon" parameterType="java.util.HashMap">

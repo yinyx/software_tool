@@ -336,6 +336,12 @@ public class VersionController {
 				}else{
 					jsonObject.put("status","failure");
 				}
+				
+				int isLatest = (int)paramMap.get("isLatestVersion");
+				if (isLatest==1)
+				{
+					softwareService.updateVer(versionMap);
+				}
 
 			}catch (Exception e){
 				e.printStackTrace();

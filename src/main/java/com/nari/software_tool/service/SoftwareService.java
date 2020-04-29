@@ -59,4 +59,6 @@ public interface SoftwareService {
 
 	String getIdBySoftId(String softId);
 
+	void updateVer(Map<String, Object> paramMap);
+
 }

@@ -136,6 +136,19 @@ public class SoftwareServiceImple implements SoftwareService{
 	public Map<String, Object> getSoftwareById(String softwareId)
 	{
         Map<String, Object> obj = softwareInfoMapper.querySoftwareById(softwareId);
+        if (obj!=null)
+		{
+			String ver = (String)obj.get("latest_version");
+			if (!StringUtils.isEmpty(ver))
+			{
+				Map<String, Object> VerObj = softHistoryInfoMapper.queryHistoryById(ver);
+				if (VerObj!=null)
+				{
+					String verName = (String)VerObj.get("history_version");
+					obj.put("latest_version", verName);
+				}
+			}
+		}
         return obj;
     
 	}

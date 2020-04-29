@@ -317,7 +317,7 @@
 			#{icon},
 			#{briefIntroduction},
 			#{size},
-			#{latestVersion},
+			#{historyId},
 			#{introduction},
 			#{file_path},
 			#{installType},

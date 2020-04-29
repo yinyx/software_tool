@@ -98,6 +98,7 @@ public class SoftwareServiceImple implements SoftwareService{
 		try{
 			paramMap.put("id", StringUtils.getUUId());
             paramMap.put("soft_id", StringUtils.getUUId());
+			paramMap.put("historyId",StringUtils.getUUId());
             softwareInfoMapper.addSoftware(paramMap);
 			//增加安装配置属性记录
 			softwareInstallMapper.addInstall(paramMap);
@@ -110,7 +111,7 @@ public class SoftwareServiceImple implements SoftwareService{
 			softwareBranchMapper.addBranch(paramMap);
 			//增加版本记录
 			paramMap.put("softId",paramMap.get("id"));
-			paramMap.put("historyId",StringUtils.getUUId());
+
 			Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
 			paramMap.put("operator",userMap.get("user_name"));
 			SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );

@@ -45,7 +45,7 @@ public class CommunicateServiceImpl implements CommunicateService {
         CommunicatePojo communicatePojo = new CommunicatePojo();
         communicatePojo.setRESP(Result.SOFT_RESP.getCode());
         List<Object> softPojoList = new ArrayList<>();
-        for (SoftwareInfo ech:softwareInfoList) {
+        for (SoftwareInfo ech:softwareInfoList){
             CommunicateSoftPojo communicateSoftPojo = new CommunicateSoftPojo();
             //软件对象基础信息
             communicateSoftPojo.setUUID(ech.getSoftId());
@@ -91,11 +91,27 @@ public class CommunicateServiceImpl implements CommunicateService {
             CommunicateSoftPojo communicateSoftPojo = new CommunicateSoftPojo();
             //安装配置对象
             SoftInstallInfo softInstallInfo = new SoftInstallInfo();
+            softInstallInfo.setSoftId(pch.getSoftId());
             softInstallInfo.setType(3);
             softInstallInfo.setPluginDir(pch.getAbsolutePath());
             softInstallInfo.setExecPath(pch.getRelativePath());
             softInstallInfo.setHostAppId(pch.getSoftId());
+            communicateSoftPojo.setUUID(pch.getPluginId());
+            communicateSoftPojo.setName(pch.getPluginName());
+            communicateSoftPojo.setDesc(pch.getDescription());
+            communicateSoftPojo.setType(pch.getType());
+            communicateSoftPojo.setVersion(pch.getVersion());
+            communicateSoftPojo.setIcon("software_tool/communicate/downloadPkt?softwareUrl="+pch.getPluginIcon());
             communicateSoftPojo.setInstall(softInstallInfo);
+
+            AppPktPojo appPktPojo = new AppPktPojo();
+            appPktPojo.setVer(pch.getPluginVersion());
+//            appPktPojo.setNew(pch.getAppPktNew());
+            appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+pch.getAbsolutePath());
+            appPktPojo.setMD5(pch.getPluginMD5());
+            appPktPojo.setSize(Integer.valueOf(pch.getSize()));
+            communicateSoftPojo.setAppPkt(appPktPojo);
+
             softPojoList.add(communicateSoftPojo);
         }
         communicatePojo.setTOTAL(softPojoList.size());

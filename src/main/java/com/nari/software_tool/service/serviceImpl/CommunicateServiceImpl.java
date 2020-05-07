@@ -54,7 +54,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             communicateSoftPojo.setIcon("software_tool/communicate/downloadPkt?softwareUrl="+iconPath+'/'+ech.getIcon());
             communicateSoftPojo.setType(ech.getKind());
             communicateSoftPojo.setDesc(ech.getBriefIntroduction());
-
+            communicateSoftPojo.setProductCode(ech.getProductCode());
             communicateSoftPojo.setHistory(softHistoryInfoMapper.queryHistoryVersionCount(ech.getId()));
             communicateSoftPojo.setHistoryUrl("software_tool/communicate/getHistoryList?"+"UUID="+ech.getSoftId());
 
@@ -93,8 +93,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             SoftInstallInfo softInstallInfo = new SoftInstallInfo();
             softInstallInfo.setSoftId(pch.getSoftId());
             softInstallInfo.setType(3);
-            softInstallInfo.setPluginDir(pch.getAbsolutePath());
-            softInstallInfo.setExecPath(pch.getRelativePath());
+            softInstallInfo.setPluginDir(pch.getRelativePath());
             softInstallInfo.setHostAppId(pch.getSoftId());
             communicateSoftPojo.setUUID(pch.getPluginId());
             communicateSoftPojo.setName(pch.getPluginName());

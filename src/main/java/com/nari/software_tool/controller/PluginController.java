@@ -124,14 +124,14 @@ public class PluginController {
         String oldPluginPath = (String) pluginMap.get("absolute_path");
         File oldPluginPathDir = new File(oldPluginPath);
         String oldPluginDirAbsolutePath = oldPluginPathDir.getAbsolutePath();
-        String[] oldPathArray = oldPluginDirAbsolutePath.split("\\\\");
+        String[] oldPathArray = oldPluginDirAbsolutePath.split("/");
         String oldPath = oldPathArray[0];
         for(int i = 1; i < oldPathArray.length-1; i++) {
-            oldPath = oldPath + "\\" + oldPathArray[i];
+            oldPath = oldPath + "/" + oldPathArray[i];
         }
         try {
             if (!StringUtils.isEmpty(oldPath)) {
-                File file = new File(oldPath + "\\");
+                File file = new File(oldPath + "/");
                 if (file.isDirectory()) {
                     File[] files = file.listFiles();
                     for(File key:files){
@@ -146,13 +146,13 @@ public class PluginController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        String[] pathArray = oldPluginPath.split("\\\\");
+        String[] pathArray = oldPluginPath.split("/");
         String upFileName = upFile.getOriginalFilename();
         pathArray[pathArray.length-1] = null;
 
         String newPath = pathArray[0];
         for(int i = 1; i < pathArray.length-1; i++) {
-            newPath = newPath + "\\" + pathArray[i];
+            newPath = newPath + "/" + pathArray[i];
         }
         //存储版本；
         File newPluginDir = new File(newPath);
@@ -175,7 +175,7 @@ public class PluginController {
         if(!pluginMap.get("relative_path").equals(paramMap.get("relativePath"))){
             pluginMap.put("relativePath",paramMap.get("relativePath"));
         }
-            pluginMap.put("absolutePath",pluginDirAbsolutePath+"\\"+upFileName);
+            pluginMap.put("absolutePath",pluginDirAbsolutePath+"/"+upFileName);
             pluginMap.put("description",paramMap.get("description"));
             SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
             pluginMap.put("uploadTime",sdf.format(new Date()));
@@ -270,7 +270,7 @@ public class PluginController {
             e.printStackTrace();
         }
 
-        String pluginIconPath = iconPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version");
+        String pluginIconPath = iconPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en");
         File pluginIconDir = new File(pluginIconPath);
         String pluginIconDirAbsolutePath = pluginIconDir.getAbsolutePath();
         if(!pluginDir.exists()){

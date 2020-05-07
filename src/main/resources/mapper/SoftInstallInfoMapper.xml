@@ -9,6 +9,7 @@
         <result property="Installer" column="installer" jdbcType="VARCHAR"/>
         <result property="Uninstaller" column="uninstaller" jdbcType="VARCHAR"/>
         <result property="KeyFile" column="KeyFile" jdbcType="VARCHAR"/>
+        <result property="ExecPath" column="ExecPath" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="queryInstallPktById" parameterType="java.lang.String" resultMap="SoftInstallResultMap">
@@ -18,7 +19,8 @@
                Is_multi,
                 installer,
                uninstaller,
-               KeyFile
+               KeyFile,
+               ExecPath
         from software_install
         where
                 soft_id = #{Id,jdbcType=VARCHAR}

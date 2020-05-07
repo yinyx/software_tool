@@ -32,7 +32,10 @@
                 latest_version,
                 introduction,
                 file_path,
-                install_type)
+                install_type,
+                AllowUser,
+                ProductCode
+                )
         VALUE(
       		#{kindId},
 			#{kindName},
@@ -401,7 +404,9 @@
                software_history.history_version as latest_version,
                server_software.introduction,
                server_software.file_path,
-               server_software.install_type
+               server_software.install_type,
+               server_software.AllowUser,
+               server_software.ProductCode
         FROM
              server_software
         LEFT JOIN software_history on server_software.latest_version = software_history.history_id

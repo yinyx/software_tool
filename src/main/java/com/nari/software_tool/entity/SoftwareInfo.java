@@ -38,6 +38,8 @@ public class SoftwareInfo {
     private int AllowUser;
     //产品代码
     private String ProductCode;
+    //可执行路径
+    private String ExecPath;
 
     public String getId() {
         return id;
@@ -159,25 +161,41 @@ public class SoftwareInfo {
         this.ProductCode = ProductCode;
     }
 
+    public int getInstall_type() {
+        return install_type;
+    }
+
+    public void setInstall_type(int install_type) {
+        this.install_type = install_type;
+    }
+
+    public String getExecPath() {
+        return ExecPath;
+    }
+
+    public void setExecPath(String execPath) {
+        ExecPath = execPath;
+    }
+
     @Override
     public String toString() {
-        return "SoftPathInfo{" +
-                "id=" + id +
-                ", softId=" + softId +
+        return "SoftwareInfo{" +
+                "id='" + id + '\'' +
+                ", softId='" + softId + '\'' +
                 ", name='" + name + '\'' +
                 ", nameEn='" + nameEn + '\'' +
                 ", kind='" + kind + '\'' +
                 ", icon='" + icon + '\'' +
                 ", briefIntroduction='" + briefIntroduction + '\'' +
-                ", size='" + size + '\'' +
+                ", size=" + size +
                 ", latestVersion='" + latestVersion + '\'' +
                 ", introduction='" + introduction + '\'' +
                 ", filePath='" + filePath + '\'' +
-                ", InstallType='" + install_type + '\'' +
+                ", install_type=" + install_type +
                 ", userId='" + userId + '\'' +
-                ", AllowUser='" + AllowUser + '\'' +
+                ", AllowUser=" + AllowUser +
                 ", ProductCode='" + ProductCode + '\'' +
+                ", ExecPath='" + ExecPath + '\'' +
                 '}';
     }
-
 }

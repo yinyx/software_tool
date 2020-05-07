@@ -74,10 +74,10 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4" style="text-align:right;">
-                                        <label class="control-label" for="version"><span class="required">*</span>版本号：</label>
+                                        <label class="control-label" for="version"><span class="required">*</span>宿主版本号：</label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input  type="text"  class="form-control " name="version" id="version"   placeholder="请输入版本"/></label>
+                                        <input  type="text"  class="form-control " name="version" id="version"   placeholder="请输入宿主版本"/></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -90,10 +90,30 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-4" style="text-align:right;">
+                                        <label class="control-label" for="pluginIcon" id="pluginIconLabel"><span class="required">*</span>上传插件图标：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <!-- 用于展示上传文件名的表单 -->
+                                        <input id="showIcon" class="input-large" type="text" style="height:25px;">
+                                        <!-- 点击触发按钮 -->
+                                        <a class="btn" onclick="commitIconStyle()" style="order:1px solid #ccc;padding:4px;border-radius:4px;background-color:#2c9a8a;color:#fff;">浏览</a>
+                                        <input style="display: none" type="file" name="pluginIcon" id="pluginIcon" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4" style="text-align:right;">
                                         <label class="control-label" for="relativePath"><span class="required">*</span>插件相对路径：</label>
                                     </div>
                                     <div class="col-sm-8">
                                         <input  type="text"  class="form-control " name="relativePath" id="relativePath"   placeholder="请输入插件相对路径"/></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4" style="text-align:right;">
+                                        <label class="control-label" for="pluginVer"><span class="required">*</span>插件版本：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input  type="text"  class="form-control " name="pluginVer" id="pluginVer"   placeholder="请输入插件版本"/></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">

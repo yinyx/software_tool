@@ -35,6 +35,9 @@ public class PluginController {
     @Value("${pluginPath}")
     private String pluginPath;
 
+    @Value("${iconPath}")
+    private String iconPath;
+
     // 注入软件类别Service
     @Resource
     private VersionService versionService;
@@ -197,7 +200,7 @@ public class PluginController {
 
     @RequestMapping(value="/addPlugin",method=RequestMethod.POST)
     @ResponseBody
-    public JSONObject addVersionInfo(@RequestParam("pluginPkt") MultipartFile pluginPkt, @RequestParam("pluginObj") String pluginStr){
+    public JSONObject addVersionInfo(@RequestParam("pluginPkt") MultipartFile pluginPkt,@RequestParam("pluginIcon") MultipartFile pluginIcon, @RequestParam("pluginObj") String pluginStr){
         JSONObject jsonObject = new JSONObject();
         logger.info("当前上传插件 ==============================="+pluginStr+"===============================");
         JSONObject paramMap = JSONObject.fromObject(pluginStr);
@@ -227,6 +230,9 @@ public class PluginController {
         String versionPath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version");
         File versionDir = new File(versionPath);
 
+        String finalPath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version")+"/"+paramMap.get("pluginVersion");
+        File finalDir = new File(finalPath);
+
         if(!rootDir.exists()) {
             rootDir.mkdir();
         }
@@ -247,12 +253,12 @@ public class PluginController {
             versionDir.mkdir();
         }
 
-        if(!versionDir.exists()) {
-            versionDir.mkdir();
+        if(!finalDir.exists()) {
+            finalDir.mkdir();
         }
 
         //存储文件；
-        File pluginDir = new File(versionPath);
+        File pluginDir = new File(finalPath);
         String pluginDirAbsolutePath = pluginDir.getAbsolutePath();
         if(!pluginDir.exists()){
             pluginDir.mkdir();
@@ -261,6 +267,19 @@ public class PluginController {
         try {
             pluginPkt.transferTo(new File(pluginDirAbsolutePath,pluginFileName));
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String pluginIconPath = iconPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version");
+        File pluginIconDir = new File(pluginIconPath);
+        String pluginIconDirAbsolutePath = pluginIconDir.getAbsolutePath();
+        if(!pluginDir.exists()){
+            pluginDir.mkdir();
+        }
+        String pluginIconName = pluginIcon.getOriginalFilename();
+        try{
+            pluginIcon.transferTo(new File(pluginIconDirAbsolutePath,pluginIconName));
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -276,10 +295,12 @@ public class PluginController {
             SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
             pluginMap.put("uploadTime",sdf.format(new Date()));
             pluginMap.put("relativePath",paramMap.get("relativePath"));
-            pluginMap.put("absolutePath",pluginDirAbsolutePath+"\\"+pluginFileName);
+            pluginMap.put("absolutePath",pluginDirAbsolutePath+"/"+pluginFileName);
             pluginMap.put("operator",userMap.get("user_name"));
             pluginMap.put("description",paramMap.get("description"));
             pluginMap.put("size",pluginPkt.getSize());
+            pluginMap.put("pluginIcon",pluginIconDirAbsolutePath+"/"+pluginIconName);
+            pluginMap.put("pluginVersion",paramMap.get("pluginVersion"));
 
             if(pluginService.addPlugin(pluginMap) ==1){
                 jsonObject.put("status","success");

@@ -37,6 +37,10 @@ public class SoftPluginInfo {
 
     private String size;
 
+    private String pluginIcon;
+
+    private String pluginVersion;
+
     public String getPluginId() {
         return pluginId;
     }
@@ -141,6 +145,22 @@ public class SoftPluginInfo {
         this.size = size;
     }
 
+    public String getPluginIcon() {
+        return pluginIcon;
+    }
+
+    public void setPluginIcon(String pluginIcon) {
+        this.pluginIcon = pluginIcon;
+    }
+
+    public String getPluginVersion() {
+        return pluginVersion;
+    }
+
+    public void setPluginVersion(String pluginVersion) {
+        this.pluginVersion = pluginVersion;
+    }
+
     @Override
     public String toString() {
         return "SoftPluginInfo{" +
@@ -157,6 +177,8 @@ public class SoftPluginInfo {
                 ", operator='" + operator + '\'' +
                 ", description='" + description + '\'' +
                 ", size='" + size + '\'' +
+                ", pluginIcon='" + pluginIcon + '\'' +
+                ", pluginVersion='" + pluginVersion + '\'' +
                 '}';
     }
 }

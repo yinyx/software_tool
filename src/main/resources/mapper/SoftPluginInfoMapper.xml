@@ -16,6 +16,8 @@
         <result property="operator" column="operator" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="size" column="size" jdbcType="VARCHAR"/>
+        <result property="pluginIcon" column="icon" jdbcType="VARCHAR"/>
+        <result property="pluginVersion" column="plugin_version" jdbcType="VARCHAR"/>
     </resultMap>
     <!-- 根据软件Id获取软件历史版本列表信息  -->
     <select id="queryPluginList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -33,7 +35,9 @@
                absolute_path,
         software_plugin.operator,
         software_plugin.description,
-        software_plugin.size
+        software_plugin.size,
+        software_plugin.icon,
+        plugin_version
         FROM
              software_plugin
         LEFT JOIN server_software_kind on software_plugin.type = server_software_kind.id
@@ -65,6 +69,7 @@
             plugin_id,
             type,
             soft_id,
+            version,
             plugin_name,
             plugin_MD5,
             upload_time,
@@ -72,7 +77,9 @@
             absolute_path,
             operator,
             description,
-            size
+            size,
+            icon,
+            plugin_version
         FROM
         software_plugin
     </select>
@@ -118,7 +125,9 @@
                 absolute_path,
                 operator,
                 description,
-                size
+                size,
+                icon,
+                plugin_version
               )
         VALUES (
                  #{pluginId,jdbcType=VARCHAR},
@@ -133,7 +142,9 @@
                  #{absolutePath,jdbcType=VARCHAR},
                  #{operator,jdbcType=VARCHAR},
                  #{description,jdbcType=VARCHAR},
-                 #{size,jdbcType=VARCHAR}
+                 #{size,jdbcType=VARCHAR},
+                #{pluginIcon,jdbcType=VARCHAR},
+                #{pluginVersion,jdbcType=VARCHAR}
                  )
     </insert>
 

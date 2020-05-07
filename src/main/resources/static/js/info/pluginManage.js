@@ -73,7 +73,7 @@ function initSchoolUserTable() {
 			 "class" : "text-center"  
 		 }
             ,	{
-                "title" : "版本",
+                "title" : "宿主版本",
                 "defaultContent" : "",
                 "data" :"history_version",
                 "width": "10%",
@@ -83,6 +83,13 @@ function initSchoolUserTable() {
                 "title" : "插件名",
                 "defaultContent" : "",
                 "data" :"plugin_name",
+                "width": "10%",
+                "class" : "text-center"
+            }
+            ,{
+                "title" : "插件版本",
+                "defaultContent" : "",
+                "data" :"plugin_version",
                 "width": "10%",
                 "class" : "text-center"
             }
@@ -130,7 +137,13 @@ function commitFileStyle(){
         $('#show').val($(this).val())
     });
 }
-
+function commitIconStyle(){
+    $('#pluginIcon').click();
+    //file表单选中文件时,让file表单的val展示到showname这个展示框
+    $('#pluginIcon').change(function(){
+        $('#showIcon').val($(this).val())
+    });
+}
 
 // 点击安装配置按钮
 function InstallConfig(softwareId){
@@ -352,6 +365,7 @@ function querySchoolUser()
 function uploadPlugin(){
     var fileListenrer = document.getElementById("pluginForm");
     var pluginPkt = document.getElementById("pluginPkt");
+    var pluginIcon = document.getElementById("pluginIcon");
     fileListenrer.addEventListener("submit",function (event) {
         event.preventDefault();
         sendFile();
@@ -363,6 +377,7 @@ function uploadPlugin(){
     sendFile = function () {
         var formData = new FormData();
         formData.append("pluginPkt",pluginPkt.files[0]);
+        formData.append("pluginIcon",pluginIcon.files[0]);
         var kindId = $("#cronKind").val();
         var softwareId = $("#cronSoftware").val();
         var branchId = $("#cronBranch").val();
@@ -370,6 +385,7 @@ function uploadPlugin(){
         var description = $("#description").val();
         var relativePath = $("#relativePath").val();
         var pluginName = $("#cronPluginName").val();
+        var pluginVersion = $("#pluginVer").val();
         var pluginObj = {
             "type":kindId,
             "softId":softwareId,
@@ -378,6 +394,7 @@ function uploadPlugin(){
 			"pluginName":pluginName,
             "description":description,
             "relativePath":relativePath,
+			"pluginVersion":pluginVersion,
             "userId":userId
         };
         formData.append("pluginObj",JSON.stringify(pluginObj));

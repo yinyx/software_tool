@@ -284,6 +284,7 @@ function updatePlugin(pluginId){
 			   $("#softwareName_icon").val(pluginData.name).attr("disabled", true);
                $("#nowBranch").val(pluginData.branch).attr("disabled", true);
                $("#nowVersion").val(pluginData.history_version).attr("disabled", true);
+               $("#nowPluginVersion").val(pluginData.plugin_version).attr("disabled", true);
                $("#upPluginName").val(pluginData.plugin_name);
                $("#upRelativePath").val(pluginData.relative_path);
                $("#update_description").val(pluginData.description);

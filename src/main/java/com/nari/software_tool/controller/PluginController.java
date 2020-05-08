@@ -230,7 +230,10 @@ public class PluginController {
         String versionPath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version");
         File versionDir = new File(versionPath);
 
-        String finalPath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version")+"/"+paramMap.get("pluginVersion");
+        String pluginNamePath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version")+"/"+paramMap.get("pluginName");
+        File pluginNameDir = new File(pluginNamePath);
+
+        String finalPath = pluginPath+"/"+typeMap.get("name_en")+"/"+ softMap.get("name_en")+"/"+branchMap.get("branch")+"/"+versionMap.get("history_version")+"/"+paramMap.get("pluginName")+"/"+paramMap.get("pluginVersion");
         File finalDir = new File(finalPath);
 
         if(!rootDir.exists()) {
@@ -251,6 +254,10 @@ public class PluginController {
 
         if(!versionDir.exists()) {
             versionDir.mkdir();
+        }
+
+        if(!pluginNameDir.exists()) {
+            pluginNameDir.mkdir();
         }
 
         if(!finalDir.exists()) {

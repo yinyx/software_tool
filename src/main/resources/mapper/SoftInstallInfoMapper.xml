@@ -10,17 +10,19 @@
         <result property="Uninstaller" column="uninstaller" jdbcType="VARCHAR"/>
         <result property="KeyFile" column="KeyFile" jdbcType="VARCHAR"/>
         <result property="ExecPath" column="ExecPath" jdbcType="VARCHAR"/>
+        <result property="pluginDir" column="plugin_Dir" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="queryInstallPktById" parameterType="java.lang.String" resultMap="SoftInstallResultMap">
         select
                soft_id,
-                type,
+               type,
                Is_multi,
-                installer,
+               installer,
                uninstaller,
                KeyFile,
-               ExecPath
+               ExecPath,
+               plugin_Dir
         from software_install
         where
                 soft_id = #{Id,jdbcType=VARCHAR}

@@ -95,6 +95,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             softInstallInfo.setType(3);
             softInstallInfo.setPluginDir(pch.getRelativePath());
             softInstallInfo.setHostAppId(pch.getSoftId());
+            softInstallInfo.setPluginDir(pch.getRelativePath());
             communicateSoftPojo.setUUID(pch.getPluginId());
             communicateSoftPojo.setName(pch.getPluginName());
             communicateSoftPojo.setDesc(pch.getDescription());

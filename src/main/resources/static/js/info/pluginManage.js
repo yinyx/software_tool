@@ -286,7 +286,7 @@ function updatePlugin(pluginId){
                $("#nowVersion").val(pluginData.history_version).attr("disabled", true);
                $("#nowPluginVersion").val(pluginData.plugin_version).attr("disabled", true);
                $("#upPluginName").val(pluginData.plugin_name);
-               $("#upRelativePath").val(pluginData.relative_path);
+               $("#upRelativePath").val(pluginData.relative_path).attr("disabled", true);
                $("#update_description").val(pluginData.description);
                $('#pluginModal_edit').modal('show');
                stopPageLoading()
@@ -384,7 +384,6 @@ function uploadPlugin(){
         var branchId = $("#cronBranch").val();
         var versionId = $("#cronVersion").val();
         var description = $("#description").val();
-        var relativePath = $("#relativePath").val();
         var pluginName = $("#cronPluginName").val();
         var pluginVersion = $("#pluginVer").val();
         var pluginObj = {
@@ -394,7 +393,6 @@ function uploadPlugin(){
 			"versionId":versionId,
 			"pluginName":pluginName,
             "description":description,
-            "relativePath":relativePath,
 			"pluginVersion":pluginVersion,
             "userId":userId
         };

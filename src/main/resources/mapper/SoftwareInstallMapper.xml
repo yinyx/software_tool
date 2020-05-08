@@ -42,7 +42,8 @@
 			installer=#{Installer_installAttribute},
 			uninstaller=#{Uninstaller_installAttribute},
 			KeyFile=#{KeyFile_installAttribute},
-			ExecPath=#{ExecPath_installAttribute}
+			ExecPath=#{ExecPath_installAttribute},
+			plugin_Dir = #{pluginDir}
 		   WHERE
 		   	soft_id = #{softwareId_attribute}
 	</update>

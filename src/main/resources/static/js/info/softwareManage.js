@@ -22,7 +22,6 @@ function initSchoolUserTable() {
 				data: JSON.stringify(aoData),
 				success: function(data) 
 				{
-					
 					if(data.status == "success")
 					{
 						fnCallback(data.SoftwaresData);
@@ -52,7 +51,7 @@ function initSchoolUserTable() {
 			 "width": "10%",
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
-				 var pic = 'http://49.91.240.239:8080/software_tool/';
+				 var pic = 'http://49.91.240.239:8082/software_tool/';
 				 pic+=data;
 				 var content = "";
 				  content = '<img src='+pic+'>';
@@ -179,7 +178,7 @@ function InstallConfig(softwareId){
                $("#Uninstaller_installAttribute").val(InstallConfig.uninstaller);			
                $("#KeyFile_installAttribute").val(InstallConfig.KeyFile);
 			   $("#ExecPath_installAttribute").val(InstallConfig.ExecPath);
-   			   
+               $("#pluginDir").val(InstallConfig.plugin_Dir);
                $('#installAttributeModal_edit').modal('show');
                stopPageLoading()
 		   } else {

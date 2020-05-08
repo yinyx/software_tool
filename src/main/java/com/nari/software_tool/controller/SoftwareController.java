@@ -252,6 +252,7 @@ public class SoftwareController {
         paramMap.put("KeyFile_installAttribute", request.getParameter("KeyFile_installAttribute"));
 		paramMap.put("softwareId_attribute", request.getParameter("softwareId_attribute"));
         paramMap.put("ExecPath_installAttribute", request.getParameter("ExecPath_installAttribute"));
+        paramMap.put("pluginDir",request.getParameter("pluginDir"));
 		
 		System.out.println(paramMap);
 		

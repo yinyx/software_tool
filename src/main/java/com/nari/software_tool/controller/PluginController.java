@@ -301,7 +301,8 @@ public class PluginController {
             pluginMap.put("pluginMD5",MD5Util.getFileMD5String(new File(pluginDirAbsolutePath,pluginFileName)));
             SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
             pluginMap.put("uploadTime",sdf.format(new Date()));
-            pluginMap.put("relativePath",paramMap.get("relativePath"));
+            Map<String,Object> installMap = softwareService.getInstallConfigBySoftwareId((String) paramMap.get("softId"));
+            pluginMap.put("relativePath",installMap.get("plugin_Dir"));
             pluginMap.put("absolutePath",pluginDirAbsolutePath+"/"+pluginFileName);
             pluginMap.put("operator",userMap.get("user_name"));
             pluginMap.put("description",paramMap.get("description"));

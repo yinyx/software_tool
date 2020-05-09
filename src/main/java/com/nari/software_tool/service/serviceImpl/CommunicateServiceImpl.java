@@ -4,6 +4,7 @@ import com.nari.software_tool.dao.*;
 import com.nari.software_tool.entity.*;
 import com.nari.software_tool.entity.Communicate.*;
 import com.nari.software_tool.service.CommunicateService;
+import com.nari.software_tool.service.SoftwareService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,10 +92,10 @@ public class CommunicateServiceImpl implements CommunicateService {
             CommunicateSoftPojo communicateSoftPojo = new CommunicateSoftPojo();
             //安装配置对象
             SoftInstallInfo softInstallInfo = new SoftInstallInfo();
-            softInstallInfo.setSoftId(pch.getSoftId());
+            Map<String,Object> softMap = softwareInfoMapper.querySoftwareById(pch.getSoftId());
             softInstallInfo.setType(3);
             softInstallInfo.setPluginDir(pch.getRelativePath());
-            softInstallInfo.setHostAppId(pch.getSoftId());
+            softInstallInfo.setHostAppId((String) softMap.get("soft_id"));
             softInstallInfo.setPluginDir(pch.getRelativePath());
             communicateSoftPojo.setUUID(pch.getPluginId());
             communicateSoftPojo.setName(pch.getPluginName());
@@ -106,12 +107,12 @@ public class CommunicateServiceImpl implements CommunicateService {
 
             AppPktPojo appPktPojo = new AppPktPojo();
             appPktPojo.setVer(pch.getPluginVersion());
-//            appPktPojo.setNew(pch.getAppPktNew());
+            Map<String,Object> hisMap = softHistoryInfoMapper.getVersionPkgCfgById(pch.getVersion());
+            appPktPojo.setHostAppVer((String) hisMap.get("history_version"));
             appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+pch.getAbsolutePath());
             appPktPojo.setMD5(pch.getPluginMD5());
             appPktPojo.setSize(Integer.valueOf(pch.getSize()));
             communicateSoftPojo.setAppPkt(appPktPojo);
-
             softPojoList.add(communicateSoftPojo);
         }
         communicatePojo.setTOTAL(softPojoList.size());

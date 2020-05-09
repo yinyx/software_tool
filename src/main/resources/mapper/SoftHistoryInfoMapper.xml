@@ -63,6 +63,7 @@
 	<!-- 根据软件版本Id获取对应的安装配置信息  -->
 	<select id="getVersionPkgCfgById" parameterType="java.lang.String" resultType="java.util.HashMap">
         SELECT
+              history_version,
                appPkt_date,
                appPkt_size,
                appPkt_md5,

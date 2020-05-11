@@ -20,6 +20,7 @@
         <result property="pluginVersion" column="plugin_version" jdbcType="VARCHAR"/>
         <result property="keyFile" column="key_file" jdbcType="VARCHAR"/>
         <result property="keyFileMd5" column="key_file_md5" jdbcType="VARCHAR"/>
+        <result property="appPktDate" column="appPkt_date" jdbcType="VARCHAR"/>
     </resultMap>
     <!-- 根据软件Id获取软件历史版本列表信息  -->
     <select id="queryPluginList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -83,7 +84,8 @@
             icon,
             plugin_version,
             key_file,
-            key_file_md5
+            key_file_md5,
+            appPkt_date
         FROM
         software_plugin
     </select>
@@ -187,6 +189,7 @@
     <select id="getPluginPkgCfgById" parameterType="java.lang.String" resultType="java.util.HashMap">
         SELECT
                plugin_MD5,
+               appPkt_date,
                size,
                key_file,
                key_file_md5
@@ -201,7 +204,8 @@
         UPDATE software_plugin
         SET
             key_file=#{keyFile,jdbcType=VARCHAR},
-            key_file_md5=#{keyFileMd5,jdbcType=VARCHAR}
+            key_file_md5=#{keyFileMd5,jdbcType=VARCHAR},
+            appPkt_date=#{appPktDate,jdbcType=VARCHAR}
         WHERE
                 plugin_id = #{pluginId,jdbcType=VARCHAR}
     </update>

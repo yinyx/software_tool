@@ -45,6 +45,8 @@ public class SoftPluginInfo {
 
     private String keyFileMd5;
 
+    private String appPktDate;
+
     public String getPluginId() {
         return pluginId;
     }
@@ -181,6 +183,14 @@ public class SoftPluginInfo {
         this.keyFileMd5 = keyFileMd5;
     }
 
+    public String getAppPktDate() {
+        return appPktDate;
+    }
+
+    public void setAppPktDate(String appPktDate) {
+        this.appPktDate = appPktDate;
+    }
+
     @Override
     public String toString() {
         return "SoftPluginInfo{" +
@@ -201,6 +211,7 @@ public class SoftPluginInfo {
                 ", pluginVersion='" + pluginVersion + '\'' +
                 ", keyFile='" + keyFile + '\'' +
                 ", keyFileMd5='" + keyFileMd5 + '\'' +
+                ", appPktDate='" + appPktDate + '\'' +
                 '}';
     }
 }

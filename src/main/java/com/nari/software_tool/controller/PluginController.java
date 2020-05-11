@@ -352,6 +352,7 @@ public class PluginController {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         //平台类型
         paramMap.put("pluginId", request.getParameter("AppPktId"));
+        paramMap.put("appPktDate", request.getParameter("appPkt_date"));
         paramMap.put("keyFile", request.getParameter("key_file"));
         paramMap.put("keyFileMd5", request.getParameter("key_file_md5"));
         try {

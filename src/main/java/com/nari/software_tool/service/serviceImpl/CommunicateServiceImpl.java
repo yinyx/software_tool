@@ -115,6 +115,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             appPktPojo.setMD5(pch.getPluginMD5());
             appPktPojo.setSize(Integer.valueOf(pch.getSize()));
             appPktPojo.setKeyFileMd5(pch.getKeyFileMd5());
+            appPktPojo.setDate(pch.getAppPktDate());
             communicateSoftPojo.setAppPkt(appPktPojo);
             softPojoList.add(communicateSoftPojo);
         }

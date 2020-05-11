@@ -173,6 +173,7 @@ function configPackage(plugin_id){
             if(data.status=="success") {
                 var pluginPkgCfgData = data.pluginPkgCfgData;
                 $("#AppPktId").val(plugin_id);
+                $("#appPkt_date").val(pluginPkgCfgData.appPkt_date);
                 $("#size").val(pluginPkgCfgData.size).attr("disabled", true);
                 $("#plugin_MD5").val(pluginPkgCfgData.plugin_MD5).attr("disabled", true);
                 $("#key_file").val(pluginPkgCfgData.key_file);
@@ -697,6 +698,16 @@ $("select#cronBranch").change(function(){
     queryPlugin();
 });
 
+function initTimeSelect(){
+    $("#appPkt_date").datetimepicker({
+        language: "zh-CN",
+        autoclose: true,//选中之后自动隐藏日期选择框
+        clearBtn: true,//清除按钮
+        todayBtn: true,//今日按钮
+        format: "yyyy-mm-dd hh:ii"
+    });
+}
+
 $(document).ready(function(){
 	//判断是否登录
 	userMap = isLogined();
@@ -742,7 +753,9 @@ $(document).ready(function(){
 		});	
 	}
 	);
-	
+
+
+
 	//更新图标
 	$("#editIconForm").html5Validate(function() {
 		// TODO 验证成功之后的操作

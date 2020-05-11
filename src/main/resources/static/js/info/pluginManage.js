@@ -107,7 +107,19 @@ function initSchoolUserTable() {
 			 "width": "10%",
 			 "class" : "text-center"  
 		 }
-		,  {	
+            ,  {
+                "title" : "程序包",
+                "defaultContent" : "",
+                "data" :null,
+                "width": "10%",
+                "class" : "text-center",
+                "render": function(data, type, row, meta) {
+                    var content = "";
+                    content = '<button class="btn btn-xs green" onclick="configPackage(\''+row.plugin_id+'\') " data-toggle="modal" data-target="#"> 程序包 </button>' ;
+                    return content;
+                }
+            }
+            ,  {
 			 "title" : "操作",  
 			 "defaultContent" : "", 
 			 "data" :null,
@@ -144,6 +156,44 @@ function commitIconStyle(){
         $('#showIcon').val($(this).val())
     });
 }
+
+function configPackage(plugin_id){
+    startPageLoading();
+    var data = {"plugin_id":plugin_id};
+    var dataObj = {
+        "paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
+    }
+    $.ajax({
+        url:"plugin/getPluginInstllconfigById",
+        type:"post",
+        data:dataObj,
+        dataType:"text",
+        success:function(data) {
+            data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
+            if(data.status=="success") {
+                var pluginPkgCfgData = data.pluginPkgCfgData;
+                $("#AppPktId").val(plugin_id);
+                $("#size").val(pluginPkgCfgData.size).attr("disabled", true);
+                $("#plugin_MD5").val(pluginPkgCfgData.plugin_MD5).attr("disabled", true);
+                $("#key_file").val(pluginPkgCfgData.key_file);
+                $("#key_file_md5").val(pluginPkgCfgData.key_file_md5);
+                //$("#appPkt_KeyFileMD5").attr("disabled", true);
+                //$("#appPkt_ProductCode").attr("disabled", true);
+                $('#AppPktModal').modal('show');
+                stopPageLoading()
+            } else {
+                stopPageLoading();
+                showSuccessOrErrorModal(data.msg,"error");
+            }
+
+        },
+        error:function(e) {
+            stopPageLoading()
+            showSuccessOrErrorModal("获取软件版本对应的程序包信息请求出错了","error");
+        }
+    });
+}
+
 
 // 点击安装配置按钮
 function InstallConfig(softwareId){
@@ -726,7 +776,7 @@ $(document).ready(function(){
 		// TODO 验证成功之后的操作
 		var data = $("#AppPktForm").serialize();
 		$.ajax({
-			url:"history/setVersionInstllconfigById",
+			url:"plugin/setPluginInstllconfigById",
 			type:"post",
 			data:data,
 			dataType:"json",

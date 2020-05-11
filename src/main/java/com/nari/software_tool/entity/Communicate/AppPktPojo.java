@@ -22,6 +22,8 @@ public class AppPktPojo {
 
     private String hostAppVer;
 
+    private String keyFileMd5;
+
     public String getVer() {
         return Ver;
     }
@@ -79,6 +81,14 @@ public class AppPktPojo {
         this.hostAppVer = hostAppVer;
     }
 
+    public String getKeyFileMd5() {
+        return keyFileMd5;
+    }
+
+    public void setKeyFileMd5(String keyFileMd5) {
+        this.keyFileMd5 = keyFileMd5;
+    }
+
     @Override
     public String toString() {
         return "AppPktPojo{" +
@@ -89,6 +99,7 @@ public class AppPktPojo {
                 ", Size=" + Size +
                 ", MD5='" + MD5 + '\'' +
                 ", hostAppVer='" + hostAppVer + '\'' +
+                ", keyFileMd5='" + keyFileMd5 + '\'' +
                 '}';
     }
 }

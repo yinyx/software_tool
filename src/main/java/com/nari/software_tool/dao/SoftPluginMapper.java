@@ -2,6 +2,7 @@ package com.nari.software_tool.dao;
 
 import com.nari.software_tool.entity.SoftPluginInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,4 +33,9 @@ public interface SoftPluginMapper {
     void deletePluginBySoftwareId(String softwareId);
 
     void deletePluginsByBranchId(String branchId);
+
+    Map<String, Object> getPluginPkgCfgById(@Param("id") String pluginId);
+
+    void setPluginInstllconfig(Map<String,Object> paramMap);
+
 }

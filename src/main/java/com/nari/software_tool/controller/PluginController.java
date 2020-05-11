@@ -16,6 +16,8 @@ import util.aes.MD5.MD5Util;
 import util.aes.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -321,6 +323,46 @@ public class PluginController {
         }
 
         return jsonObject;
+    }
+
+    @RequestMapping(value="/getPluginInstllconfigById",method=RequestMethod.POST )
+        public Object getPluginInstllconfigById(@RequestParam Map<String, Object> map){
+        JSONObject paramObj=AesUtil.GetParam(map);
+        String pluginId = paramObj.get("plugin_id").toString();
+        Map<String, Object> pluginPkgCfgData = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            pluginPkgCfgData = pluginService.getPluginPkgCfgById(pluginId);
+            resultMap.put("status", "success");
+            resultMap.put("pluginPkgCfgData", pluginPkgCfgData);
+        }
+        catch(Exception e)
+        {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "查询某条版本的安装包配置信息异常!");
+        }
+        JSONObject jsonObject = JSONObject.fromObject(resultMap);
+        String enResult = AesUtil.enCodeByKey(jsonObject.toString());
+        return enResult;
+    }
+
+    @RequestMapping(value="/setPluginInstllconfigById",method=RequestMethod.POST)
+    public Map<String, Object> setPluginInstllconfigById(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        //平台类型
+        paramMap.put("pluginId", request.getParameter("AppPktId"));
+        paramMap.put("keyFile", request.getParameter("key_file"));
+        paramMap.put("keyFileMd5", request.getParameter("key_file_md5"));
+        try {
+            pluginService.setPluginInstllconfigById(paramMap);
+            resultMap.put("status", "success");
+            resultMap.put("msg", "软件版本对应程序包信息保存成功!");
+        } catch(Exception e) {
+            resultMap.put("status", "error");
+            resultMap.put("msg", "软件版本对应程序包信息保存失败!");
+        }
+        return resultMap;
     }
 
 }

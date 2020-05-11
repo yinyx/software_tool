@@ -41,6 +41,10 @@ public class SoftPluginInfo {
 
     private String pluginVersion;
 
+    private String keyFile;
+
+    private String keyFileMd5;
+
     public String getPluginId() {
         return pluginId;
     }
@@ -161,6 +165,22 @@ public class SoftPluginInfo {
         this.pluginVersion = pluginVersion;
     }
 
+    public String getKeyFile() {
+        return keyFile;
+    }
+
+    public void setKeyFile(String keyFile) {
+        this.keyFile = keyFile;
+    }
+
+    public String getKeyFileMd5() {
+        return keyFileMd5;
+    }
+
+    public void setKeyFileMd5(String keyFileMd5) {
+        this.keyFileMd5 = keyFileMd5;
+    }
+
     @Override
     public String toString() {
         return "SoftPluginInfo{" +
@@ -179,6 +199,8 @@ public class SoftPluginInfo {
                 ", size='" + size + '\'' +
                 ", pluginIcon='" + pluginIcon + '\'' +
                 ", pluginVersion='" + pluginVersion + '\'' +
+                ", keyFile='" + keyFile + '\'' +
+                ", keyFileMd5='" + keyFileMd5 + '\'' +
                 '}';
     }
 }

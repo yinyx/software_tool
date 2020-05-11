@@ -230,7 +230,9 @@
             software_history.appPkt_new,
             software_history.appPkt_path,
             software_history.appPkt_size,
-            software_history.appPkt_md5
+            software_history.appPkt_md5,
+            software_history.appPkt_KeyFileMD5,
+            software_history.appPkt_ProductCode
         FROM
             software_history
         LEFT JOIN software_branch on software_history.branch_id = software_branch.branch_id

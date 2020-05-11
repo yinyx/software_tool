@@ -71,6 +71,7 @@ public class CommunicateServiceImpl implements CommunicateService {
                 appPktPojo.setNew(softHistoryInfo.getAppPktNew());
                 appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+softHistoryInfo.getAppPktPath());
                 appPktPojo.setMD5(softHistoryInfo.getAppPktMd5());
+                appPktPojo.setKeyFileMd5(softHistoryInfo.getAppPktKeyFileMD5());
                 appPktPojo.setSize(softHistoryInfo.getAppPktSize());
                 appPktPojo.setDate(softHistoryInfo.getAppPktDate());
                 communicateSoftPojo.setAppPkt(appPktPojo);
@@ -97,6 +98,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             softInstallInfo.setPluginDir(pch.getRelativePath());
             softInstallInfo.setHostAppId((String) softMap.get("soft_id"));
             softInstallInfo.setPluginDir(pch.getRelativePath());
+            softInstallInfo.setKeyFile(pch.getKeyFile());
             communicateSoftPojo.setUUID(pch.getPluginId());
             communicateSoftPojo.setName(pch.getPluginName());
             communicateSoftPojo.setDesc(pch.getDescription());
@@ -112,6 +114,7 @@ public class CommunicateServiceImpl implements CommunicateService {
             appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+pch.getAbsolutePath());
             appPktPojo.setMD5(pch.getPluginMD5());
             appPktPojo.setSize(Integer.valueOf(pch.getSize()));
+            appPktPojo.setKeyFileMd5(pch.getKeyFileMd5());
             communicateSoftPojo.setAppPkt(appPktPojo);
             softPojoList.add(communicateSoftPojo);
         }

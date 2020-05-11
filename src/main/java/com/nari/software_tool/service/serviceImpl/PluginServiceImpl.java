@@ -72,5 +72,14 @@ public class PluginServiceImpl implements PluginService {
         return softPluginMapper.updatePlugin(paramMap);
     }
 
+    @Override
+    public Map<String, Object> getPluginPkgCfgById(String pluginId) {
+        Map<String, Object> obj = softPluginMapper.getPluginPkgCfgById(pluginId);
+        return obj;
+    }
 
+    @Override
+    public void setPluginInstllconfigById(Map<String, Object> paramMap){
+        softPluginMapper.setPluginInstllconfig(paramMap);
+    }
 }

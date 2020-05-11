@@ -144,6 +144,8 @@
     </div>
 </div>
 
+
+
 <!--更新版本模态框-->
     <div class="modal fade bs-example-modal-lg" id="pluginModal_edit" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
@@ -340,8 +342,8 @@
                 </form>
             </div>
         </div>
-    </div>	
-	
+    </div>
+
 	<!--编辑程序包对象模态框-->
     <div class="modal fade bs-example-modal-lg" id="AppPktModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
@@ -361,31 +363,40 @@
                                 <div class="row margiBottom">
                                     <input type="hidden" id="AppPktId" name="AppPktId"/>
 									<div class="col-sm-12">
-										<div class="col-sm-4"style="text-align:right;">
-											<label class="control-label" for="appPkt_date">发布日期:</label>    
-										</div>
-										<div class="col-sm-4">  
-											<input type="text" id="appPkt_date" name="appPkt_date" class="form-control input-inline"> 									
-										</div>  									
-									</div>	
-									
-									<div class="col-sm-12">
                                         <div class="col-sm-4" style="text-align:right;">
-                                            <label class="control-label" for="appPkt_size">大小：</label>
+                                            <label class="control-label" for="size">大小：</label>
                                         </div>
-										<div class="col-sm-4">  
-											<input type="text" id="appPkt_size" name="appPkt_size" class="form-control input-inline"> 									
-										</div> 
+										<div class="col-sm-4">
+											<input type="text" id="size" name="size" class="form-control input-inline">
+										</div>
                                     </div>
-									
+
                                     <div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="appPkt_md5">MD5校验码：</label>
+                                        <div class="col-sm-4" style="text-align:right;">
+                                            <label class="control-label" for="plugin_MD5">MD5校验码：</label>
                                         </div>
-										<div class="col-sm-4">  
-											<input type="text" id="appPkt_md5" name="appPkt_md5" class="form-control input-inline"> 									
-										</div> 
-                                    </div>															
+										<div class="col-sm-4">
+											<input type="text" id="plugin_MD5" name="plugin_MD5" class="form-control input-inline">
+										</div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4" style="text-align:right;">
+                                            <label class="control-label" for="key_file">关键文件名：</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="key_file" name="key_file" class="form-control input-inline">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-4" style="text-align:right;">
+                                            <label class="control-label" for="key_file_md5">关键文件MD5校验码：</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="key_file_md5" name="key_file_md5" class="form-control input-inline">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

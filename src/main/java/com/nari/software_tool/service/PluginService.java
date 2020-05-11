@@ -21,4 +21,10 @@ public interface PluginService {
     Map<String,Object> getPluginById(String pluginId);
 
     int updatePlugin(Map<String,Object> paramMap);
+
+    Map<String, Object> getPluginPkgCfgById(String pluginId);
+
+    void setPluginInstllconfigById(Map<String, Object> paramMap);
+
+
 }

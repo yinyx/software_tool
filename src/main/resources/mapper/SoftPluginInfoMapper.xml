@@ -18,6 +18,8 @@
         <result property="size" column="size" jdbcType="VARCHAR"/>
         <result property="pluginIcon" column="icon" jdbcType="VARCHAR"/>
         <result property="pluginVersion" column="plugin_version" jdbcType="VARCHAR"/>
+        <result property="keyFile" column="key_file" jdbcType="VARCHAR"/>
+        <result property="keyFileMd5" column="key_file_md5" jdbcType="VARCHAR"/>
     </resultMap>
     <!-- 根据软件Id获取软件历史版本列表信息  -->
     <select id="queryPluginList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -79,7 +81,9 @@
             description,
             size,
             icon,
-            plugin_version
+            plugin_version,
+            key_file,
+            key_file_md5
         FROM
         software_plugin
     </select>
@@ -178,6 +182,29 @@
             and software_plugin.plugin_id = #{pluginId,jdbcType=VARCHAR}
         </if>
     </select>
+
+    <!-- 根据软件版本Id获取对应的安装配置信息  -->
+    <select id="getPluginPkgCfgById" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT
+               plugin_MD5,
+               size,
+               key_file,
+               key_file_md5
+        FROM
+             software_plugin
+        WHERE
+                plugin_id =  #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 更新软件版本程序包信息 -->
+    <update id="setPluginInstllconfig" parameterType="java.util.HashMap">
+        UPDATE software_plugin
+        SET
+            key_file=#{keyFile,jdbcType=VARCHAR},
+            key_file_md5=#{keyFileMd5,jdbcType=VARCHAR}
+        WHERE
+                plugin_id = #{pluginId,jdbcType=VARCHAR}
+    </update>
 
     <update id="updatePlugin" parameterType="java.util.HashMap">
         update software_plugin set

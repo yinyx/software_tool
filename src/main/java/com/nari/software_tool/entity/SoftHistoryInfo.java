@@ -37,6 +37,10 @@ public class SoftHistoryInfo implements Serializable {
 
     private String appPktMd5;
 
+    private String appPktKeyFileMD5;
+
+    private String appPktProductCode;
+
     public String getHistoryId() {
         return historyId;
     }
@@ -133,21 +137,39 @@ public class SoftHistoryInfo implements Serializable {
         this.appPktMd5 = appPktMd5;
     }
 
+    public String getAppPktKeyFileMD5() {
+        return appPktKeyFileMD5;
+    }
+
+    public void setAppPktKeyFileMD5(String appPktKeyFileMD5) {
+        this.appPktKeyFileMD5 = appPktKeyFileMD5;
+    }
+
+    public String getAppPktProductCode() {
+        return appPktProductCode;
+    }
+
+    public void setAppPktProductCode(String appPktProductCode) {
+        this.appPktProductCode = appPktProductCode;
+    }
+
     @Override
     public String toString() {
         return "SoftHistoryInfo{" +
-                "historyId=" + historyId +
+                "historyId='" + historyId + '\'' +
                 ", softId='" + softId + '\'' +
                 ", branchId='" + branchId + '\'' +
                 ", historyVersion='" + historyVersion + '\'' +
                 ", historyPath='" + historyPath + '\'' +
-                ", uploadDate=" + uploadDate +
+                ", uploadDate='" + uploadDate + '\'' +
                 ", operator='" + operator + '\'' +
-                ", appPktDate=" + appPktDate +
+                ", appPktDate='" + appPktDate + '\'' +
                 ", appPktNew='" + appPktNew + '\'' +
                 ", appPktPath='" + appPktPath + '\'' +
                 ", appPktSize=" + appPktSize +
                 ", appPktMd5='" + appPktMd5 + '\'' +
+                ", appPktKeyFileMD5='" + appPktKeyFileMD5 + '\'' +
+                ", appPktProductCode='" + appPktProductCode + '\'' +
                 '}';
     }
 }

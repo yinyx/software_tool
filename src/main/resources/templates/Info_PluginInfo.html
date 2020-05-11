@@ -249,101 +249,6 @@
         </div>
     </div>
 	
-<!--编辑属性模态框-->
-    <div class="modal fade bs-example-modal-lg" id="attributeModal_edit" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form id="editAttributeForm" enctype="multipart/form-data">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title">属性信息</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row ">
-                            <div class="col-md-12" style="border-right: 1px solid #e5e5e5;">
-                                <div class="row margiBottom">
-                                    <input type="hidden" id="recordId_attribute" name="recordId_attribute"/>
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="softwareName_attribute"><span class="required">*</span>软件名（中）：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="softwareName_attribute" name="softwareName_attribute" class="form-control " placeholder="请输入软件名（中）" required/>
-                                        </div>
-                                    </div>
-									
-									<div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="softwareName_enattribute"><span class="required"></span>软件名（英）：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="softwareName_enattribute" name="softwareName_enattribute" class="form-control " placeholder="请输入软件名（英）" required/>
-                                        </div>
-                                    </div>
-
-									<div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="uuid" id="uuid_label_attribute"><span class="required">*</span>软件UUID：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="uuid_text_attribute" name="uuid_m" class="form-control " placeholder="软件UUID"/>
-                                        </div>
-                                    </div>
-									
-									<div class="col-sm-12">
-                                        <div class="col-sm-4" style="text-align:right;">
-                                            <label class="control-label" for="description_attribute"><span class="required">*</span>软件描述：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <textarea style="width:100% ; height: 100px" id="description_attribute" name="description_attribute" />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label" for="version_attribute"><span class="required">*</span>最新版本号：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <input  type="text"   class="form-control " name="version_attribute" id="version_attribute"   placeholder="请输入版本"/></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-4" style="text-align:right;">
-                                            <label class="control-label"><span class="required">*</span>类别：</label>
-                                        </div>
-                                        <div class="col-sm-8" id="type_radio_attribute">
-                                        </div>
-                                    </div>
-									<div class="col-sm-12">
-                                        <div class="col-sm-4"style="text-align:right;">
-                                            <label class="control-label"><span class="required">*</span>安装类型：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <select id="cronInstallType_attribute" class="form-control input-inline">
-												<option value="0">绿色版</option>
-												<option value="1">InstallShield</option>
-												<option value="2">InnoSetup</option>
-												<option value="3">插件</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-primary" id="editAttribute">保存</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 	<!--编辑程序包对象模态框-->
     <div class="modal fade bs-example-modal-lg" id="AppPktModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
@@ -358,7 +263,7 @@
                         <h4 class="modal-title">程序包对象</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="row ">
+                        <div class="row">
                             <div class="col-md-12" style="border-right: 1px solid #e5e5e5;">
                                 <div class="row margiBottom">
                                     <input type="hidden" id="AppPktId" name="AppPktId"/>
@@ -366,8 +271,8 @@
                                         <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label" for="size">大小：</label>
                                         </div>
-										<div class="col-sm-4">
-											<input type="text" id="size" name="size" class="form-control input-inline">
+										<div class="col-sm-7">
+											<input type="text" id="size" name="size" class="form-control">
 										</div>
                                     </div>
 
@@ -375,8 +280,8 @@
                                         <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label" for="plugin_MD5">MD5校验码：</label>
                                         </div>
-										<div class="col-sm-4">
-											<input type="text" id="plugin_MD5" name="plugin_MD5" class="form-control input-inline">
+										<div class="col-sm-7">
+											<input type="text" id="plugin_MD5" name="plugin_MD5" class="form-control">
 										</div>
                                     </div>
 
@@ -384,17 +289,16 @@
                                         <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label" for="key_file">关键文件名：</label>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <input type="text" id="key_file" name="key_file" class="form-control input-inline">
+                                        <div class="col-sm-7">
+                                            <input type="text" id="key_file" name="key_file" class="form-control">
                                         </div>
                                     </div>
-
                                     <div class="col-sm-12">
                                         <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label" for="key_file_md5">关键文件MD5校验码(小写）：</label>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <textarea type="text" id="key_file_md5" name="key_file_md5" class="form-control input-inline" />
+                                        <div class="col-sm-7">
+                                            <input type="text" id="key_file_md5" name="key_file_md5" class="form-control" />
                                         </div>
                                     </div>
                                 </div>

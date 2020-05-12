@@ -299,10 +299,7 @@ function updatePluginIcon(pluginId) {
     sendFile = function () {
         var formData = new FormData();
         formData.append("upIcon", upIcon.files[0]);
-        var pluginObj = {
-            "pluginId": pluginId,
-        };
-        formData.append("pluginId", JSON.stringify(pluginObj));
+        formData.append("pluginId", pluginId);
         $.ajax({
             url: "plugin/updatePluginIcon",
             type: "post",

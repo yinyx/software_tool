@@ -57,8 +57,23 @@ function initSchoolUserTable() {
 	        	}
 		 }],
 		// 列属性
-		"columns" : [ 
-		{	
+		"columns" : [
+            {
+                "title" : "图标",
+                "defaultContent" : "",
+                "data" :"icon",
+                "width": "10%",
+                "class" : "text-center",
+                "render": function(data, type, row, meta) {
+                    var pic = 'http://localhost:8082/software_tool/';
+                    pic+=data;
+                    var content = "";
+                    content = '<img src='+pic+'>';
+
+                    return content;
+                }
+            },
+            {
 			 "title" : "所属软件",  
 			 "defaultContent" : "", 
 			 "data" :"name",
@@ -156,7 +171,13 @@ function commitIconStyle(){
         $('#showIcon').val($(this).val())
     });
 }
-
+function updateIconStyle(){
+    $('#upPluginIcon').click();
+    //file表单选中文件时,让file表单的val展示到showname这个展示框
+    $('#upPluginIcon').change(function(){
+        $('#upIcon').val($(this).val())
+    });
+}
 function configPackage(plugin_id){
     startPageLoading();
     var data = {"plugin_id":plugin_id};
@@ -353,7 +374,9 @@ function updatePlugin(pluginId){
 		}
 	});
     var fileCatcher = document.getElementById("updatePluginForm");
+    var upIcon = document.getElementById("upPluginIcon");
     var upSoft = document.getElementById("up_plugin");
+
 
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
@@ -363,11 +386,14 @@ function updatePlugin(pluginId){
     });
     $("#pluginModal_edit").on('hide.bs.modal', function () {
         document.getElementById("up_plugin").value = "";
+        document.getElementById("upPluginIcon").value = "";
         upSoft = null;
+        upIcon = null;
         document.getElementById("updatePluginForm").reset();
     });
     sendFile = function () {
         var formData = new FormData();
+        formData.append("upIcon",upIcon.files[0]);
         formData.append("upFile",upSoft.files[0]);
         var pluginName =  $("#upPluginName").val();
         var relativePath =  $("#upRelativePath").val();

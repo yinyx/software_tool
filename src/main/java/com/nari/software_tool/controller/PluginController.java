@@ -119,10 +119,11 @@ public class PluginController {
 
     @PostMapping("/updatePlugin")
     @ResponseBody
-    public JSONObject updatePlugin(@RequestParam("upFile") MultipartFile upFile, @RequestParam("pluginStr") String pluginStr){
+    public JSONObject updatePlugin(@RequestParam("upIcon") MultipartFile upIcon, @RequestParam("upFile") MultipartFile upFile, @RequestParam("pluginStr") String pluginStr){
         JSONObject jsonObject = new JSONObject();
         JSONObject paramMap = JSONObject.fromObject(pluginStr);
         Map<String,Object> pluginMap = pluginService.getPluginById((String) paramMap.get("pluginId"));
+        //检索现有插件存储路径
         String oldPluginPath = (String) pluginMap.get("absolute_path");
         File oldPluginPathDir = new File(oldPluginPath);
         String oldPluginDirAbsolutePath = oldPluginPathDir.getAbsolutePath();
@@ -167,6 +168,53 @@ public class PluginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //检索现有插件图标存储路径
+        String oldIconPath = (String) pluginMap.get("icon");
+        File oldIconPathDir = new File(oldIconPath);
+        String oldIconPathAbsolutePath = oldIconPathDir.getAbsolutePath();
+        String[] oldIconArray = oldIconPathAbsolutePath.split("/");
+        String oldIcon = oldIconArray[0];
+        for(int i = 1; i < oldIconArray.length-1; i++) {
+            oldIcon = oldIcon + "/" + oldIconArray[i];
+        }
+        try {
+            if (!StringUtils.isEmpty(oldIcon)) {
+                File file = new File(oldIcon + "/");
+                if (file.isDirectory()) {
+                    File[] files = file.listFiles();
+                    for(File key:files){
+                        if(key.isFile()){
+                            key.delete();
+                        }
+                    }
+                    file.delete();
+                    logger.info("---插件"+pluginMap.get("plugin_name")+"图标已更新---");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        String[] iconArray = oldIconPath.split("/");
+        String upIconName = upIcon.getOriginalFilename();
+        iconArray[iconArray.length-1] = null;
+
+        String newIconPath = iconArray[0];
+        for(int i = 1; i < iconArray.length-1; i++) {
+            newIconPath = newIconPath + "/" + iconArray[i];
+        }
+        //存储版本；
+        File newIconDir = new File(newIconPath);
+        String iconDirAbsolutePath = newIconDir.getAbsolutePath();
+        if(!newPluginDir.exists()){
+            newPluginDir.mkdir();
+        }
+        try {
+            upIcon.transferTo(new File(iconDirAbsolutePath,upIconName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try{
         if(pluginMap.get("plugin_id").equals(paramMap.get("pluginId"))){
             pluginMap.put("pluginId",paramMap.get("pluginId"));
@@ -177,6 +225,7 @@ public class PluginController {
         if(!pluginMap.get("relative_path").equals(paramMap.get("relativePath"))){
             pluginMap.put("relativePath",paramMap.get("relativePath"));
         }
+            pluginMap.put("icon",iconDirAbsolutePath+"/"+upIconName);
             pluginMap.put("absolutePath",pluginDirAbsolutePath+"/"+upFileName);
             pluginMap.put("description",paramMap.get("description"));
             SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );

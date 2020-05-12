@@ -172,6 +172,7 @@
         software_plugin.operator,
         software_plugin.description,
         software_plugin.size,
+        software_plugin.icon,
         plugin_version
         FROM
         software_plugin
@@ -236,6 +237,9 @@
             </if>
             <if test="size !=null">
                 size = #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="icon !=null">
+                icon = #{icon,jdbcType=VARCHAR},
             </if>
         </trim>
         WHERE plugin_id =#{pluginId,jdbcType=VARCHAR}

@@ -44,6 +44,11 @@ public class PluginServiceImpl implements PluginService {
         paramMap.put("pluginName",pluginName);
 
         List<Map<String, Object>> resList = softPluginMapper.queryPluginList(paramMap);
+        for (Map<String,Object> map: resList) {
+            String iconStr = (String) map.get("icon");
+            String icon = iconStr.replace("/home/nari/softwareTool/softIcon/","");
+            map.put("icon",icon);
+        }
         int count = softPluginMapper.queryPluginCount(paramMap);
         dataTableModel.setiTotalDisplayRecords(count);
         dataTableModel.setiTotalRecords(count);
@@ -81,5 +86,10 @@ public class PluginServiceImpl implements PluginService {
     @Override
     public void setPluginInstllconfigById(Map<String, Object> paramMap){
         softPluginMapper.setPluginInstllconfig(paramMap);
+    }
+
+    @Override
+    public int updatePluginIcon(String icon, String pluginId) {
+        return softPluginMapper.updatePluginIcon(icon,pluginId);
     }
 }

@@ -245,6 +245,16 @@
         WHERE plugin_id =#{pluginId,jdbcType=VARCHAR}
     </update>
 
+    <update id="updatePluginIcon" parameterType="java.lang.String">
+        update software_plugin set
+        <trim  suffixOverrides=",">
+            <if test="icon !=null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        WHERE plugin_id =#{pluginId,jdbcType=VARCHAR}
+    </update>
+
     <!-- 根据软件类别id批量删除插件记录 -->
     <delete id="deletePluginsByKind" parameterType="java.lang.String">
         DELETE FROM

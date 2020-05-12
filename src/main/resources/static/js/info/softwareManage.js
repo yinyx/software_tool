@@ -51,10 +51,10 @@ function initSchoolUserTable() {
 			 "width": "10%",
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
-				 var pic = 'http://localhost:8082/software_tool/';
+				 var pic = 'http://192.168.1.199:8082/software_tool/';
 				 pic+=data;
 				 var content = "";
-				  content = '<img src='+pic+'>';
+				  content = '<img src='+pic+' style=\'width: 25px\'>';
 
 				 return content;
 		      }   

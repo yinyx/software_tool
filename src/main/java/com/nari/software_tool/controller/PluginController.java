@@ -117,9 +117,72 @@ public class PluginController {
         return enResult;
     }
 
+    @PostMapping("/updatePluginIcon")
+    @ResponseBody
+    public JSONObject updatePluginIcon(@RequestParam("upIcon") MultipartFile upIcon, @RequestParam("pluginId") String pluginId){
+        JSONObject jsonObject = new JSONObject();
+        Map<String,Object> pluginMap = pluginService.getPluginById(pluginId);
+            //检索现有插件图标存储路径
+            String oldIconPath = (String) pluginMap.get("icon");
+            File oldIconPathDir = new File(oldIconPath);
+            String oldIconPathAbsolutePath = oldIconPathDir.getAbsolutePath();
+            String[] oldIconArray = oldIconPathAbsolutePath.split("/");
+            String oldIcon = oldIconArray[0];
+            for (int i = 1; i < oldIconArray.length - 1; i++) {
+                oldIcon = oldIcon + "/" + oldIconArray[i];
+            }
+            try {
+                if (!StringUtils.isEmpty(oldIcon)) {
+                    File file = new File(oldIcon + "/");
+                    if (file.isDirectory()) {
+                        File[] files = file.listFiles();
+                        for (File key : files) {
+                            if (key.isFile()) {
+                                key.delete();
+                            }
+                        }
+                        file.delete();
+                        logger.info("---插件" + pluginMap.get("plugin_name") + "图标已更新---");
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String[] iconArray = oldIconPath.split("/");
+            String upIconName = upIcon.getOriginalFilename();
+            iconArray[iconArray.length - 1] = null;
+
+            String newIconPath = iconArray[0];
+            for (int i = 1; i < iconArray.length - 1; i++) {
+                newIconPath = newIconPath + "/" + iconArray[i];
+            }
+            //存储版本；
+            File newIconDir = new File(newIconPath);
+            String iconDirAbsolutePath = newIconDir.getAbsolutePath();
+            if (!newIconDir.exists()) {
+                newIconDir.mkdir();
+            }
+            try {
+                upIcon.transferTo(new File(iconDirAbsolutePath,upIconName));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String icon = iconDirAbsolutePath +"/"+upIconName;
+            try {
+                if (pluginService.updatePluginIcon(icon,pluginId) == 1) {
+                    jsonObject.put("status", "success");
+                } else {
+                    jsonObject.put("status", "failure");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return jsonObject;
+    }
+
     @PostMapping("/updatePlugin")
     @ResponseBody
-    public JSONObject updatePlugin(@RequestParam("upIcon") MultipartFile upIcon, @RequestParam("upFile") MultipartFile upFile, @RequestParam("pluginStr") String pluginStr){
+    public JSONObject updatePlugin(@RequestParam("upFile") MultipartFile upFile, @RequestParam("pluginStr") String pluginStr){
         JSONObject jsonObject = new JSONObject();
         JSONObject paramMap = JSONObject.fromObject(pluginStr);
         Map<String,Object> pluginMap = pluginService.getPluginById((String) paramMap.get("pluginId"));
@@ -129,7 +192,7 @@ public class PluginController {
         String oldPluginDirAbsolutePath = oldPluginPathDir.getAbsolutePath();
         String[] oldPathArray = oldPluginDirAbsolutePath.split("/");
         String oldPath = oldPathArray[0];
-        for(int i = 1; i < oldPathArray.length-1; i++) {
+        for (int i = 1; i < oldPathArray.length - 1; i++) {
             oldPath = oldPath + "/" + oldPathArray[i];
         }
         try {
@@ -137,113 +200,66 @@ public class PluginController {
                 File file = new File(oldPath + "/");
                 if (file.isDirectory()) {
                     File[] files = file.listFiles();
-                    for(File key:files){
-                        if(key.isFile()){
+                    for (File key : files) {
+                        if (key.isFile()) {
                             key.delete();
                         }
                     }
                     file.delete();
-                    logger.info("---插件"+pluginMap.get("plugin_name")+"已更新---");
+                    logger.info("---插件" + pluginMap.get("plugin_name") + "已更新---");
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         String[] pathArray = oldPluginPath.split("/");
         String upFileName = upFile.getOriginalFilename();
-        pathArray[pathArray.length-1] = null;
+        pathArray[pathArray.length - 1] = null;
 
         String newPath = pathArray[0];
-        for(int i = 1; i < pathArray.length-1; i++) {
+        for (int i = 1; i < pathArray.length - 1; i++) {
             newPath = newPath + "/" + pathArray[i];
         }
         //存储版本；
         File newPluginDir = new File(newPath);
         String pluginDirAbsolutePath = newPluginDir.getAbsolutePath();
-        if(!newPluginDir.exists()){
+        if (!newPluginDir.exists()) {
             newPluginDir.mkdir();
         }
         try {
-            upFile.transferTo(new File(pluginDirAbsolutePath,upFileName));
+            upFile.transferTo(new File(pluginDirAbsolutePath, upFileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        //检索现有插件图标存储路径
-        String oldIconPath = (String) pluginMap.get("icon");
-        File oldIconPathDir = new File(oldIconPath);
-        String oldIconPathAbsolutePath = oldIconPathDir.getAbsolutePath();
-        String[] oldIconArray = oldIconPathAbsolutePath.split("/");
-        String oldIcon = oldIconArray[0];
-        for(int i = 1; i < oldIconArray.length-1; i++) {
-            oldIcon = oldIcon + "/" + oldIconArray[i];
-        }
+
         try {
-            if (!StringUtils.isEmpty(oldIcon)) {
-                File file = new File(oldIcon + "/");
-                if (file.isDirectory()) {
-                    File[] files = file.listFiles();
-                    for(File key:files){
-                        if(key.isFile()){
-                            key.delete();
-                        }
-                    }
-                    file.delete();
-                    logger.info("---插件"+pluginMap.get("plugin_name")+"图标已更新---");
-                }
+            if (pluginMap.get("plugin_id").equals(paramMap.get("pluginId"))) {
+                pluginMap.put("pluginId", paramMap.get("pluginId"));
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        String[] iconArray = oldIconPath.split("/");
-        String upIconName = upIcon.getOriginalFilename();
-        iconArray[iconArray.length-1] = null;
-
-        String newIconPath = iconArray[0];
-        for(int i = 1; i < iconArray.length-1; i++) {
-            newIconPath = newIconPath + "/" + iconArray[i];
-        }
-        //存储版本；
-        File newIconDir = new File(newIconPath);
-        String iconDirAbsolutePath = newIconDir.getAbsolutePath();
-        if(!newPluginDir.exists()){
-            newPluginDir.mkdir();
-        }
-        try {
-            upIcon.transferTo(new File(iconDirAbsolutePath,upIconName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try{
-        if(pluginMap.get("plugin_id").equals(paramMap.get("pluginId"))){
-            pluginMap.put("pluginId",paramMap.get("pluginId"));
-        }
-        if(!pluginMap.get("plugin_name").equals(paramMap.get("pluginName"))){
-            pluginMap.put("pluginName",paramMap.get("pluginName"));
-        }
-        if(!pluginMap.get("relative_path").equals(paramMap.get("relativePath"))){
-            pluginMap.put("relativePath",paramMap.get("relativePath"));
-        }
-            pluginMap.put("icon",iconDirAbsolutePath+"/"+upIconName);
-            pluginMap.put("absolutePath",pluginDirAbsolutePath+"/"+upFileName);
-            pluginMap.put("description",paramMap.get("description"));
-            SimpleDateFormat sdf =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss" );
-            pluginMap.put("uploadTime",sdf.format(new Date()));
-            Map<String,Object> userMap = userService.getUserById((String) paramMap.get("userId"));
-            pluginMap.put("operator",userMap.get("user_name"));
-            pluginMap.put("size",upFile.getSize());
-            if(!pluginMap.get("plugin_MD5").equals(MD5Util.getFileMD5String(new File(pluginDirAbsolutePath,upFileName)))){
-                pluginMap.put("pluginMD5", MD5Util.getFileMD5String(new File(pluginDirAbsolutePath,upFileName)));
+            if (!pluginMap.get("plugin_name").equals(paramMap.get("pluginName"))) {
+                pluginMap.put("pluginName", paramMap.get("pluginName"));
+            }
+            if (!pluginMap.get("relative_path").equals(paramMap.get("relativePath"))) {
+                pluginMap.put("relativePath", paramMap.get("relativePath"));
+            }
+            pluginMap.put("absolutePath", pluginDirAbsolutePath + "/" + upFileName);
+            pluginMap.put("description", paramMap.get("description"));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            pluginMap.put("uploadTime", sdf.format(new Date()));
+            Map<String, Object> userMap = userService.getUserById((String) paramMap.get("userId"));
+            pluginMap.put("operator", userMap.get("user_name"));
+            pluginMap.put("size", upFile.getSize());
+            if (!pluginMap.get("plugin_MD5").equals(MD5Util.getFileMD5String(new File(pluginDirAbsolutePath, upFileName)))) {
+                pluginMap.put("pluginMD5", MD5Util.getFileMD5String(new File(pluginDirAbsolutePath, upFileName)));
             }
             //数据库更新记录
-            if(pluginService.updatePlugin(pluginMap) == 1){
-                jsonObject.put("status","success");
-            }else{
-                jsonObject.put("status","failure");
+            if (pluginService.updatePlugin(pluginMap) == 1) {
+                jsonObject.put("status", "success");
+            } else {
+                jsonObject.put("status", "failure");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return jsonObject;

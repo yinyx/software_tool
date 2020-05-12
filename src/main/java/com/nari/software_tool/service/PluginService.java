@@ -26,5 +26,6 @@ public interface PluginService {
 
     void setPluginInstllconfigById(Map<String, Object> paramMap);
 
+    int updatePluginIcon(String icon,String pluginId);
 
 }

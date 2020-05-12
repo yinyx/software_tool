@@ -65,10 +65,10 @@ function initSchoolUserTable() {
                 "width": "10%",
                 "class" : "text-center",
                 "render": function(data, type, row, meta) {
-                    var pic = 'http://localhost:8082/software_tool/';
+                    var pic = 'http://192.168.1.199:8082/software_tool/';
                     pic+=data;
                     var content = "";
-                    content = '<img src='+pic+'>';
+                    content = "<img src="+pic+" style='width: 25px' >";
 
                     return content;
                 }
@@ -142,7 +142,7 @@ function initSchoolUserTable() {
 			 "class" : "text-center",
 			 "render": function(data, type, row, meta) {
 				 var content = "";
-				  content = '<button class="btn btn-xs blue" onclick="updatePlugin(\''+row.plugin_id+'\')" data-toggle="modal" data-target="#"> 更新插件 </button>' ;
+				  content = '<button class="btn btn-xs blue" onclick="updatePlugin(\''+row.plugin_id+'\')" data-toggle="modal" data-target="#"> 更新插件 </button>'+'<button class="btn btn-xs red" onclick="updatePluginIcon(\''+row.plugin_id+'\')" data-toggle="modal" data-target="#"> 更新图标 </button>' ;
 		         return content;
 		      } 
 		 }]
@@ -280,62 +280,54 @@ function InstallConfig(softwareId){
 	});
 }
 
-// 点击编辑属性按钮
-function EditAttribute(softwareId){
-	console.log(softwareId)
-	startPageLoading();
-	var data = {"softwareId":softwareId};
-	var dataObj = {
-			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
-	};
-	$.ajax({
-		url:"software/getSoftwareById",
-		type:"post",
-		data:dataObj,
-		dataType:"text",
-		success:function(data) {
-		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-		   if(data.status=="success") {
-			   $("#recordId_attribute").val(softwareId);
-               var softwareData = data.softwareData;
-			   $("#softwareName_attribute").val(softwareData.name);	
-               $("#softwareName_enattribute").val(softwareData.name_en);
-               $("#uuid_text_attribute").val(softwareData.soft_id);
-			   $("#description_attribute").val(softwareData.brief_introduction);
-			   $("#version_attribute").val(softwareData.latest_version);	
-			   $("input[type='radio']").each(function(){
-				   if($(this).val()==softwareData.kind){
-					   $(this).prop("checked",true)
-				   }
-				   else{
-					   $(this).prop("checked",false)
-				   }
-			   });
-			   	var InstallTypeList = document.getElementById("cronInstallType_attribute");
-				var ops = InstallTypeList.options;
-				for(var i=0;i<ops.length; i++){
-				    var tempValue = ops[i].value;
-				    if(tempValue == softwareData.install_type) //这里是你要选的值
-				    {
-				       ops[i].selected = true;
-				       break;
-				    }
-				}			   
-               $('#attributeModal_edit').modal('show');
-               stopPageLoading()
-		   } else {
-			   stopPageLoading()
-			   showSuccessOrErrorModal("获取软件信息失败","error");
-		   }
-		   
-		},
-		error:function(e) {
-			stopPageLoading()
-		   showSuccessOrErrorModal("获取软件信息请求出错了","error"); 
-		}
-	});
-}
+function updatePluginIcon(pluginId) {
+    $("#pluginIconModal_edit").modal('show');
+    startPageLoading();
+    var fileCatcher = document.getElementById("updatePluginIconForm");
+    var upIcon = document.getElementById("upPluginIcon");
+    fileCatcher.addEventListener("submit", function (event) {
+        event.preventDefault();
+        sendFile();
+        $("#pluginIconModal_edit").modal('hide');
+        pluginTable.draw();
+    });
+    $("#pluginIconModal_edit").on('hide.bs.modal', function () {
+        document.getElementById("upPluginIcon").value = "";
+        upIcon = null;
+        document.getElementById("updatePluginIconForm").reset();
+    });
+    sendFile = function () {
+        var formData = new FormData();
+        formData.append("upIcon", upIcon.files[0]);
+        var pluginObj = {
+            "pluginId": pluginId,
+        };
+        formData.append("pluginId", JSON.stringify(pluginObj));
+        $.ajax({
+            url: "plugin/updatePluginIcon",
+            type: "post",
+            data: formData,
+            dataType: "json",
+            processData: false, // 使数据不做处理
+            contentType: false, // 不要设置Content-Type请求头
+            success: function (data) {
+                if (data.status == "success") {
+                    $('#pluginIconModal_edit').modal('hide');
+                    pluginTable.draw();
+                    stopPageLoading();
+                } else {
+                    stopPageLoading();
+                    showSuccessOrErrorModal("更新插件图标失败", "error");
+                }
 
+            },
+            error: function (e) {
+                stopPageLoading();
+                showSuccessOrErrorModal("更新插件图标出错了", "error");
+            }
+        });
+    };
+}
 // 点击编辑图标按钮
 function updatePlugin(pluginId){
 	startPageLoading();
@@ -374,9 +366,7 @@ function updatePlugin(pluginId){
 		}
 	});
     var fileCatcher = document.getElementById("updatePluginForm");
-    var upIcon = document.getElementById("upPluginIcon");
     var upSoft = document.getElementById("up_plugin");
-
 
     fileCatcher.addEventListener("submit",function (event) {
         event.preventDefault();
@@ -393,7 +383,6 @@ function updatePlugin(pluginId){
     });
     sendFile = function () {
         var formData = new FormData();
-        formData.append("upIcon",upIcon.files[0]);
         formData.append("upFile",upSoft.files[0]);
         var pluginName =  $("#upPluginName").val();
         var relativePath =  $("#upRelativePath").val();

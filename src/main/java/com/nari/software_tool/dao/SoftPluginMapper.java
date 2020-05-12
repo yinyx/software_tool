@@ -38,4 +38,5 @@ public interface SoftPluginMapper {
 
     void setPluginInstllconfig(Map<String,Object> paramMap);
 
+    int updatePluginIcon(String icon,String pluginId);
 }

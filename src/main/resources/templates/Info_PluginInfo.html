@@ -224,18 +224,6 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="col-sm-4" style="text-align:right;">
-                                            <label class="control-label" for="upPluginIcon" id="upPluginIconLabel"><span class="required">*</span>修改插件图标：</label>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <!-- 用于展示上传文件名的表单 -->
-                                            <input id="upIcon" class="input-large" type="text" style="height:25px;">
-                                            <!-- 点击触发按钮 -->
-                                            <a class="btn" onclick="updateIconStyle()" style="order:1px solid #ccc;padding:4px;border-radius:4px;background-color:#2c9a8a;color:#fff;">浏览</a>
-                                            <input style="display: none" type="file"  accept="image/png" name="upPluginIcon" id="upPluginIcon" />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-4" style="text-align:right;">
                                             <label class="control-label" for="up_plugin" ><span class="required">*</span>修改插件：</label>
                                         </div>
                                         <div class="col-sm-8">
@@ -259,7 +247,51 @@
             </div>
         </div>
     </div>
-	
+
+<!--更新图标模态框-->
+<div class="modal fade bs-example-modal-lg" id="pluginIconModal_edit" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="updatePluginIconForm" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">更新插件图标</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row ">
+                        <div class="col-md-12" style="border-right: 1px solid #e5e5e5;">
+                            <div class="row margiBottom">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4" style="text-align:right;">
+                                        <label class="control-label" for="upPluginIcon" id="upPluginIconLabel"><span class="required">*</span>修改插件图标：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <!-- 用于展示上传文件名的表单 -->
+                                        <input id="upIcon" class="input-large" type="text" style="height:25px;">
+                                        <!-- 点击触发按钮 -->
+                                        <a class="btn" onclick="updateIconStyle()" style="order:1px solid #ccc;padding:4px;border-radius:4px;background-color:#2c9a8a;color:#fff;">浏览</a>
+                                        <input style="display: none" type="file"  accept="image/png" name="upPluginIcon" id="upPluginIcon" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary" id="addNewIcon">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
 	<!--编辑程序包对象模态框-->
     <div class="modal fade bs-example-modal-lg" id="AppPktModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">

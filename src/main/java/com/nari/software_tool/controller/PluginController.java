@@ -131,23 +131,6 @@ public class PluginController {
             for (int i = 1; i < oldIconArray.length - 1; i++) {
                 oldIcon = oldIcon + "/" + oldIconArray[i];
             }
-            try {
-                if (!StringUtils.isEmpty(oldIcon)) {
-                    File file = new File(oldIcon + "/");
-                    if (file.isDirectory()) {
-                        File[] files = file.listFiles();
-                        for (File key : files) {
-                            if (key.isFile()) {
-                                key.delete();
-                            }
-                        }
-                        file.delete();
-                        logger.info("---插件" + pluginMap.get("plugin_name") + "图标已更新---");
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             String[] iconArray = oldIconPath.split("/");
             String upIconName = upIcon.getOriginalFilename();
             iconArray[iconArray.length - 1] = null;

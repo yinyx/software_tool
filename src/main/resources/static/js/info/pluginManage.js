@@ -201,7 +201,7 @@ function configPackage(plugin_id){
                 $("#key_file_md5").val(pluginPkgCfgData.key_file_md5);
                 //$("#appPkt_KeyFileMD5").attr("disabled", true);
                 //$("#appPkt_ProductCode").attr("disabled", true);
-                $('#AppPktModal').modal('show');
+                $("#AppPktModal").modal('show');
                 stopPageLoading()
             } else {
                 stopPageLoading();
@@ -217,72 +217,8 @@ function configPackage(plugin_id){
 }
 
 
-// 点击安装配置按钮
-function InstallConfig(softwareId){
-	console.log(softwareId);
-	startPageLoading();
-	var data = {"softwareId":softwareId};
-	var dataObj = {
-			"paramObj":encrypt(JSON.stringify(data),"abcd1234abcd1234")
-	};
-	$.ajax({
-		url:"software/getInstallConfigBySoftwareId",
-		type:"post",
-		data:dataObj,
-		dataType:"text",
-		success:function(data) {
-		   data = $.parseJSON(decrypt(data,"abcd1234abcd1234"));
-		   if(data.status=="success") {
-			   $("#softwareId_attribute").val(softwareId);
-               var InstallConfig = data.InstallConfig;
-			   console.log(InstallConfig)
-			   
-			   	var InstallTypeList = document.getElementById("cronInstallType_installAttribute");
-				var ops = InstallTypeList.options;
-				for(var i=0;i<ops.length; i++){
-				    var tempValue = ops[i].value;
-				    if(tempValue == InstallConfig.type) //这里是你要选的值
-				    {
-				       ops[i].selected = true;
-				       break;
-				    }
-				}	
-				
-			    var MultiFlagList = document.getElementById("cronMultiFlag");
-				var ops1 = MultiFlagList.options;
-				console.log(MultiFlagList)
-				console.log(ops1)
-					for(var i=0;i<ops1.length; i++){
-				    var tempValue1 = ops1[i].value;
-				    if(tempValue1 == InstallConfig.Is_multi) //这里是你要选的值
-				    {
-				       ops1[i].selected = true;
-				       break;
-				    }
-				} 	
-			   
-			   $("#Installer_installAttribute").val(InstallConfig.installer);
-               $("#Uninstaller_installAttribute").val(InstallConfig.uninstaller);			
-               $("#KeyFile_installAttribute").val(InstallConfig.KeyFile);
-   			   
-               $('#installAttributeModal_edit').modal('show');
-               stopPageLoading()
-		   } else {
-			   stopPageLoading()
-			   showSuccessOrErrorModal(data.msg,"error");
-		   }
-		   
-		},
-		error:function(e) {
-			stopPageLoading()
-		   showSuccessOrErrorModal("获取软件安装配置信息请求出错了","error"); 
-		}
-	});
-}
-
 function updatePluginIcon(pluginId) {
     $("#pluginIconModal_edit").modal('show');
-    startPageLoading();
     var fileCatcher = document.getElementById("updatePluginIconForm");
     var upIcon = document.getElementById("upPluginIcon");
     fileCatcher.addEventListener("submit", function (event) {
@@ -311,15 +247,12 @@ function updatePluginIcon(pluginId) {
                 if (data.status == "success") {
                     $('#pluginIconModal_edit').modal('hide');
                     pluginTable.draw();
-                    stopPageLoading();
                 } else {
-                    stopPageLoading();
                     showSuccessOrErrorModal("更新插件图标失败", "error");
                 }
 
             },
             error: function (e) {
-                stopPageLoading();
                 showSuccessOrErrorModal("更新插件图标出错了", "error");
             }
         });
@@ -710,15 +643,6 @@ $("select#cronBranch").change(function(){
     queryPlugin();
 });
 
-function initTimeSelect(){
-    $("#appPkt_date").datetimepicker({
-        language: "zh-CN",
-        autoclose: true,//选中之后自动隐藏日期选择框
-        clearBtn: true,//清除按钮
-        todayBtn: true,//今日按钮
-        format: "yyyy-mm-dd hh:ii"
-    });
-}
 
 $(document).ready(function(){
 	//判断是否登录

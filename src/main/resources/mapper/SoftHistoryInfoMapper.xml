@@ -15,6 +15,8 @@
         <result property="appPktPath" column="appPkt_path" jdbcType="VARCHAR"/>
         <result property="appPktSize" column="appPkt_size" jdbcType="INTEGER"/>
         <result property="appPktMd5" column="appPkt_md5" jdbcType="VARCHAR"/>
+        <result property="appPktKeyFileMD5" column="appPkt_KeyFileMD5" jdbcType="VARCHAR"/>
+        <result property="appPktProductCode" column="appPkt_ProductCode" jdbcType="VARCHAR"/>
     </resultMap>
     <!-- 根据软件Id获取软件历史版本列表信息  -->
     <select id="queryHistoryListBySoftwareId" resultType="java.util.HashMap">
@@ -255,7 +257,9 @@
                appPkt_new,
                appPkt_path,
                appPkt_size,
-               appPkt_md5
+               appPkt_md5,
+               appPkt_KeyFileMD5,
+               appPkt_ProductCode
         FROM
              software_history
         where

@@ -139,6 +139,7 @@ public class CommunicateServiceImpl implements CommunicateService {
                 appPktPojo.setNew(ech.getAppPktNew());
                 appPktPojo.setPath("software_tool/communicate/downloadPkt?softwareUrl="+ech.getHistoryPath());
                 appPktPojo.setMD5(ech.getAppPktMd5());
+                appPktPojo.setKeyFileMd5(ech.getAppPktKeyFileMD5());
                 appPktPojo.setSize(ech.getAppPktSize());
                 appPktPojo.setDate(ech.getAppPktDate());
                 communicateHistoryPojo.setAppPkt(appPktPojo);
